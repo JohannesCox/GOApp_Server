@@ -64,7 +64,6 @@ public class EventHandler {
 
 	public boolean deleteEvent(String userID) {
 		boolean success = false;
-		
 		return success;
 	}
 }

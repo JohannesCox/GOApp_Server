@@ -17,10 +17,13 @@ private String userID;
 	
 	@Column(name="username")
 private String username;
+	@Column(name="Email")
+private String email;
 	
-	public User(String userID, String username) {
+	public User(String userID, String username, String email) {
 		this.userID = userID;
 		this.username = username;
+		
 	}
 	public String getUserID() {
 	return userID;
