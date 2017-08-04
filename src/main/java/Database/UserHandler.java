@@ -16,6 +16,7 @@ public class UserHandler {
 					.buildSessionFactory();
 		} catch(HibernateException he) {
 			he.printStackTrace();
+			
 		}
 	}
 	
