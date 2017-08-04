@@ -10,6 +10,7 @@
 		<property name="hibernate.connection.password">w5q8zurebuZ7vEpe</property>
 		<mapping package="database"/>
 		<mapping class="User.class"/>
+		<mapping class="Event.class"/>
 	<!-- port 3306 -->
 	<!-- hostname = i43pc164 -->
 	</session-factory>

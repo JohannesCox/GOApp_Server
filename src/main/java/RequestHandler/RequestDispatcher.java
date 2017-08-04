@@ -1,6 +1,7 @@
 package RequestHandler;
 
 import java.util.Date;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -71,7 +72,7 @@ public class RequestDispatcher {
 			return null;
 		}
 		
-		Command updateEventCom = new UpdateEventCommand(userId, eventId, title, date, location, description);
+		return new UpdateEventCommand(userId, eventId, title, date, location, description);
 	}
 
 	private Command startEventFactory() {
@@ -80,33 +81,59 @@ public class RequestDispatcher {
 	}
 
 	private Command signUpFactory() {
-		// TODO Auto-generated method stub
-		return null;
+		String username = request.getParameter("username");
+		String mailAdresse = request.getParameter("mailAdresse");
+		
+		if (username == null || mailAdresse == null) {
+			return null;
+		} else {
+			return new SignUpCommand(userId, username, mailAdresse);
+		}
 	}
 
 	private Command joinEventFactory() {
-		// TODO Auto-generated method stub
-		return null;
+		String eventId = request.getParameter("eventId");
+		
+		if (eventId == null) {
+			return null;
+		} else {
+			return new JoinEventCommand(userId, eventId);
+		}
 	}
 
 	private Command getMembersFactory() {
-		// TODO Auto-generated method stub
-		return null;
+		String eventId = request.getParameter("eventId");
+		
+		if (eventId == null) {
+			return null;
+		} else {
+			return new GetMembersCommand(userId, eventId);
+		}
 	}
 
 	private Command getEventsFactory() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		HashMap<String,Integer> eventList = (HashMap) request.getAttribute("eventList");
+		
+		if (eventList == null) {
+			return null;
+		} else {
+			return new GetEventsCommand(userId, eventList);
+		}
 	}
 
 	private Command deleteUserFactory() {
-		// TODO Auto-generated method stub
-		return null;
+		return new DeleteUserCommand(userId);
 	}
 
 	private Command deleteEventFactory() {
-		// TODO Auto-generated method stub
-		return null;
+		String eventId = request.getParameter("eventId");
+		
+		if (eventId == null) {
+			return null;
+		} else {
+			return new DeleteEventCommand(userId, eventId);
+		}
 	}
 
 	private Command createEventFactory() {
@@ -115,8 +142,13 @@ public class RequestDispatcher {
 	}
 	
 	private Command leaveEventFactory() {
-		//TODO
-		return null;
+		String eventId = request.getParameter("eventId");
+		
+		if (eventId == null) {
+			return null;
+		} else {
+			return new LeaveEventCommand(userId, eventId);
+		}
 	}
 
 }

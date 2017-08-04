@@ -36,4 +36,24 @@ public class UserHandler {
 		}
 		return success;
 	}
+	
+	public boolean deleteUser(String userID) {
+		boolean success = false;
+		Session session = factory.openSession();
+		Transaction tx = null;
+		try {
+			User user = (User) session.get(User.class, userID);
+			if(user != null) {
+			//TODO: Delete all event entries with given userID
+			session.delete(user);
+			success = true;
+			}
+		} catch(HibernateException he) {
+			he.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+		return success;
+	}
 }
