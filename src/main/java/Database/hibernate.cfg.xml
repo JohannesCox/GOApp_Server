@@ -11,6 +11,7 @@
 		<mapping package="database"/>
 		<mapping class="User.class"/>
 		<mapping class="Event.class"/>
+		<mapping class="EventUserRelation.class"/>
 	<!-- port 3306 -->
 	<!-- hostname = i43pc164 -->
 	</session-factory>
