@@ -13,9 +13,7 @@ import RequestHandler.Command;
 
 public class FrontServlet extends HttpServlet{
 	
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	
 	private String userId;
@@ -43,11 +41,26 @@ public class FrontServlet extends HttpServlet{
 		RequestDispatcher requestDispatcher = new RequestDispatcher(request);
 		Command requestHandler = requestDispatcher.createHandler();
 		
-		requestHandler.initialize(response);
-		requestHandler.process();			
+		if (requestHandler == null) {
+			sendIncorrectRequestError(response);
+			return;
+		} else {
+		
+			requestHandler.initialize();
+			String responseString = requestHandler.process();	
+			sendResponse(response, responseString);
+		}
+	}
+	
+	private void sendIncorrectRequestError(HttpServletResponse response) {
+		//TODO
 	}
 	
 	private void sendAuthentificationError(HttpServletResponse response) {
+		//TODO
+	}
+	
+	private void sendResponse(HttpServletResponse response, String responseString) {
 		//TODO
 	}
 	
