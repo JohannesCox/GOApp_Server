@@ -20,30 +20,35 @@ private String username;
 	@Column(name="Email")
 private String email;
 	
-	public User(String userID, String username, String email) {
+	User(String userID, String username, String email) {
 		this.userID = userID;
 		this.username = username;
-		
+		this.email = email;
 	}
-	public String getUserID() {
+	String getUserID() {
 	return userID;
 }
 
-public void setUserID(String userID) {
+void setUserID(String userID) {
 	this.userID = userID;
 }
 
 
-public String getUsername() {
+String getUsername() {
 	return username;
 }
 
-public void setUsername(String username) {
+void setUsername(String username) {
 	this.username = username;
 }
 
-	public User() {
-		
-	}
+
+String getEmail() {
+	return email;
+}
+void setEmail(String email) {
+	this.email = email;
+}
+
 
 }

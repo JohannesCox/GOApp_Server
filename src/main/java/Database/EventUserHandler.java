@@ -63,6 +63,8 @@ public class EventUserHandler {
 		try {
 			tx = session.beginTransaction();
 			String hql = "";
+		} finally {
+			
 		}
 		return admin;
 	}

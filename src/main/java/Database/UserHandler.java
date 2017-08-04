@@ -19,13 +19,13 @@ public class UserHandler {
 		}
 	}
 	
-	public boolean addUser(String userID, String username) {
+	public boolean addUser(String userID, String username, String email) {
 		boolean success = false;
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			User user = new User(userID, username);
+			User user = new User(userID, username, email);
 			success = (boolean) session.save(user);
 			tx.commit();
 		} catch(HibernateException he) {
