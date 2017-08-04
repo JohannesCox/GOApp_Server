@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Creates event. 
  */
-public class CreateEventCommand {
+public class CreateEventCommand extends Command {
 	
 	private String userId;
 	private String eventId;

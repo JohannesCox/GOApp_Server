@@ -1,5 +1,5 @@
 package RequestHandler;
 
-public class StartEventCommand {
-
+public class StartEventCommand extends Command {
+	//TODO
 }

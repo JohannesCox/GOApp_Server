@@ -1,15 +1,15 @@
 package RequestHandler;
 
-import javax.servlet.http.HttpServletResponse;
-
+/**
+ * @author jocox
+ * 
+ * All Request Handler are subclasses of this class. If the request was done successfully
+ * the Handler classes return the desired data, other wise they return null.
+ */
 public abstract class Command {
 	
-	public void process(){
-		//TODO
-	}
-	
-	public void initialize(HttpServletResponse response) {
-		//TODO
+	public String process(){
+		return null;
 	}
 
 }
