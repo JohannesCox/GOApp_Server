@@ -20,51 +20,51 @@ class Event {
 		
 	}
 
-	public String getEventID() {
+	 String getEventID() {
 		return eventID;
 	}
 
-	public void setEventID(String eventID) {
+	void setEventID(String eventID) {
 		this.eventID = eventID;
 	}
 
-	public String getEventname() {
+	String getEventname() {
 		return eventname;
 	}
 
-	public void setEventname(String eventname) {
+	void setEventname(String eventname) {
 		this.eventname = eventname;
 	}
 
-	public Date getDate() {
+	Date getDate() {
 		return date;
 	}
 
-	public void setDate(Date date) {
+	void setDate(Date date) {
 		this.date = date;
 	}
 
-	public String getLocation() {
+	String getLocation() {
 		return location;
 	}
 
-	public void setLocation(String location) {
+	void setLocation(String location) {
 		this.location = location;
 	}
 
-	public String getDescription() {
+	String getDescription() {
 		return description;
 	}
 
-	public void setDescription(String description) {
+	void setDescription(String description) {
 		this.description = description;
 	}
 
-	public int getLastmodified() {
+	int getLastmodified() {
 		return lastmodified;
 	}
 
-	public void setLastmodified(int lastmodified) {
+	void setLastmodified(int lastmodified) {
 		this.lastmodified = lastmodified;
 	}
 	
