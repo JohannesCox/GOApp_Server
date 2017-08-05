@@ -108,6 +108,7 @@ public class EventUserHandler {
 		List<EventUserRelation> members = cr.list();
 		return members;
 	}
+
 	//TODO: implement nominateAdmin-method
 	public void nominateAdmin(String eventID) {
 		Session session = factory.openSession();
