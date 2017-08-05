@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import RequestHandler.Command;
+import RequestHandler.RequestDispatcher;
 
 @WebServlet("/FrontServlet")
 public class FrontServlet extends HttpServlet{
@@ -39,7 +40,7 @@ public class FrontServlet extends HttpServlet{
 			userId = (String) session.getAttribute("UserId");
 		}
 		
-		RequestDispatcher requestDispatcher = new RequestDispatcher(request);
+		RequestDispatcher requestDispatcher = new RequestDispatcher(request,userId);
 		Command requestHandler = requestDispatcher.createHandler();
 		
 		if (requestHandler == null) {
@@ -47,7 +48,6 @@ public class FrontServlet extends HttpServlet{
 			return;
 		} else {
 		
-			requestHandler.initialize();
 			String responseString = requestHandler.process();	
 			sendResponse(response, responseString);
 		}

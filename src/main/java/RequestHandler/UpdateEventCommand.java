@@ -2,7 +2,7 @@ package RequestHandler;
 
 import java.util.Date;
 
-public class UpdateEventCommand {
+public class UpdateEventCommand extends Command {
 	
 	private String userId;
 	private String eventId;

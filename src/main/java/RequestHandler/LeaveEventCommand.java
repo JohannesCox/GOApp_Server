@@ -1,6 +1,6 @@
 package RequestHandler;
 
-public class LeaveEventCommand {
+public class LeaveEventCommand extends Command {
 	
 	private String userId;
 	private String eventId;
