@@ -1,11 +1,15 @@
 package Database;
 
+import java.util.List;
+
+import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 
 public class EventUserHandler {
 	
@@ -95,7 +99,18 @@ public class EventUserHandler {
 		}
 		return admin;
 	}
+	public List getRelationbyeventID(String eventID) {
+		Session session = factory.openSession();
+		Criteria cr = session.createCriteria(EventUserRelation.class);
+		cr.add(Restrictions.eq("eventID", eventID));
+		return cr.list();
+	}
 	//TODO: implement nominateAdmin-method
+	public boolean nominateAdmin(String eventID) {
+		Session session = factory.openSession();
+		
+		return false;
+	}
 	
 	
 }
