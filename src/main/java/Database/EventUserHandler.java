@@ -1,12 +1,14 @@
 package Database;
 
 import org.hibernate.HibernateException;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 public class EventUserHandler {
+	
 	private SessionFactory factory;
 	
 	public EventUserHandler() {
@@ -56,15 +58,40 @@ public class EventUserHandler {
 		}
 		return success;
 	}
+	public void leaveEvent(String userID, String eventID) {
+		
+		Session session = factory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			EventUserRelation relation = 
+					(EventUserRelation) session.load(EventUserRelation.class, new EventUserID(eventID, userID));
+			session.delete(relation);
+			//TODO: nominate admin if admin leaves event
+			//TODO: delete event+ corresponding relations if all members left
+			tx.commit();
+			
+			
+		} catch(HibernateException he) {
+			if(tx != null) tx.rollback();
+			he.printStackTrace();
+		} finally {
+			session.close();
+		}
+		
+	}
 	public boolean isAdmin(String userID, String eventID) {
 		boolean admin = false;
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			String hql = "";
-		} finally {
+			EventUserRelation relation = (EventUserRelation) session.load(EventUserRelation.class, new EventUserID(eventID, userID));
+			admin = relation.isAdmin() == true ? true : false;
+			tx.commit();
 			
+		} finally {
+			session.close();
 		}
 		return admin;
 	}
