@@ -4,7 +4,7 @@ package RequestHandler;
  *Adds userId to the event in the database. If successful process() returns
  * {"successful":"true"} otherwise {"successful":false}
  */
-public class JoinEventCommand {
+public class JoinEventCommand extends Command {
 	
 	private String eventId;
 	private String userId;

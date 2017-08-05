@@ -82,12 +82,11 @@ public class RequestDispatcher {
 
 	private Command signUpFactory() {
 		String username = request.getParameter("username");
-		String mailAdresse = request.getParameter("mailAdresse");
 		
-		if (username == null || mailAdresse == null) {
+		if (username == null) {
 			return null;
 		} else {
-			return new SignUpCommand(userId, username, mailAdresse);
+			return new SignUpCommand(userId, username);
 		}
 	}
 
