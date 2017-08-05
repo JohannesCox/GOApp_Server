@@ -1,6 +1,7 @@
 package Database;
 
 import java.util.Date;
+import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -44,12 +45,14 @@ public class EventHandler {
 	//TODO: check whether the user is admin
 	public boolean updateEvent(String userID, String eventID, String eventname, 
 			Date date, String location, String description) {
-		boolean success = false;
+		EventUserHandler euh = new EventUserHandler();
+		if(!euh.isAdmin(userID, eventID)) return false;
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			Event event = session.load(Event.class, eventID);
+			if(event == null) return false;//do i have to commit and close here?
 			event.setEventname(eventname);
 			event.setDate(date);
 			event.setLocation(location);
@@ -61,11 +64,52 @@ public class EventHandler {
 			if(tx != null) tx.rollback();
 			he.printStackTrace();
 		}
-		return success;
+		return true;
 	}
 //TODO: check whether user is admin
 	public boolean deleteEvent(String userID, String eventID) {
+		EventUserHandler euh = new EventUserHandler();
+		if(euh.isAdmin(userID, eventID)) {
+			return false;
+		} else {
+			Session session = factory.openSession();
+			Transaction tx = null;
+			try {
+				tx = session.beginTransaction();
+				Event event = session.load(Event.class, eventID);
+				List<EventUserRelation> relations = euh.getRelations_byeventID(eventID);
+				if(event == null || euh.deleteRelations(relations) == false) return false;
+				session.delete(event);
+				tx.commit();
+				
+			} catch(HibernateException he) {
+				if(tx != null) tx.rollback();
+				he.printStackTrace();
+			} finally {
+				session.close();
+			}
+			
+		}
+		return true;
+	}
+	boolean deleteEvent(String eventID) {
 		boolean success = false;
+		Session session = factory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			Event event = (Event) session.load(Event.class, eventID);
+			if(event != null) {
+				session.delete(event);
+				success = true;
+			}
+			tx.commit();
+		} catch(HibernateException he) {
+			if(tx != null) tx.rollback();
+			he.printStackTrace();
+		} finally {
+			session.close();
+		}
 		return success;
 	}
 }

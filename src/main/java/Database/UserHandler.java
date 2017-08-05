@@ -1,6 +1,8 @@
 
 package Database;
 
+import java.util.List;
+
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -58,18 +60,23 @@ public class UserHandler {
 	}
 	
 	public boolean deleteUser(String userID) {
-		boolean success = false;
+		boolean success = true;
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
+			tx = session.beginTransaction();
 			User user = (User) session.get(User.class, userID);
 			if(user != null) {
-			//TODO: Delete all event entries with given userID
+			EventUserHandler euh = new EventUserHandler();
+			List<EventUserRelation> membership = euh.getRelations_byuserID(userID);
+			if(!membership.isEmpty()) euh.deleteRelations(membership);
 			session.delete(user);
-			success = true;
+			tx.commit();
 			}
 		} catch(HibernateException he) {
+			if(tx != null) tx.rollback();
 			he.printStackTrace();
+			success = false;
 		} finally {
 			session.close();
 		}

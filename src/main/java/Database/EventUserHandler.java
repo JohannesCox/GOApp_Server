@@ -63,19 +63,36 @@ public class EventUserHandler {
 		}
 		return success;
 	}
-	public void leaveEvent(String userID, String eventID) {
-		
+	/**
+	 * Deletes the relation with given eventID and userID. If there are no relations left,
+	 * the corresponding event will be deleted. If the admin parameter of the relation was set, then there
+	 * another admin from left members will be nominated 
+	 * @param userID of the corresponding user
+	 * @param eventID of the corresponding event
+	 * @return true, if leaving the event was succesful
+	 */
+	public boolean leaveEvent(String userID, String eventID) {
+		boolean success = false;
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			EventUserRelation relation = 
 					session.load(EventUserRelation.class, new EventUserID(eventID, userID));
+			if(relation != null) {
 			session.delete(relation);
-			//TODO: nominate admin if admin leaves event
-			this.nominateAdmin(eventID);
-			//TODO: delete event+ corresponding relations if all members left
+			List<EventUserRelation> members = this.getRelations_byeventID(eventID);
+			if(relation.isAdmin()) {
+				if(members.isEmpty()) {
+					EventHandler eh = new EventHandler();
+					eh.deleteEvent(eventID);
+				} else {
+					nominateAdmin(members);
+				}
+				}
+			}
 			tx.commit();
+			success = true;
 			
 			
 		} catch(HibernateException he) {
@@ -84,8 +101,14 @@ public class EventUserHandler {
 		} finally {
 			session.close();
 		}
-		
+		return success;
 	}
+		/**
+		 * Checks whether the user with corresponding ID is the administrator of the event
+		 * @param userID of user
+		 * @param eventID of event
+		 * @return true, if the user is administrator of the event. 
+		 */
 	public boolean isAdmin(String userID, String eventID) {
 		boolean admin = false;
 		Session session = factory.openSession();
@@ -101,18 +124,36 @@ public class EventUserHandler {
 		}
 		return admin;
 	}
-	public List<EventUserRelation> getRelationbyeventID(String eventID) {
+	/**
+	 * Creates a list of all relations to the corresponding ID. An empty list will be created if there is no such 
+	 * relation
+	 * @param eventID of the event
+	 * @return list of the relations
+	 */
+	public List<EventUserRelation> getRelations_byeventID(String eventID) {
 		Session session = factory.openSession();
 		Criteria cr = session.createCriteria(EventUserRelation.class);
 		cr.add(Restrictions.eq("eventID", eventID));
-		List<EventUserRelation> members = cr.list();
-		return members;
+		List<EventUserRelation> relations = cr.list();
+		session.close();
+		return relations;
+	}
+	
+	public List<EventUserRelation> getRelations_byuserID(String userID){
+		Session session = factory.openSession();
+		Criteria cr = session.createCriteria(EventUserRelation.class);
+		cr.add(Restrictions.eq("userID", userID));
+		List<EventUserRelation> relations = cr.list();
+		return relations;
 	}
 
-	//TODO: implement nominateAdmin-method
-	public void nominateAdmin(String eventID) {
+	
+	/**
+	 * Picks randomly a user from the members list and nominates this user for administrator
+	 * @param members of the event
+	 */
+	public void nominateAdmin(List<EventUserRelation> members) {
 		Session session = factory.openSession();
-		List<EventUserRelation> members = this.getRelationbyeventID(eventID);
 		EventUserRelation relation = (EventUserRelation) members.get(new Random().nextInt(members.size()));
 		relation.setAdmin(true);
 		Transaction tx = null;
@@ -127,6 +168,26 @@ public class EventUserHandler {
 			session.close();
 		}
 		
+	}
+	boolean deleteRelations(List<EventUserRelation> relations) {
+		Session session = factory.openSession();
+		boolean success = true;
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			for(EventUserRelation rel : relations) {
+				
+				session.delete(rel);
+			}
+			tx.commit();
+		} catch(HibernateException he) {
+			if(tx != null) tx.rollback();
+			he.printStackTrace();
+			success = false;
+		} finally {
+			session.close();
+		}
+		return success;
 	}
 	
 	
