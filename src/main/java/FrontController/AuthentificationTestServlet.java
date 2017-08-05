@@ -9,14 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import RequestHandler.Command;
-import RequestHandler.RequestDispatcher;
-
-@WebServlet("/FrontServlet")
-public class FrontServlet extends HttpServlet{
+@WebServlet("/AuthentificationTestServlet")
+public class AuthentificationTestServlet extends HttpServlet {
 	
-	
-	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2L;
 	
 	private String userId;
 	
@@ -25,7 +24,7 @@ public class FrontServlet extends HttpServlet{
 	   	response.getWriter().flush();
 	   	response.getWriter().close();
 	}
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		HttpSession session = request.getSession(false);
@@ -34,43 +33,28 @@ public class FrontServlet extends HttpServlet{
 		if (session == null) {
 		    userId = verifyUser(request);
 		    if (userId == "") {
-		    	sendAuthentificationError(response);
-		    	return;
+		    	response.getWriter().write("No session and no valid IdToken!");
+			   	response.getWriter().flush();
+			   	response.getWriter().close();
+			   	return;
+		    } else {
+			    session = request.getSession();
+			    session.setAttribute("UserId",userId);
+			    response.getWriter().write("Authentificated with IdToken. UserId is: " + userId);
+			   	response.getWriter().flush();
+			   	response.getWriter().close();
 		    }
-		    session = request.getSession();
-		    session.setAttribute("UserId",userId);
 	    
 		//
 		} else {
 			session = request.getSession();
 			userId = (String) session.getAttribute("UserId");
+			response.getWriter().write("Authentificated with session! UserId is:" + userId);
+		   	response.getWriter().flush();
+		   	response.getWriter().close();
 		}
 		
-		RequestDispatcher requestDispatcher = new RequestDispatcher(request,userId);
-		Command requestHandler = requestDispatcher.createHandler();
-		
-		if (requestHandler == null) {
-			sendIncorrectRequestError(response);
-			return;
-		} else {
-		
-			String responseString = requestHandler.process();	
-			sendResponse(response, responseString);
-		}
 	}
-	
-	private void sendIncorrectRequestError(HttpServletResponse response) {
-		//TODO
-	}
-	
-	private void sendAuthentificationError(HttpServletResponse response) {
-		//TODO
-	}
-	
-	private void sendResponse(HttpServletResponse response, String responseString) {
-		//TODO
-	}
-	
 	
 	private String verifyUser(HttpServletRequest request) {
 		String idToken = (String) request.getAttribute("IdToken");
