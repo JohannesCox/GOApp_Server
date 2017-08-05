@@ -1,2 +1,4 @@
-/build/
-/target/
+build/
+target/
+target/classes
+.settings/
