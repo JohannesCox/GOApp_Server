@@ -1,6 +1,7 @@
 package Database;
 
 import java.util.List;
+import java.util.Random;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
@@ -69,9 +70,10 @@ public class EventUserHandler {
 		try {
 			tx = session.beginTransaction();
 			EventUserRelation relation = 
-					(EventUserRelation) session.load(EventUserRelation.class, new EventUserID(eventID, userID));
+					session.load(EventUserRelation.class, new EventUserID(eventID, userID));
 			session.delete(relation);
 			//TODO: nominate admin if admin leaves event
+			this.nominateAdmin(eventID);
 			//TODO: delete event+ corresponding relations if all members left
 			tx.commit();
 			
@@ -90,7 +92,7 @@ public class EventUserHandler {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			EventUserRelation relation = (EventUserRelation) session.load(EventUserRelation.class, new EventUserID(eventID, userID));
+			EventUserRelation relation = session.load(EventUserRelation.class, new EventUserID(eventID, userID));
 			admin = relation.isAdmin() == true ? true : false;
 			tx.commit();
 			
@@ -99,17 +101,31 @@ public class EventUserHandler {
 		}
 		return admin;
 	}
-	public List getRelationbyeventID(String eventID) {
+	public List<EventUserRelation> getRelationbyeventID(String eventID) {
 		Session session = factory.openSession();
 		Criteria cr = session.createCriteria(EventUserRelation.class);
 		cr.add(Restrictions.eq("eventID", eventID));
-		return cr.list();
+		List<EventUserRelation> members = cr.list();
+		return members;
 	}
 	//TODO: implement nominateAdmin-method
-	public boolean nominateAdmin(String eventID) {
+	public void nominateAdmin(String eventID) {
 		Session session = factory.openSession();
+		List<EventUserRelation> members = this.getRelationbyeventID(eventID);
+		EventUserRelation relation = (EventUserRelation) members.get(new Random().nextInt(members.size()));
+		relation.setAdmin(true);
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			session.update(relation);
+			tx.commit();
+		} catch(HibernateException he) {
+			if(tx != null) tx.rollback();
+			he.printStackTrace();
+		} finally {
+			session.close();
+		}
 		
-		return false;
 	}
 	
 	
