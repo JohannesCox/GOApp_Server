@@ -29,7 +29,9 @@ public class EventHandler {
 		try {
 			Event event = new Event(eventID, eventname, date, location, description);
 			tx = session.beginTransaction();
-			success = (boolean) session.save(event); //TODO: create an event-user relation
+			success = (boolean) session.save(event); //TODO: relation creation done, but ugly
+			EventUserHandler handler = new EventUserHandler();
+			handler.createRelation(eventID, userID);
 			tx.commit();
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
@@ -39,7 +41,7 @@ public class EventHandler {
 		}
 		return success;
 	}
-	
+	//TODO: check whether the user is admin
 	public boolean updateEvent(String userID, String eventID, String eventname, 
 			Date date, String location, String description) {
 		boolean success = false;
@@ -61,8 +63,8 @@ public class EventHandler {
 		}
 		return success;
 	}
-
-	public boolean deleteEvent(String userID) {
+//TODO: check whether user is admin
+	public boolean deleteEvent(String userID, String eventID) {
 		boolean success = false;
 		return success;
 	}
