@@ -25,6 +25,11 @@ private String email;
 		this.username = username;
 		this.email = email;
 	}
+	
+	User(String userID, String username){
+		this.userID = userID;
+		this.username = username;
+	}
 	String getUserID() {
 	return userID;
 }

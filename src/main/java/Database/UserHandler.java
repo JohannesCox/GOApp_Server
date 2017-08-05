@@ -39,6 +39,24 @@ public class UserHandler {
 		return success;
 	}
 	
+	public boolean addUser(String userID, String username) {
+		boolean success = false;
+		Session session = factory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			User user = new User(userID, username);
+			success = (boolean) session.save(user);
+			tx.commit();
+		} catch(HibernateException he) {
+			if(tx != null) tx.rollback();
+			he.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return success;
+	}
+	
 	public boolean deleteUser(String userID) {
 		boolean success = false;
 		Session session = factory.openSession();
