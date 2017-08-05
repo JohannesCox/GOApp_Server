@@ -2,6 +2,10 @@ package RequestHandler;
 
 import java.util.Date;
 
+import com.google.gson.JsonObject;
+
+import Database.EventHandler;
+
 public class UpdateEventCommand extends Command {
 	
 	private String userId;
@@ -20,5 +24,15 @@ public class UpdateEventCommand extends Command {
 		date = d;
 		location = loc;
 		description = desc;
+	}
+	
+	public String process() {
+		EventHandler eh = new EventHandler();
+		boolean success = eh.updateEvent(userId, eventId, title, date, location, description);
+		
+		JsonObject jo = new JsonObject();
+		jo.addProperty("successful", success);
+		
+		return jo.toString();
 	}
 }

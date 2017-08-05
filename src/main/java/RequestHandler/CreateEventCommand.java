@@ -2,13 +2,16 @@ package RequestHandler;
 
 import java.util.Date;
 
+import com.google.gson.JsonObject;
+
+import Database.EventHandler;
+
 /**
  * Creates event. 
  */
 public class CreateEventCommand extends Command {
 	
 	private String userId;
-	private String eventId;
 	private String title;
 	private Date date;
 	//TODO maybe String not correct here. maybe two doubles?
@@ -27,8 +30,14 @@ public class CreateEventCommand extends Command {
 	
 	@Override
 	public String process() {
-		//TODO
-		return null;
+		
+		EventHandler eh = new EventHandler();
+		String eventId = eh.createEvent(userId, title, date, location, description);
+		
+		JsonObject jo = new JsonObject();
+		jo.addProperty("eventId", eventId);
+		
+		return jo.toString();
 	}
 	
 }

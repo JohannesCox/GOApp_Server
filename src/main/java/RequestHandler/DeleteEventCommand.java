@@ -1,5 +1,9 @@
 package RequestHandler;
 
+import com.google.gson.JsonObject;
+
+import Database.EventHandler;
+
 public class DeleteEventCommand extends Command {
 	
 	private String userId;
@@ -11,7 +15,18 @@ public class DeleteEventCommand extends Command {
 	}
 	
 	public String process() {
-		//TODO
-		return null;
+		EventHandler eh = new EventHandler();
+		boolean success = eh.deleteEvent(userId, eventId);
+		
+		JsonObject jo = new JsonObject();
+		
+		if(success) {
+			jo.addProperty("successfull", true);
+		} else {
+			jo.addProperty("successfull", false);
+		}
+		
+		return jo.toString();
+		
 	}
 }

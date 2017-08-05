@@ -1,5 +1,9 @@
 package RequestHandler;
 
+import com.google.gson.JsonObject;
+
+import Database.EventUserHandler;
+
 public class LeaveEventCommand extends Command {
 	
 	private String userId;
@@ -11,7 +15,13 @@ public class LeaveEventCommand extends Command {
 	}
 	
 	public String process() {
-		//TODO
-		return null;
+		EventUserHandler euh = new EventUserHandler();
+		boolean success = euh.leaveEvent(userId, eventId);
+		
+		JsonObject jo = new JsonObject();
+		
+		jo.addProperty("succesfull", success);
+		
+		return jo.toString();
 	}
 }

@@ -1,5 +1,9 @@
 package RequestHandler;
 
+import com.google.gson.JsonObject;
+
+import Database.UserHandler;
+
 public class SignUpCommand extends Command {
 	
 	private String userId;
@@ -11,8 +15,14 @@ public class SignUpCommand extends Command {
 	}
 	
 	public String process() {
-		//TODO
-		return null;
+		UserHandler uh = new UserHandler();
+		boolean success = uh.addUser(userId, username);
+		
+		JsonObject jo = new JsonObject();
+		
+		jo.addProperty("successful", success);
+		
+		return jo.toString();
 	}
 
 }
