@@ -1,3 +1,11 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
 /build/
 /target/
 /.settings/
+=======
+build/
+target/
+target/classes
+.settings/
+>>>>>>> branch 'master' of https://github.com/JohannesCox/GOApp_Server.git
