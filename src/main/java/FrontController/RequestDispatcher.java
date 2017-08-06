@@ -2,7 +2,7 @@ package FrontController;
 
 import javax.servlet.http.HttpServletRequest;
 
-import RequestHandler.Command;
+import RequestHandler.Commands.Command;
 
 public class RequestDispatcher {
 	

@@ -1,27 +1,28 @@
-package RequestHandler;
+package RequestHandler.Commands;
 
 import com.google.gson.JsonObject;
 
 import Database.UserHandler;
 
-public class DeleteUserCommand extends Command {
+public class SignUpCommand extends Command {
 	
 	private String userId;
+	private String username;
 	
-	public DeleteUserCommand(String uId) {
+	public SignUpCommand(String uId, String userN) {
 		userId = uId;
+		username = userN;
 	}
 	
 	public String process() {
-
 		UserHandler uh = new UserHandler();
-		boolean success = uh.deleteUser(userId);
+		boolean success = uh.addUser(userId, username);
 		
 		JsonObject jo = new JsonObject();
 		
-		jo.addProperty("successfull", success);
+		jo.addProperty("successful", success);
 		
 		return jo.toString();
-
 	}
+
 }

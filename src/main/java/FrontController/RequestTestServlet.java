@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import RequestHandler.Command;
 import RequestHandler.RequestDispatcher;
+import RequestHandler.Commands.Command;
 
 /**
  * For Testing only! Doesnt need any authentification.
