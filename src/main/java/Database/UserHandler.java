@@ -10,11 +10,11 @@ import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
 public class UserHandler {
-	private static SessionFactory factory;
+	private SessionFactory factory;
 	public UserHandler() {
 		try {
 			Configuration configuration = new Configuration();
-			factory = configuration.configure("hibernate.cfg.xml")
+			this.factory = configuration.configure("hibernate.cfg.xml")
 					.addAnnotatedClass(User.class)
 					.buildSessionFactory();
 		} catch(HibernateException he) {
