@@ -53,7 +53,7 @@ public class EventUserHandler {
 		try {
 			tx = session.beginTransaction();
 			EventUserRelation relation = new EventUserRelation(eventID, userID, false);
-			if((boolean)session.save(relation) == true) event = session.load(Event.class, eventID);
+			if((String)session.save(relation) != null) event = session.load(Event.class, eventID);
 			tx.commit();
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();

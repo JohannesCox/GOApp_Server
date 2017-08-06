@@ -30,9 +30,10 @@ public class EventHandler {
 		try {
 			
 			tx = session.beginTransaction();
-			event = (Event) session.save(event); //TODO: relation creation done, but ugly
+			String generatedId = (String) session.save(event); //TODO: relation creation done, but ugly
 			EventUserHandler handler = new EventUserHandler();
 			handler.createRelation(eventID, userID);
+			if(generatedId != eventID) event = null;
 			tx.commit();
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
