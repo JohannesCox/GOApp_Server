@@ -30,10 +30,10 @@ public class RequestTestServlet extends HttpServlet {
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String userId = (String) request.getAttribute("UserId");
+		String userId = request.getParameter("UserId");
 		
 		if (userId == null) {
-			response.getWriter().write("Add a random userId @\"UserID\"!");
+			response.getWriter().write("Add a random userId @\"UserId\"!");
 		   	response.getWriter().flush();
 		   	response.getWriter().close();
 		}

@@ -57,7 +57,7 @@ public class AuthentificationTestServlet extends HttpServlet {
 	}
 	
 	private String verifyUser(HttpServletRequest request) {
-		String idToken = (String) request.getAttribute("IdToken");
+		String idToken = request.getParameter("IdToken");
 		
 		if (idToken == null) {
 			return "";
