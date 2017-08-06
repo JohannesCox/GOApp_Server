@@ -21,7 +21,6 @@ public class CreateEventCommand extends Command {
 	public CreateEventCommand(String uId, String eId, String titleS, Date d, String loc,
 			String desc) {
 		userId = uId;
-		eventId = eId;
 		title = titleS;
 		date = d;
 		location = loc;
@@ -31,6 +30,9 @@ public class CreateEventCommand extends Command {
 	@Override
 	public String process() {
 		
+		//TODO
+		
+		/*
 		EventHandler eh = new EventHandler();
 		String eventId = eh.createEvent(userId, title, date, location, description);
 		
@@ -38,6 +40,9 @@ public class CreateEventCommand extends Command {
 		jo.addProperty("eventId", eventId);
 		
 		return jo.toString();
+		*/
+		
+		return null;
 	}
 	
 }

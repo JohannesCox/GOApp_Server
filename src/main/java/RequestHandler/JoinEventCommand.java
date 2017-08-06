@@ -1,7 +1,6 @@
 package RequestHandler;
 
 import Database.EventUserHandler;
-import Database.Event;
 
 /**
  *Adds userId to the event in the database. If successful process() returns
@@ -18,10 +17,15 @@ public class JoinEventCommand extends Command {
 	}
 	
 	public String process() {
+		
+		//TODO
+		/*
 		EventUserHandler euh = new EventUserHandler();
 		Event event = euh.joinEvent(eventId, userId);
 		
 		return event.toJson();
+		*/
+		return null;
 	}
 
 }
