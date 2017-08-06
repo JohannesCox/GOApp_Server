@@ -4,14 +4,13 @@
 <hibernate-configuration>
 	<session-factory name="hibernate.cfg.xml">
 		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-		<property name="hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 		<property name="hibernate.connection.url">jdbc:mysql://localhost/PSESoSe17Gruppe4</property>
 		<property name="hibernate.connection.username">PSESoSe17User4</property>
 		<property name="hibernate.connection.password">w5q8zurebuZ7vEpe</property>
-		<mapping package="Database"/>
-		<mapping class="User.class"/>
-		<mapping class="Event.class"/>
-		<mapping class="EventUserRelation.class"/>
+		<mapping class="Database.User"/>
+		<mapping class="Database.Event"/>
+		<mapping class="Database.EventUserRelation"/>
 	<!-- port 3306 -->
 	<!-- connection url_old = https//i43pc164.ipd.kit.edu:3306/PSESoSe17Gruppe4 -->
 	<!-- hostname = i43pc164 -->
