@@ -14,7 +14,7 @@ Dokumentation der Request/Responses:
 
 Neben der Authentifizierung muss bei jedem request ein Parameter "request" übergeben werden, der die Art des Request spezifiziert. Es existieren aktuell folgende Requests:
 
-1. "createEvent" (noch nicht implementiert) Das JsonObject, die .serialze() Funktion der Client-Event Klasse erzeugt muss übergeben werden. Ich richte mich bei dem Format an die bereits implementierte Methode auf der CLient Seite.
+1. "createEvent" (noch nicht implementiert) Unter "event" muss das JsonObject, das die .serialze() Funktion der Client-Event Klasse erzeugt übergeben werden. Ich richte mich bei dem Format an die bereits implementierte Methode auf der CLient Seite.
 2. "joinEvent" (noch nicht implementiert)
 3. "deleteEvent" zusätzlicher Parameter ("eventId"), gibt JsonObject als String zurück {"successful":true/false}
 4." "deleteUser" kein zusätzlicher Parameter, gibt JsonObject als String zurück {"successful":true/false}
