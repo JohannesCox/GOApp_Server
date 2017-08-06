@@ -17,9 +17,9 @@ public class UserHandler {
 			this.factory = configuration.configure("hibernate.cfg.xml")
 					.addAnnotatedClass(User.class)
 					.buildSessionFactory();
-		} catch(HibernateException he) {
-			he.printStackTrace();
-			
+		} catch(Throwable ex) {
+			System.err.println("Failed to create sessionFactory object." + ex);
+			throw new ExceptionInInitializerError(ex); 
 		}
 	}
 	
@@ -43,7 +43,7 @@ public class UserHandler {
 	
 	public boolean addUser(String userID, String username) {
 		String id = null;
-		Session session = this.factory.openSession();
+		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
