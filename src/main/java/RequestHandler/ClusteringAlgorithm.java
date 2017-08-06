@@ -9,7 +9,7 @@ public class ClusteringAlgorithm {
 	
 	private HashMap<String, DoublePoint> gpsData;
 	
-	public ClusteringAlgorithm(String uId, DoublePoint dp) {
+	public ClusteringAlgorithm() {
 		gpsData = new HashMap<String, DoublePoint>();
 	}
 	
@@ -31,6 +31,7 @@ public class ClusteringAlgorithm {
 	}
 	
 	private List<Cluster<DoublePoint>> calculate() {
+		//TODO
 		return null;
 	}
 }
