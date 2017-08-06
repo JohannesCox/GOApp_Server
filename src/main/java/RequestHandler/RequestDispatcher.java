@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.google.gson.JsonObject;
+
 /**
  * This class is the Command factory. 
  */
@@ -59,20 +61,28 @@ public class RequestDispatcher {
 	}
 	
 	private Command updateEventFactory() {
-		String eventId = request.getParameter("eventId");
-		String title = request.getParameter("title");
-		Date date = (Date) request.getAttribute("date");
-		//TODO maybe String not correct here. maybe two doubles?
-		String location = request.getParameter("location");
-		String description = request.getParameter("description");
 		
-		boolean notValidParameters = eventId == null || title == null || date == null || location == null || description == null;
+		JsonObject jo = (JsonObject) request.getAttribute("event");
 		
-		if(notValidParameters) {
+		String eventId;
+		String title;
+		long dateL;
+		Date date;
+		String location;
+		String description;
+		try {
+			eventId = jo.get("eventid").getAsString();
+			title = jo.get("title").getAsString();
+			dateL = jo.get("date").getAsLong();
+			date = new Date(dateL);
+			location = jo.get("location").getAsString();
+			description = jo.get("description").getAsString();
+		} catch(NullPointerException e) {
 			return null;
 		}
 		
 		return new UpdateEventCommand(userId, eventId, title, date, location, description);
+		
 	}
 
 	private Command startEventFactory() {
@@ -112,7 +122,7 @@ public class RequestDispatcher {
 
 	private Command getEventsFactory() {
 		
-		HashMap<String,Integer> eventList = (HashMap) request.getAttribute("eventList");
+		HashMap<String,Integer> eventList = (HashMap<String, Integer>) request.getAttribute("eventList");
 		
 		if (eventList == null) {
 			return null;
@@ -136,8 +146,22 @@ public class RequestDispatcher {
 	}
 
 	private Command createEventFactory() {
-		//TODO
-		return null;
+		JsonObject jo = (JsonObject) request.getAttribute("event");
+		
+		String title;
+		String date;
+		String location;
+		String description;
+		try {
+			title = jo.get("title").getAsString();
+			date = jo.get("date").getAsString();
+			location = jo.get("location").getAsString();
+			description = jo.get("description").getAsString();
+		} catch(NullPointerException e) {
+			return null;
+		}
+		
+		return new CreateEventCommand(userId, title, date, description, location);
 	}
 	
 	private Command leaveEventFactory() {

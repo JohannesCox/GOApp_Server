@@ -13,12 +13,12 @@ public class CreateEventCommand extends Command {
 	
 	private String userId;
 	private String title;
-	private Date date;
+	private String date;
 	//TODO maybe String not correct here. maybe two doubles?
 	private String location;
 	private String description;
 	
-	public CreateEventCommand(String uId, String eId, String titleS, Date d, String loc,
+	public CreateEventCommand(String uId, String titleS, String d, String loc,
 			String desc) {
 		userId = uId;
 		title = titleS;

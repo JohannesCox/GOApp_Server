@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.google.gson.JsonObject;
 
+import Database.Event;
 import Database.EventHandler;
 
 public class UpdateEventCommand extends Command {
@@ -28,11 +29,8 @@ public class UpdateEventCommand extends Command {
 	
 	public String process() {
 		EventHandler eh = new EventHandler();
-		boolean success = eh.updateEvent(userId, eventId, title, date, location, description);
+		Event event = eh.updateEvent(userId, eventId, title, date, location, description);
 		
-		JsonObject jo = new JsonObject();
-		jo.addProperty("successful", success);
-		
-		return jo.toString();
+		return event.serialize().toString();
 	}
 }
