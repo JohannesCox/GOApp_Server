@@ -20,7 +20,7 @@ public class LeaveEventCommand extends Command {
 		
 		JsonObject jo = new JsonObject();
 		
-		jo.addProperty("succesfull", success);
+		jo.addProperty("succesful", success);
 		
 		return jo.toString();
 	}
