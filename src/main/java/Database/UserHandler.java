@@ -43,7 +43,7 @@ public class UserHandler {
 	
 	public boolean addUser(String userID, String username) {
 		String id = null;
-		Session session = factory.openSession();
+		Session session = this.factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
