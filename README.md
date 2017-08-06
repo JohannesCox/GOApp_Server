@@ -1,6 +1,7 @@
 # GOApp_Server
 
 Auf https://i43pc164.ipd.kit.edu/PSESoSe17Gruppe4/GOApp_Server/ sind aktuell 3 Servlets aktiv: 
+
 1.) /FrontServlet - Authentification und Request Handling. Das eigentliche Servlet für unsere App
 
 und 2 Testservlets:
