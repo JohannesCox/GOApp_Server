@@ -2,9 +2,12 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>GOApp_Server</groupId>
   <artifactId>GOApp_Server</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
   <packaging>war</packaging>
+  <version>1.0</version>
   <build>
+  
+  <finalName>${project.artifactId}</finalName>
+  
     <plugins>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
