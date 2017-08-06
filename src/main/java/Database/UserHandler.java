@@ -38,7 +38,7 @@ public class UserHandler {
 		} finally {
 			session.close();
 		}
-		return id == userID ? true : false;
+		return id.equals(userID) ? true : false;
 	}
 	
 	public boolean addUser(String userID, String username) {
@@ -56,7 +56,7 @@ public class UserHandler {
 		} finally {
 			session.close();
 		}
-		return id == userID ? true : false;
+		return id.equals(userID) ? true : false;
 	}
 	
 	public boolean deleteUser(String userID) {

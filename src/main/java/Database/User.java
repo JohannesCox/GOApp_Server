@@ -11,7 +11,7 @@ import org.hibernate.annotations.Table;
 @Table(appliesTo = "User")
 class User {
 	
-	@Id @GeneratedValue
+	@Id
 	@Column(name="userID")
 private String userID;
 	
@@ -19,6 +19,7 @@ private String userID;
 private String username;
 	@Column(name="Email")
 private String email;
+	User(){}
 	
 	User(String userID, String username, String email) {
 		this.userID = userID;
@@ -29,7 +30,9 @@ private String email;
 	User(String userID, String username){
 		this.userID = userID;
 		this.username = username;
+		this.email = null;
 	}
+
 	String getUserID() {
 	return userID;
 }
