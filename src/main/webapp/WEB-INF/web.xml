@@ -1,15 +1,15 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
     <servlet>
         <servlet-name>FrontServlet</servlet-name>
-        <servlet-class>src/main/java/FrontServlet</servlet-class>
+        <servlet-class>FrontController.FrontServlet</servlet-class>
     </servlet>
     <servlet>
     	<servlet-name>AuthentificationTestServlet</servlet-name>
-        <servlet-class>src/main/java/AuthentificationTestServlet</servlet-class>
+        <servlet-class>FrontController.AuthentificationTestServlet</servlet-class>
     </servlet>
     <servlet>
     	<servlet-name>RequestTestServlet</servlet-name>
-        <servlet-class>src/main/java/RequestTestServlet</servlet-class>
+        <servlet-class>FrontController.RequestTestServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>FrontServlet</servlet-name>
