@@ -2,7 +2,9 @@ package Database;
 
 import java.util.Date;
 
-class Event {
+import com.google.gson.JsonObject;
+
+public class Event {
 	private String eventID;
 	private String eventname;
 	private Date date;
@@ -67,6 +69,17 @@ class Event {
 
 	void setLastmodified(int lastmodified) {
 		this.lastmodified = lastmodified;
+	}
+	
+	public JsonObject serialize() {
+		JsonObject jo = new JsonObject();
+		jo.addProperty("eventId", eventID);
+		jo.addProperty("title", eventname);
+		jo.addProperty("date", date.getTime());
+		jo.addProperty("location", location);
+		jo.addProperty("description", description);
+		jo.addProperty("lastModified", lastmodified);
+		return jo;
 	}
 	
 	
