@@ -1,4 +1,4 @@
-package RequestHandler;
+package RequestHandler.Commands;
 
 import Database.EventUserHandler;
 

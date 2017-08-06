@@ -7,6 +7,17 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.google.gson.JsonObject;
 
+import RequestHandler.Commands.Command;
+import RequestHandler.Commands.CreateEventCommand;
+import RequestHandler.Commands.DeleteEventCommand;
+import RequestHandler.Commands.DeleteUserCommand;
+import RequestHandler.Commands.GetEventsCommand;
+import RequestHandler.Commands.GetMembersCommand;
+import RequestHandler.Commands.JoinEventCommand;
+import RequestHandler.Commands.LeaveEventCommand;
+import RequestHandler.Commands.SignUpCommand;
+import RequestHandler.Commands.UpdateEventCommand;
+
 /**
  * This class is the Command factory. 
  */
