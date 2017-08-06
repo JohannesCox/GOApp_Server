@@ -1,11 +1,13 @@
 # GOApp_Server
 
 Auf https://i43pc164.ipd.kit.edu/PSESoSe17Gruppe4/GOApp_Server/ sind aktuell 3 Servlets aktiv: 
-1. /FrontServlet :Authentification und Request Handling. Das eigentliche Servlet für unsere App
+1.) /FrontServlet - Authentification und Request Handling. Das eigentliche Servlet für unsere App
 
 und 2 Testservlets:
-2. /AuthentificationTestServlet :testet nur die Authentifizierung. Es wird ein idToken verifiziert. Besteht eine gültige session mit dem Server, muss kein idToken übergeben werden. Gibt die userId zurück.
-3. /RequestTestServlet :Testet nur die Server-Komponenten ohne Authentifizierung. Es kann unter "UserId" ein beliebiger String angegeben werden.
+
+2.) /AuthentificationTestServlet - testet nur die Authentifizierung. Es wird ein idToken verifiziert. Besteht eine gültige session mit dem Server, muss kein idToken übergeben werden. Gibt die userId zurück.
+
+3.) /RequestTestServlet - Testet nur die Server-Komponenten ohne Authentifizierung. Es kann unter "UserId" ein beliebiger String angegeben werden.
 
 Dokumentation der Request/Responses:
 
