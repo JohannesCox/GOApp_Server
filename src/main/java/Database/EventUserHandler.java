@@ -46,14 +46,14 @@ public class EventUserHandler {
 		return success;
 	}
 	
-	public boolean joinEvent(String eventID, String userID) {
-		boolean success = false;
+	public Event joinEvent(String eventID, String userID) {
+		Event event = null;
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			EventUserRelation relation = new EventUserRelation(eventID, userID, false);
-			session.save(relation);
+			if((boolean)session.save(relation) == true) event = session.load(Event.class, eventID);
 			tx.commit();
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
@@ -61,7 +61,7 @@ public class EventUserHandler {
 		} finally {
 			session.close();
 		}
-		return success;
+		return event;
 	}
 	/**
 	 * Deletes the relation with given eventID and userID. If there are no relations left,

@@ -10,8 +10,9 @@ class Event {
 	private String description;
 	private int lastmodified;
 	
-	Event(String eventID, String eventname, Date date, String location, String description) {
-		this.eventID = eventID;
+	Event(String eventname, Date date, String location, String description) {
+		new IdGenerator();
+		this.eventID = IdGenerator.uuid();
 		this.eventname = eventname;
 		this.date = date;
 		this.location = location;
