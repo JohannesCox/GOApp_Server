@@ -149,12 +149,14 @@ public class RequestDispatcher {
 		JsonObject jo = (JsonObject) request.getAttribute("event");
 		
 		String title;
-		String date;
+		long dateL;
+		Date date;
 		String location;
 		String description;
 		try {
 			title = jo.get("title").getAsString();
-			date = jo.get("date").getAsString();
+			dateL = jo.get("date").getAsLong();
+			date = new Date(dateL);
 			location = jo.get("location").getAsString();
 			description = jo.get("description").getAsString();
 		} catch(NullPointerException e) {

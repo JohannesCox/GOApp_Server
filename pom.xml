@@ -19,7 +19,6 @@
         <version>3.0.0</version>
         <configuration>
           <warSourceDirectory>/src/main/webapp</warSourceDirectory>
-		  <webXml>/scr/main/webapp/WEB-INF/web.xml</webXml>
         </configuration>
       </plugin>
     </plugins>
