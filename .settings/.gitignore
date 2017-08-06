@@ -1,4 +1,8 @@
-/org.eclipse.wst.common.project.facet.core.xml
-/target/
-/.settings/
-/build/
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Maven
+log/
+target/
