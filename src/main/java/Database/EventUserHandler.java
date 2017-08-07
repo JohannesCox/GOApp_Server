@@ -135,6 +135,24 @@ public class EventUserHandler {
 		}
 		return admin;
 	}
+	
+	public boolean isMember(String userID, String eventID) {
+		boolean isMember = false;
+		Session session = factory.openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			if(session.get(EventUserRelation.class, new EventUserID(eventID, userID)) != null)
+				isMember = true;
+			tx.commit();
+		} catch(HibernateException he) {
+			if(tx != null) tx.rollback();
+			he.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return isMember;
+	}
 	/**
 	 * Creates a list of all relations to the corresponding ID. An empty list will be created if there is no such 
 	 * relation
