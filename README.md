@@ -29,7 +29,7 @@ Neben der Authentifizierung muss bei jedem request ein Parameter "request" über
 
 4." "deleteUser" kein zusätzlicher Parameter, gibt JsonObject als String zurück {"successful":true/false}
 
-5. "getEvents" übergeben werden muss ein JsonArray.toString(), jeder Eintrag ist ein JsonObject mit (String: Integer) (mit eventId, lastModified). Es wird dieselbe bearbeitete HashMap zurückgegeben als String (erzeugt mit der serialize() Klasse von HashMap). Es wird wieder ein JsonArray mit "Events" als JsonObject Einträge zurückgegeben.
+5. "getEvents" übergeben werden muss unter "events" ein JsonArray.toString(), jeder Eintrag ist ein JsonObject mit (String: Integer) (mit eventId, lastModified). Es wird dieselbe bearbeitete HashMap zurückgegeben als String (erzeugt mit der serialize() Klasse von HashMap). Es wird wieder ein JsonArray mit "Events" als JsonObject Einträge zurückgegeben.
 
 6. "getMembers" (noch nicht implementiert) übergeben werden muss Parameter "eventId". Zurückgegebn wird ein JsonArray. Jedes Objekt des Arrays ist ein JsonObject {"username":boolean}, wobei der boolean Wert angibt, ob der username -Nutzer Admin ist.
 
