@@ -5,6 +5,8 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.math3.ml.clustering.DoublePoint;
+
 import com.google.gson.JsonObject;
 
 import RequestHandler.Commands.Command;
@@ -16,6 +18,7 @@ import RequestHandler.Commands.GetMembersCommand;
 import RequestHandler.Commands.JoinEventCommand;
 import RequestHandler.Commands.LeaveEventCommand;
 import RequestHandler.Commands.SignUpCommand;
+import RequestHandler.Commands.StartEventCommand;
 import RequestHandler.Commands.StopEventCommand;
 import RequestHandler.Commands.UpdateEventCommand;
 
@@ -47,9 +50,9 @@ public class RequestDispatcher {
 		
 		switch(requestString) {
 		
-			case("CreateEvent"):
+			case("createEvent"):
 				return createEventFactory();
-			case("DeleteEvent"):
+			case("deleteEvent"):
 				return deleteEventFactory();
 			case("deleteUser"):
 				return deleteUserFactory();
@@ -67,6 +70,8 @@ public class RequestDispatcher {
 				return startEventFactory();
 			case("updateEvent"):
 				return updateEventFactory();
+			case("stopEvent"):
+				return stopEventFactory();
 			default: return null;
 		
 		}
@@ -98,8 +103,29 @@ public class RequestDispatcher {
 	}
 
 	private Command startEventFactory() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String eventId = request.getParameter("eventId");
+		String lat = request.getParameter("lat");
+		String lng = request.getParameter("lng");
+		
+		if (eventId == null || lat == null || lng == null) {
+			return null;
+		}
+		
+		double latD,lngD;
+		
+		try {
+			latD =  Double.parseDouble(lat);
+			lngD = Double.parseDouble(lng);
+		} catch (NumberFormatException e) {
+			return null;
+		}
+		
+		double[] ds = {latD, lngD};
+		
+		DoublePoint dp = new DoublePoint(ds);
+		
+		return new StartEventCommand(userId, eventId, dp);
 	}
 	
 	private Command stopEventFactory() {
