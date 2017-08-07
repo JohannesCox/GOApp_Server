@@ -1,7 +1,9 @@
 package Database;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.hibernate.Criteria;
@@ -226,5 +228,14 @@ public class EventUserHandler {
 			list.add(new EventHandler().getEvent(rel.getEventID()));
 		}
 		return list;
+	}
+	
+	public Map<String,Boolean> getMembers(String eventID) {
+		Map<String, Boolean> members= new HashMap<String,Boolean>();
+		List<EventUserRelation> relations = this.getRelations_byeventID(eventID);
+		for(EventUserRelation rel : relations) {
+			members.put(rel.getUserID(), rel.isAdmin());
+		}
+		return members;
 	}
 }
