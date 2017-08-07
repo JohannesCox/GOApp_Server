@@ -201,7 +201,7 @@ public class EventUserHandler {
 		return success;
 	}
 	
-	List<Event> getAllUserEvents(String userID) {
+	public List<Event> getAllUserEvents(String userID) {
 		List<EventUserRelation> relations = this.getRelations_byuserID(userID);
 		List<Event> list = new ArrayList<Event>();
 		for(EventUserRelation rel : relations) {

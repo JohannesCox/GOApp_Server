@@ -2,6 +2,8 @@ package RequestHandler.Commands;
 
 import java.util.HashMap;
 
+import Database.EventUserHandler;
+
 /**
  * Gets a List of eventIds with their lastModified value. Returns a list of
  * all events with a higher lastModified value.
@@ -9,7 +11,6 @@ import java.util.HashMap;
 public class GetEventsCommand extends Command {
 	
 	private String userId;
-	//First entry is the eventID, second entry is the lastModified value
 	private HashMap<String,Integer> eventsList;
 	
 	public GetEventsCommand(String uID, HashMap<String,Integer> eventsL) {
@@ -19,7 +20,7 @@ public class GetEventsCommand extends Command {
 	}
 	
 	public String process() {
-		//TODO
-		return null;
+		EventUserHandler euh = new EventUserHandler();
+		euh.getAllUserEvents
 	}
 }
