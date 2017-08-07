@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.gson.JsonObject;
+
 import RequestHandler.RequestDispatcher;
 import RequestHandler.Commands.Command;
 
@@ -60,15 +62,38 @@ public class FrontServlet extends HttpServlet{
 	}
 	
 	private void sendIncorrectRequestError(HttpServletResponse response) {
-		//TODO
+		JsonObject jo = new JsonObject();
+		jo.addProperty("error", "InvalidRequestError");	
+		try {
+			response.getWriter().write(jo.toString());
+			response.getWriter().flush();
+		   	response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void sendAuthentificationError(HttpServletResponse response) {
-		//TODO
+		JsonObject jo = new JsonObject();
+		jo.addProperty("error", "Authentificationerror");
+		try {
+			response.getWriter().write(jo.toString());
+			response.getWriter().flush();
+		   	response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void sendResponse(HttpServletResponse response, String responseString) {
-		//TODO
+		try {
+			response.getWriter().write(responseString);
+			response.getWriter().flush();
+		   	response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	   	
 	}
 	
 	

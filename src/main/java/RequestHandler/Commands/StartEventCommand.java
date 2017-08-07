@@ -23,20 +23,15 @@ public class StartEventCommand extends Command {
 	}
 	
 	public String process() {
-		List<Cluster<DoublePoint>> cluster;
 		
 		synchronized(StartEventCommand.algorithms) {
-			if (algorithms.containsKey(eventId)) {
-				cluster = algorithms.get(eventId).updateGPS(userId, doublepoint);
-			} else {
+			if (!algorithms.containsKey(eventId)) {				
 				algorithms.put(eventId, new ClusteringAlgorithm());
-				cluster = algorithms.get(eventId).updateGPS(userId, doublepoint);
 			}
 		}
 		
-		//TODO return
-		
-		return null;
+		return algorithms.get(eventId).updateGPS(userId, doublepoint).toString();
+
 	}
 
 }
