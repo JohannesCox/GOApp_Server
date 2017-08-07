@@ -14,7 +14,7 @@ Dokumentation der Request/Responses:
 
 Neben der Authentifizierung muss bei jedem request ein Parameter "request" übergeben werden, der die Art des Request spezifiziert. Es existieren aktuell folgende Requests:
 
-1. "createEvent": Unter "event" muss das JsonObject, das die .serialze() Funktion der Client-Event Klasse erzeugt übergeben werden. Ich richte mich bei dem Format an die bereits implementierte Methode auf der CLient Seite. Die Einträge eventId und lastModified werden nicht abgefragt. Es wird ein JsonObjekt vom Typ "Event" zurückgegeben.
+1. "createEvent": Unter "event" muss das JsonObject.toString(), das die .serialze() Funktion der Client-Event Klasse erzeugt übergeben werden. Ich richte mich bei dem Format an die bereits implementierte Methode auf der CLient Seite. Die Einträge eventId und lastModified werden nicht abgefragt. Es wird ein JsonObjekt vom Typ "Event" zurückgegeben.
 (JsonObject jo = new JsonObject();
 		jo.addProperty("eventId", eventID);
 		jo.addProperty("title", eventname);
@@ -29,7 +29,7 @@ Neben der Authentifizierung muss bei jedem request ein Parameter "request" über
 
 4." "deleteUser" kein zusätzlicher Parameter, gibt JsonObject als String zurück {"successful":true/false}
 
-5. "getEvents" (noch nicht implementiert) übergeben werden muss ein JsonArray, jeder Eintrag ist ein JsonObject mit (String: Integer) (mit eventId, lastModified). Es wird dieselbe bearbeitete HashMap zurückgegeben als String (erzeugt mit der serialize() Klasse von HashMap). Es wird wieder ein JsonArray mit "Events" als JsonObject Einträge zurückgegeben.
+5. "getEvents" übergeben werden muss ein JsonArray.toString(), jeder Eintrag ist ein JsonObject mit (String: Integer) (mit eventId, lastModified). Es wird dieselbe bearbeitete HashMap zurückgegeben als String (erzeugt mit der serialize() Klasse von HashMap). Es wird wieder ein JsonArray mit "Events" als JsonObject Einträge zurückgegeben.
 
 6. "getMembers" (noch nicht implementiert) übergeben werden muss Parameter "eventId". Zurückgegebn wird ein JsonArray. Jedes Objekt des Arrays ist ein JsonObject {"username":boolean}, wobei der boolean Wert angibt, ob der username -Nutzer Admin ist.
 
