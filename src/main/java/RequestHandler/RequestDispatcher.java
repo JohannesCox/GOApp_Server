@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.math3.ml.clustering.DoublePoint;
 
+import com.google.gson.JsonParser;
 import com.google.gson.JsonObject;
 
 import RequestHandler.Commands.Command;
@@ -79,7 +80,10 @@ public class RequestDispatcher {
 	
 	private Command updateEventFactory() {
 		
-		JsonObject jo = (JsonObject) request.getAttribute("event");
+		String eventS = request.getParameter("event");
+		
+		JsonParser jp = new JsonParser();
+		JsonObject jo = (JsonObject) jp.parse(eventS);
 		
 		String eventId;
 		String title;
@@ -195,7 +199,11 @@ public class RequestDispatcher {
 	}
 
 	private Command createEventFactory() {
-		JsonObject jo = (JsonObject) request.getAttribute("event");
+		
+		String eventS = request.getParameter("event");
+		
+		JsonParser jp = new JsonParser();
+		JsonObject jo = (JsonObject) jp.parse(eventS);
 		
 		String title;
 		long dateL;
