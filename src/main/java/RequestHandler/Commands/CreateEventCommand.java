@@ -15,7 +15,6 @@ public class CreateEventCommand extends Command {
 	private String userId;
 	private String title;
 	private Date date;
-	//TODO maybe String not correct here. maybe two doubles?
 	private String location;
 	private String description;
 	
