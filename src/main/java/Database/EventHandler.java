@@ -21,19 +21,31 @@ public class EventHandler {
 			he.printStackTrace();
 		}
 	}
-	
-	public Event createEvent(String userID, String eventID, String eventname, 
+	/**
+	 * Creates an event in the database. But first the relation (eventID, userID, admin=true) will be created.
+	 * If the creation of the relation was successful the database-entry can be set.
+	 * @param userID of the user creating the event
+	 * @param eventID of the event 
+	 * @param eventname of the event
+	 * @param date of the event
+	 * @param location of the event
+	 * @param description of the event
+	 * @return event, if the entry could be created. Otherwise return null
+	 */
+	public Event createEvent(String userID, String eventname, 
 			Date date, String location, String description) {
+		String id = null;
 		Event event = new Event(eventname, date, location, description);
+		String eventID = event.getEventID();
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			
 			tx = session.beginTransaction();
-			String generatedId = (String) session.save(event); //TODO: relation creation done, but ugly
 			EventUserHandler handler = new EventUserHandler();
-			handler.createRelation(eventID, userID);
-			if(generatedId != eventID) event = null;
+			if(handler.createRelation(eventID, userID) == false) return null;
+			id = (String) session.save(event);
+			
 			tx.commit();
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
@@ -41,9 +53,19 @@ public class EventHandler {
 		} finally {
 			session.close();
 		}
+		if(id == null || !id.equals(eventID)) return null;
 		return event;
 	}
-
+	/**
+	 * Updates an event, if the user has the permission.
+	 * @param userID of the user, trying to update the event
+	 * @param eventID of the event
+	 * @param eventname of the event
+	 * @param date of the event
+	 * @param location of the event
+	 * @param description of the event
+	 * @return event, if the event could be updated. Otherwise return null
+	 */
 	public Event updateEvent(String userID, String eventID, String eventname, 
 			Date date, String location, String description) {
 		Event event = null;
@@ -58,7 +80,7 @@ public class EventHandler {
 			event.setDate(date);
 			event.setLocation(location);
 			event.setDescription(description);
-			event.setLastmodified(event.getLastmodified()+1);
+			event.setLastmodified(event.getLastmodified()+1); // increments the lastmodified parameter to guarantee synchronization with client
 			session.update(event);
 			tx.commit();
 		} catch(HibernateException he) {
@@ -67,7 +89,12 @@ public class EventHandler {
 		}
 		return event;
 	}
-//TODO: check whether user is admin
+	/**
+	 * Deletes an event
+	 * @param userID 
+	 * @param eventID of the event
+	 * @return true, if the event could be deleted
+	 */
 	public boolean deleteEvent(String userID, String eventID) {
 		EventUserHandler euh = new EventUserHandler();
 		if(euh.isAdmin(userID, eventID)) {
@@ -93,6 +120,11 @@ public class EventHandler {
 		}
 		return true;
 	}
+	/**
+	 * Deletes an event with given eventID. This method is only invoked, if EventUserHandler.leaveEvent(...) leads to an empty members list
+	 * @param eventID of the event
+	 * @return true, if the event could be deleted
+	 */
 	boolean deleteEvent(String eventID) {
 		boolean success = false;
 		Session session = factory.openSession();

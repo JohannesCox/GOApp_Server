@@ -27,6 +27,13 @@ public class EventUserHandler {
 		}
 	}
 	//TODO: check whether createRelation and joinEvent can be combined in one method
+	/**
+	 * This method is invoked with the creation of an event. Creates the relation between the creator of the event and the event itself
+	 * The creator of the event, will be automatically the administrator of the event 
+	 * @param eventID of the event
+	 * @param userID of the user creating the event
+	 * @return true, if the relation, could be created
+	 */
 	public boolean createRelation(String eventID, String userID) {
 		boolean success = false;
 		Transaction tx = null;
@@ -45,15 +52,18 @@ public class EventUserHandler {
 		}
 		return success;
 	}
-	
+
 	public Event joinEvent(String eventID, String userID) {
 		Event event = null;
 		Session session = factory.openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
+			event = session.load(Event.class, eventID);
+			if(event != null) ;
 			EventUserRelation relation = new EventUserRelation(eventID, userID, false);
-			if((String)session.save(relation) != null) event = session.load(Event.class, eventID);
+			EventUserID id = (EventUserID) session.save(relation);
+			//if(id == null || !id.equals(new EventUserID(eventID, userID)));
 			tx.commit();
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();

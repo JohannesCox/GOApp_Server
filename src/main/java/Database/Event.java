@@ -2,14 +2,27 @@ package Database;
 
 import java.util.Date;
 
-import com.google.gson.JsonObject;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 
+import org.hibernate.annotations.Table;
+
+import com.google.gson.JsonObject;
+@Entity
+@Table(appliesTo = "Event")
 public class Event {
+	@Id @Column(name="eventID")
 	private String eventID;
+	@Column(name="eventname")
 	private String eventname;
+	@Column(name="date")
 	private Date date;
-	private String location; //TODO: data type might be changed!
+	@Column(name="location")
+	private String location;
+	@Column(name="description")
 	private String description;
+	@Column(name="lastmodified")
 	private int lastmodified;
 	
 	Event(String eventname, Date date, String location, String description) {
