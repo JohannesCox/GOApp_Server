@@ -2,12 +2,16 @@ package RequestHandler;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.math3.ml.clustering.DoublePoint;
 
 import com.google.gson.JsonParser;
+import com.google.api.client.util.Sets;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import RequestHandler.Commands.Command;
@@ -174,14 +178,20 @@ public class RequestDispatcher {
 
 	private Command getEventsFactory() {
 		
-		//TODO HashMap is not up to date
-		HashMap<String,Integer> eventList = (HashMap<String, Integer>) request.getAttribute("eventList");
+		String eventS = request.getParameter("event");
 		
-		if (eventList == null) {
-			return null;
-		} else {
-			return new GetEventsCommand(userId, eventList);
+		JsonParser jp = new JsonParser();
+		JsonArray ja = (JsonArray) jp.parse(eventS);
+		
+		HashMap<String,Integer> eventList = new HashMap<String,Integer>();
+		
+		for (int i = 0; i < ja.size(); i++) {
+		    JsonObject rec = (JsonObject) ja.get(i);
+		    eventList.put(rec.get("eventId").getAsString(), rec.get("lastModified").getAsInt());
 		}
+		
+		return new GetEventsCommand(userId, eventList);
+
 	}
 
 	private Command deleteUserFactory() {

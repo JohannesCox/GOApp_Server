@@ -36,7 +36,7 @@ public class Event {
 		
 	}
 
-	 String getEventID() {
+	public String getEventID() {
 		return eventID;
 	}
 
@@ -76,7 +76,7 @@ public class Event {
 		this.description = description;
 	}
 
-	int getLastmodified() {
+	public int getLastmodified() {
 		return lastmodified;
 	}
 

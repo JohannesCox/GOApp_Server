@@ -1,7 +1,12 @@
 package RequestHandler.Commands;
 
 import java.util.HashMap;
+import java.util.List;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import Database.Event;
 import Database.EventUserHandler;
 
 /**
@@ -21,6 +26,32 @@ public class GetEventsCommand extends Command {
 	
 	public String process() {
 		EventUserHandler euh = new EventUserHandler();
-		euh.getAllUserEvents
+		List<Event> events = euh.getAllUserEvents(userId);
+		
+		HashMap<String, Event> newEvents = new HashMap<String, Event>();
+		
+		for(Event e: events) {
+			newEvents.put(e.getEventID(), e);
+		}
+		
+		HashMap<String, Event> changedEvents = new HashMap<String, Event>(newEvents);
+		
+		for (Event e: newEvents.values()) {
+			
+			if (eventsList.containsKey(e.getEventID()) && eventsList.get(e.getEventID()) == e.getLastmodified()) {
+				changedEvents.remove(e.getEventID());
+			}
+		}
+		
+		JsonArray ja = new JsonArray();
+		
+		for (Event e: changedEvents.values()) {
+			JsonObject jo = new JsonObject();
+			jo.addProperty("event", e.serialize().toString());
+			ja.add(jo);
+		}
+		
+		return ja.toString();
+		
 	}
 }
