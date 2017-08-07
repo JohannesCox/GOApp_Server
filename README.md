@@ -31,7 +31,7 @@ Neben der Authentifizierung muss bei jedem request ein Parameter "request" über
 
 5. "getEvents" übergeben werden muss unter "events" ein JsonArray.toString(), jeder Eintrag ist ein JsonObject mit {"eventId":"theeventId", lastModified:12} . Es wird wieder ein JsonArray.toString() mit "Events" als JsonObject Einträge zurückgegeben.
 
-6. "getMembers" (noch nicht implementiert) übergeben werden muss Parameter "eventId". Zurückgegebn wird ein JsonArray. Jedes Objekt des Arrays ist ein JsonObject {"username":boolean}, wobei der boolean Wert angibt, ob der username -Nutzer Admin ist.
+6. "getMembers"  übergeben werden muss Parameter "eventId". Zurückgegebn wird ein JsonArray. Jedes Objekt des Arrays ist ein JsonObject {"username": "name", "isAdmin": boolean}, wobei der boolean Wert angibt, ob der username -Nutzer Admin ist.
 
 7. "leaveEvent" "eventId" muss als Parameter übergeben werden. gibt JsonObject als String zurück {"successful":true/false}.
 
