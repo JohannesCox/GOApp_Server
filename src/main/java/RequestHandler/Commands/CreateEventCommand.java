@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.google.gson.JsonObject;
 
+import Database.Event;
 import Database.EventHandler;
 
 /**
@@ -30,19 +31,11 @@ public class CreateEventCommand extends Command {
 	@Override
 	public String process() {
 		
-		//TODO
-		
-		/*
 		EventHandler eh = new EventHandler();
-		String eventId = eh.createEvent(userId, title, date, location, description);
+		Event event = eh.createEvent(userId, title, date, location, description);
 		
-		JsonObject jo = new JsonObject();
-		jo.addProperty("eventId", eventId);
-		
-		return jo.toString();
-		*/
-		
-		return null;
+		return event.serialize().toString();
+
 	}
 	
 }

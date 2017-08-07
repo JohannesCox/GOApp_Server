@@ -19,12 +19,7 @@ public class DeleteEventCommand extends Command {
 		boolean success = eh.deleteEvent(userId, eventId);
 		
 		JsonObject jo = new JsonObject();
-		
-		if(success) {
-			jo.addProperty("successfull", true);
-		} else {
-			jo.addProperty("successfull", false);
-		}
+		jo.addProperty("successfull", success);
 		
 		return jo.toString();
 		

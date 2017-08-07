@@ -13,7 +13,6 @@ public class UpdateEventCommand extends Command {
 	private String eventId;
 	private String title;
 	private Date date;
-	//TODO maybe String not correct here. maybe two doubles?
 	private String location;
 	private String description;
 	
@@ -31,6 +30,10 @@ public class UpdateEventCommand extends Command {
 		EventHandler eh = new EventHandler();
 		Event event = eh.updateEvent(userId, eventId, title, date, location, description);
 		
-		return event.serialize().toString();
+		if (event == null) {
+			return "";
+		} else {
+			return event.serialize().toString();
+		}
 	}
 }
