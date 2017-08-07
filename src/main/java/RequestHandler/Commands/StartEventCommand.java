@@ -10,7 +10,7 @@ import RequestHandler.ClusteringAlgorithm;
 
 public class StartEventCommand extends Command {
 	
-	private static HashMap<String,ClusteringAlgorithm> algorithms = new HashMap<String,ClusteringAlgorithm>();
+	public static HashMap<String,ClusteringAlgorithm> algorithms = new HashMap<String,ClusteringAlgorithm>();
 	
 	private String userId;
 	private String eventId;
@@ -23,6 +23,8 @@ public class StartEventCommand extends Command {
 	}
 	
 	public String process() {
+		
+		//TODO check if user is in event
 		
 		synchronized(StartEventCommand.algorithms) {
 			if (!algorithms.containsKey(eventId)) {				

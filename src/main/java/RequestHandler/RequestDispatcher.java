@@ -16,6 +16,7 @@ import RequestHandler.Commands.GetMembersCommand;
 import RequestHandler.Commands.JoinEventCommand;
 import RequestHandler.Commands.LeaveEventCommand;
 import RequestHandler.Commands.SignUpCommand;
+import RequestHandler.Commands.StopEventCommand;
 import RequestHandler.Commands.UpdateEventCommand;
 
 /**
@@ -100,6 +101,16 @@ public class RequestDispatcher {
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	private Command stopEventFactory() {
+		String eventId = request.getParameter("eventId");
+		
+		if (eventId == null) {
+			return null;
+		} else {
+			return new StopEventCommand(userId, eventId);
+		}
+	}
 
 	private Command signUpFactory() {
 		String username = request.getParameter("username");
@@ -133,6 +144,7 @@ public class RequestDispatcher {
 
 	private Command getEventsFactory() {
 		
+		//TODO HashMap is not up to date
 		HashMap<String,Integer> eventList = (HashMap<String, Integer>) request.getAttribute("eventList");
 		
 		if (eventList == null) {
