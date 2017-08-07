@@ -6,6 +6,9 @@ import java.util.List;
 import org.apache.commons.math3.ml.clustering.Cluster;
 import org.apache.commons.math3.ml.clustering.DoublePoint;
 
+import com.google.gson.JsonObject;
+
+import Database.EventUserHandler;
 import RequestHandler.ClusteringAlgorithm;
 
 public class StartEventCommand extends Command {
@@ -24,7 +27,13 @@ public class StartEventCommand extends Command {
 	
 	public String process() {
 		
-		//TODO check if user is in event
+		EventUserHandler euh = new EventUserHandler();
+		
+		if (!euh.isMember(userId, eventId)) {
+			JsonObject jo = new JsonObject();
+			jo.addProperty("error", "You are not a member of the event!");
+			return jo.toString();
+		}
 		
 		synchronized(StartEventCommand.algorithms) {
 			if (!algorithms.containsKey(eventId)) {				
