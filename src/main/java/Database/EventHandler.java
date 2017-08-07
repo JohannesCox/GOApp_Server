@@ -21,6 +21,12 @@ public class EventHandler {
 			he.printStackTrace();
 		}
 	}
+	
+	Event getEvent(String eventID) {
+		Session session = factory.openSession();
+		Event event = session.load(Event.class, eventID);
+		return event;
+	}
 	/**
 	 * Creates an event in the database. But first the relation (eventID, userID, admin=true) will be created.
 	 * If the creation of the relation was successful the database-entry can be set.

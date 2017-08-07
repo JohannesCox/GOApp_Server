@@ -1,5 +1,6 @@
 package Database;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -200,5 +201,12 @@ public class EventUserHandler {
 		return success;
 	}
 	
-	
+	List<Event> getAllUserEvents(String userID) {
+		List<EventUserRelation> relations = this.getRelations_byuserID(userID);
+		List<Event> list = new ArrayList<Event>();
+		for(EventUserRelation rel : relations) {
+			list.add(new EventHandler().getEvent(rel.getEventID()));
+		}
+		return list;
+	}
 }
