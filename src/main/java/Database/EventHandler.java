@@ -12,19 +12,11 @@ import org.hibernate.cfg.Configuration;
 public class EventHandler {
 	private SessionFactory factory;
 	public EventHandler() {
-		try {
-			Configuration configuration = new Configuration();
-			factory = configuration.configure("hibernate.cfg.xml")
-					.addAnnotatedClass(Event.class)
-					.buildSessionFactory();
-		} catch(Throwable ex) {
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex); 
-		}
+
 	}
 	
 	Event getEvent(String eventID) {
-		Session session = factory.openSession();
+		Session session = HibernateUtil.getFactory().openSession();
 		Event event = session.get(Event.class, eventID);
 		return event;
 	}
@@ -44,7 +36,7 @@ public class EventHandler {
 		String id = null;
 		Event event = new Event(eventname, date, location, description);
 		String eventID = event.getEventID();
-		Session session = factory.openSession();
+		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
 		try {
 			
@@ -78,7 +70,7 @@ public class EventHandler {
 		Event event = null;
 		EventUserHandler euh = new EventUserHandler();
 		if(!euh.isAdmin(userID, eventID)) return null; //user has no permission to update event
-		Session session = factory.openSession();
+		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -107,7 +99,7 @@ public class EventHandler {
 		if(euh.isAdmin(userID, eventID)) {
 			return false;
 		} else {
-			Session session = factory.openSession();
+			Session session = HibernateUtil.getFactory().openSession();
 			Transaction tx = null;
 			try {
 				tx = session.beginTransaction();
@@ -134,7 +126,7 @@ public class EventHandler {
 	 */
 	boolean deleteEvent(String eventID) {
 		boolean success = false;
-		Session session = factory.openSession();
+		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();

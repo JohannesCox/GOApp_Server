@@ -19,15 +19,7 @@ public class EventUserHandler {
 	private SessionFactory factory;
 	
 	public EventUserHandler() {
-		try {
-			Configuration configuration = new Configuration();
-			factory = configuration.configure("hibernate.cfg.xml")
-					.addAnnotatedClass(EventUserRelation.class)
-					.buildSessionFactory();
-		} catch(Throwable ex) {
-			System.err.println("Failed to create sessionFactory object." + ex);
-			throw new ExceptionInInitializerError(ex); 
-		}
+
 	}
 	//TODO: check whether createRelation and joinEvent can be combined in one method
 	/**
@@ -40,11 +32,12 @@ public class EventUserHandler {
 	public boolean createRelation(String eventID, String userID) {
 		boolean success = false;
 		Transaction tx = null;
-		Session session = factory.openSession();
+		Session session = HibernateUtil.getFactory().openSession();
 		try {
 			tx = session.beginTransaction();
 			EventUserRelation relation = new EventUserRelation(eventID, userID, true);
-			session.save(relation);
+			EventUserID id = (EventUserID) session.save(relation);
+			if(id != null) success = true;
 			tx.commit();
 			
 		} catch(HibernateException he) {
@@ -58,7 +51,7 @@ public class EventUserHandler {
 
 	public Event joinEvent(String eventID, String userID) {
 		Event event = null;
-		Session session = factory.openSession();
+		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -87,7 +80,7 @@ public class EventUserHandler {
 	 */
 	public boolean leaveEvent(String userID, String eventID) {
 		boolean success = false;
-		Session session = factory.openSession();
+		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -125,7 +118,7 @@ public class EventUserHandler {
 		 */
 	public boolean isAdmin(String userID, String eventID) {
 		boolean admin = false;
-		Session session = factory.openSession();
+		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -141,7 +134,7 @@ public class EventUserHandler {
 	
 	public boolean isMember(String userID, String eventID) {
 		boolean isMember = false;
-		Session session = factory.openSession();
+		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -163,7 +156,7 @@ public class EventUserHandler {
 	 * @return list of the relations
 	 */
 	public List<EventUserRelation> getRelations_byeventID(String eventID) {
-		Session session = factory.openSession();
+		Session session = HibernateUtil.getFactory().openSession();
 		Criteria cr = session.createCriteria(EventUserRelation.class);
 		cr.add(Restrictions.eq("eventID", eventID));
 		List<EventUserRelation> relations = cr.list();
@@ -172,7 +165,7 @@ public class EventUserHandler {
 	}
 	
 	public List<EventUserRelation> getRelations_byuserID(String userID){
-		Session session = factory.openSession();
+		Session session = HibernateUtil.getFactory().openSession();
 		Criteria cr = session.createCriteria(EventUserRelation.class);
 		cr.add(Restrictions.eq("userID", userID));
 		List<EventUserRelation> relations = cr.list();
@@ -185,7 +178,7 @@ public class EventUserHandler {
 	 * @param members of the event
 	 */
 	public void nominateAdmin(List<EventUserRelation> members) {
-		Session session = factory.openSession();
+		Session session = HibernateUtil.getFactory().openSession();
 		EventUserRelation relation = (EventUserRelation) members.get(new Random().nextInt(members.size()));
 		relation.setAdmin(true);
 		Transaction tx = null;
@@ -202,7 +195,7 @@ public class EventUserHandler {
 		
 	}
 	boolean deleteRelations(List<EventUserRelation> relations) {
-		Session session = factory.openSession();
+		Session session = HibernateUtil.getFactory().openSession();
 		boolean success = true;
 		Transaction tx = null;
 		try {
