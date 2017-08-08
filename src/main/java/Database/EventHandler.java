@@ -17,14 +17,15 @@ public class EventHandler {
 			factory = configuration.configure("hibernate.cfg.xml")
 					.addAnnotatedClass(Event.class)
 					.buildSessionFactory();
-		} catch(HibernateException he) {
-			he.printStackTrace();
+		} catch(Throwable ex) {
+			System.err.println("Failed to create sessionFactory object." + ex);
+			throw new ExceptionInInitializerError(ex); 
 		}
 	}
 	
 	Event getEvent(String eventID) {
 		Session session = factory.openSession();
-		Event event = session.load(Event.class, eventID);
+		Event event = session.get(Event.class, eventID);
 		return event;
 	}
 	/**
@@ -81,7 +82,7 @@ public class EventHandler {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			event = session.load(Event.class, eventID);
+			event = session.get(Event.class, eventID);
 			event.setEventname(eventname);
 			event.setDate(date);
 			event.setLocation(location);
@@ -96,7 +97,7 @@ public class EventHandler {
 		return event;
 	}
 	/**
-	 * Deletes an event
+	 * Deletes an event and all relations connected to the event
 	 * @param userID 
 	 * @param eventID of the event
 	 * @return true, if the event could be deleted
@@ -110,7 +111,7 @@ public class EventHandler {
 			Transaction tx = null;
 			try {
 				tx = session.beginTransaction();
-				Event event = session.load(Event.class, eventID);
+				Event event = session.get(Event.class, eventID);
 				List<EventUserRelation> relations = euh.getRelations_byeventID(eventID);
 				if(event == null || euh.deleteRelations(relations) == false) return false;
 				session.delete(event);
@@ -137,7 +138,7 @@ public class EventHandler {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			Event event = (Event) session.load(Event.class, eventID);
+			Event event = (Event) session.get(Event.class, eventID);
 			if(event != null) {
 				session.delete(event);
 				success = true;

@@ -8,7 +8,6 @@ import java.util.Random;
 
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -25,8 +24,9 @@ public class EventUserHandler {
 			factory = configuration.configure("hibernate.cfg.xml")
 					.addAnnotatedClass(EventUserRelation.class)
 					.buildSessionFactory();
-		} catch(HibernateException he) {
-			he.printStackTrace();
+		} catch(Throwable ex) {
+			System.err.println("Failed to create sessionFactory object." + ex);
+			throw new ExceptionInInitializerError(ex); 
 		}
 	}
 	//TODO: check whether createRelation and joinEvent can be combined in one method
@@ -62,11 +62,12 @@ public class EventUserHandler {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			event = session.load(Event.class, eventID);
-			if(event != null) ;
+			event = session.get(Event.class, eventID);
+			if(event != null) {
 			EventUserRelation relation = new EventUserRelation(eventID, userID, false);
 			EventUserID id = (EventUserID) session.save(relation);
 			//if(id == null || !id.equals(new EventUserID(eventID, userID)));
+			}
 			tx.commit();
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
@@ -91,7 +92,7 @@ public class EventUserHandler {
 		try {
 			tx = session.beginTransaction();
 			EventUserRelation relation = 
-					session.load(EventUserRelation.class, new EventUserID(eventID, userID));
+					session.get(EventUserRelation.class, new EventUserID(eventID, userID));
 			if(relation != null) {
 			session.delete(relation);
 			List<EventUserRelation> members = this.getRelations_byeventID(eventID);
@@ -128,7 +129,7 @@ public class EventUserHandler {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			EventUserRelation relation = session.load(EventUserRelation.class, new EventUserID(eventID, userID));
+			EventUserRelation relation = session.get(EventUserRelation.class, new EventUserID(eventID, userID));
 			admin = relation.isAdmin() == true ? true : false;
 			tx.commit();
 			
