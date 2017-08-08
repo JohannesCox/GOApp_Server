@@ -9,7 +9,7 @@
 		<property name="hibernate.connection.username">PSESoSe17User4</property>
 		<property name="hibernate.connection.password">w5q8zurebuZ7vEpe</property>
 		
-		<property name="hbm2ddl.auto">create</property>
+		<property name="hbm2ddl.auto">update</property>
 		<mapping class="Database.User"/>
 		<mapping class="Database.Event"/>
 		<mapping class="Database.EventUserRelation"/>
