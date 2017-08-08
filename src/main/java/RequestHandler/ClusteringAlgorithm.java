@@ -9,6 +9,7 @@ import org.apache.commons.math3.ml.distance.EuclideanDistance;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+
 public class ClusteringAlgorithm {
 	
 	private final double EPS = 0.001;
@@ -24,6 +25,12 @@ public class ClusteringAlgorithm {
 		clusterer = new DBSCANClusterer<DoublePoint>(EPS, MINPNTS, measurement);
 	}
 	
+	/**
+	 *  Updates the GPS and returns the current cluster of the group locations.
+	 * @param uId	the userId
+	 * @param dp	The location of the user as DoublePoint: {lat,lng}
+	 * @return	Returns a Cluster saved in a JsonObject.
+	 */
 	public JsonArray updateGPS(String uId, DoublePoint dp) {
 		gpsData.put(uId, dp);
 		return calculate();
@@ -50,18 +57,24 @@ public class ClusteringAlgorithm {
 		
 		for(Cluster<DoublePoint> c: clusters) {
 			JsonObject jo = new JsonObject();
-			
-			int i = 0;
-			for(DoublePoint dp: c.getPoints()) {
-				jo.addProperty("Point" + i + "-lat", dp.getPoint()[0]);
-				jo.addProperty("Point" + i + "-lng", dp.getPoint()[1]);
-				i++;
-			}
-			
+			DoublePoint centerOfCluster = getCenter(c);
+			jo.addProperty("lat", centerOfCluster.getPoint()[0]);
+			jo.addProperty("lng", centerOfCluster.getPoint()[1]);
 			ja.add(jo);
-			
 		}
 		
 		return ja;
+	}
+	
+	private DoublePoint getCenter(Cluster<DoublePoint> c) {	
+		double[] start = {0,0};
+		for(DoublePoint dp: c.getPoints()) {
+			start[0] += dp.getPoint()[0];
+			start[1] += dp.getPoint()[1];
+		}
+		int size = c.getPoints().size();
+		start[0] = start[0] / size;
+		start[1] = start[1] / size;
+		return new DoublePoint(start);
 	}
 }
