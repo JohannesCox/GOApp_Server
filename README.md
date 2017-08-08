@@ -37,10 +37,9 @@ Neben der Authentifizierung muss bei jedem request ein Parameter "request" über
 
 8. "SignUp" : zur registrierung/erstmaliger anmeldung. Als parameter muss "username" üebrgeben werden. gibt JsonObject als String zurück {"successful":true/false}.
 
-9. "startEvent" Übergeben werden muss "eventId" , sowie zwei doubles bei "lat" und "lng". Zurückgegeben wird ein JsonArray, jedes inhaltende JsonObject hat folgende Struktur:
-{"Point0-lat":0.0001,
-"Point0-lng":21,
-"Point1-lat":....}
+9. "startEvent" Übergeben werden muss "eventId" , sowie zwei doubles bei "lat" und "lng". Zurückgegeben wird ein JsonArray, jedes inhaltende JsonObject representiert das Zentrum eines Clusters und hat folgende Struktur:
+{"lat":0.0001,
+"lng":21}
 
 10."stopEvent": "eventId" - Rückgabe: {"successful":true/false}
 
