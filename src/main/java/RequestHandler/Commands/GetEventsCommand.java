@@ -42,6 +42,7 @@ public class GetEventsCommand extends Command {
 				changedEvents.remove(e.getEventID());
 			}
 		}
+			
 		
 		JsonArray ja = new JsonArray();
 		
@@ -49,6 +50,15 @@ public class GetEventsCommand extends Command {
 			JsonObject jo = new JsonObject();
 			jo.addProperty("event", e.serialize().toString());
 			ja.add(jo);
+		}
+		
+		//if an event was deleted
+		for (String eId: eventsList.keySet()) {	
+			if (!newEvents.containsKey(eId)) {
+				JsonObject jo = new JsonObject();
+				jo.addProperty("DeletedEvent", eId);
+				ja.add(jo);
+			}
 		}
 		
 		return ja.toString();

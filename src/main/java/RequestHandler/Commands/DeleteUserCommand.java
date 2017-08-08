@@ -19,7 +19,7 @@ public class DeleteUserCommand extends Command {
 		
 		JsonObject jo = new JsonObject();
 		
-		jo.addProperty("successfull", success);
+		jo.addProperty("successful", success);
 		
 		return jo.toString();
 

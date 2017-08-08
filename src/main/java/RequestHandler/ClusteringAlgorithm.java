@@ -43,6 +43,8 @@ public class ClusteringAlgorithm {
 	
 	private JsonArray calculate() {
 		
+		//TODO gps veraltet?
+		
 		List<Cluster<DoublePoint>> clusters = clusterer.cluster(gpsData.values());
 		JsonArray ja = new JsonArray();
 		
