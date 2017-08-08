@@ -1,9 +1,7 @@
 package RequestHandler.Commands;
 
 import java.util.HashMap;
-import java.util.List;
 
-import org.apache.commons.math3.ml.clustering.Cluster;
 import org.apache.commons.math3.ml.clustering.DoublePoint;
 
 import com.google.gson.JsonObject;

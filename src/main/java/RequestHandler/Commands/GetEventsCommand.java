@@ -49,6 +49,9 @@ public class GetEventsCommand extends Command {
 		for (Event e: changedEvents.values()) {
 			JsonObject jo = new JsonObject();
 			jo.addProperty("event", e.serialize().toString());
+			
+			//check if the user is an admin of the event
+			jo.addProperty("isAdmin", euh.isAdmin(userId, e.getEventID()));
 			ja.add(jo);
 		}
 		
