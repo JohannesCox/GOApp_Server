@@ -14,7 +14,7 @@ public class EventUserID implements Serializable {
 
 protected String eventID;
 protected String userID;
-
+public EventUserId(){}
 /**
  * 
  * @param eventID
