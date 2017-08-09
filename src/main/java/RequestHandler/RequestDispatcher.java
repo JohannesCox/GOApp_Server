@@ -32,6 +32,16 @@ import RequestHandler.Commands.UpdateEventCommand;
  */
 public class RequestDispatcher {
 	
+	private final String EVENT_ID = "eventId";
+	private final String EVENT = "event";
+	private final String USERNAME = "username";
+	private final String REQUEST = "request";
+	private final String TITLE = "title";
+	private final String DATE = "date";
+	private final String LOCATION = "location";
+	private final String DESCRIPTION = "description";
+	private final String LASTMODIFIED = "lastModified";
+	
 	private HttpServletRequest request;
 	private String userId;
 	
@@ -47,7 +57,7 @@ public class RequestDispatcher {
 	
 	public Command createHandler() {
 		
-		String requestString = request.getParameter("request");
+		String requestString = request.getParameter(REQUEST);
 		
 		if(requestString == null) {
 			return null;
@@ -84,7 +94,7 @@ public class RequestDispatcher {
 	
 	private Command updateEventFactory() {
 		
-		String eventS = request.getParameter("event");
+		String eventS = request.getParameter(EVENT);
 		
 		JsonParser jp = new JsonParser();
 		JsonObject jo = (JsonObject) jp.parse(eventS);
@@ -96,12 +106,12 @@ public class RequestDispatcher {
 		String location;
 		String description;
 		try {
-			eventId = jo.get("eventid").getAsString();
-			title = jo.get("title").getAsString();
-			dateL = jo.get("date").getAsLong();
+			eventId = jo.get(EVENT_ID).getAsString();
+			title = jo.get(TITLE).getAsString();
+			dateL = jo.get(DATE).getAsLong();
 			date = new Date(dateL);
-			location = jo.get("location").getAsString();
-			description = jo.get("description").getAsString();
+			location = jo.get(LOCATION).getAsString();
+			description = jo.get(DESCRIPTION).getAsString();
 		} catch(NullPointerException e) {
 			return null;
 		}
@@ -112,7 +122,7 @@ public class RequestDispatcher {
 
 	private Command startEventFactory() {
 		
-		String eventId = request.getParameter("eventId");
+		String eventId = request.getParameter(EVENT_ID);
 		String lat = request.getParameter("lat");
 		String lng = request.getParameter("lng");
 		
@@ -137,7 +147,7 @@ public class RequestDispatcher {
 	}
 	
 	private Command stopEventFactory() {
-		String eventId = request.getParameter("eventId");
+		String eventId = request.getParameter(EVENT_ID);
 		
 		if (eventId == null) {
 			return null;
@@ -147,7 +157,7 @@ public class RequestDispatcher {
 	}
 
 	private Command signUpFactory() {
-		String username = request.getParameter("username");
+		String username = request.getParameter(USERNAME);
 		
 		if (username == null) {
 			return null;
@@ -157,7 +167,7 @@ public class RequestDispatcher {
 	}
 
 	private Command joinEventFactory() {
-		String eventId = request.getParameter("eventId");
+		String eventId = request.getParameter(EVENT_ID);
 		
 		if (eventId == null) {
 			return null;
@@ -167,7 +177,7 @@ public class RequestDispatcher {
 	}
 
 	private Command getMembersFactory() {
-		String eventId = request.getParameter("eventId");
+		String eventId = request.getParameter(EVENT_ID);
 		
 		if (eventId == null) {
 			return null;
@@ -178,7 +188,7 @@ public class RequestDispatcher {
 
 	private Command getEventsFactory() {
 		
-		String eventS = request.getParameter("event");
+		String eventS = request.getParameter(EVENT);
 		
 		JsonParser jp = new JsonParser();
 		JsonArray ja = (JsonArray) jp.parse(eventS);
@@ -187,7 +197,7 @@ public class RequestDispatcher {
 		
 		for (int i = 0; i < ja.size(); i++) {
 		    JsonObject rec = (JsonObject) ja.get(i);
-		    eventList.put(rec.get("eventId").getAsString(), rec.get("lastModified").getAsInt());
+		    eventList.put(rec.get(EVENT_ID).getAsString(), rec.get(LASTMODIFIED).getAsInt());
 		}
 		
 		return new GetEventsCommand(userId, eventList);
@@ -199,7 +209,7 @@ public class RequestDispatcher {
 	}
 
 	private Command deleteEventFactory() {
-		String eventId = request.getParameter("eventId");
+		String eventId = request.getParameter(EVENT_ID);
 		
 		if (eventId == null) {
 			return null;
@@ -210,7 +220,7 @@ public class RequestDispatcher {
 
 	private Command createEventFactory() {
 		
-		String eventS = request.getParameter("event");
+		String eventS = request.getParameter(EVENT);
 		
 		JsonParser jp = new JsonParser();
 		JsonObject jo = (JsonObject) jp.parse(eventS);
@@ -221,11 +231,11 @@ public class RequestDispatcher {
 		String location;
 		String description;
 		try {
-			title = jo.get("title").getAsString();
-			dateL = jo.get("date").getAsLong();
+			title = jo.get(TITLE).getAsString();
+			dateL = jo.get(DATE).getAsLong();
 			date = new Date(dateL);
-			location = jo.get("location").getAsString();
-			description = jo.get("description").getAsString();
+			location = jo.get(LOCATION).getAsString();
+			description = jo.get(DESCRIPTION).getAsString();
 		} catch(NullPointerException e) {
 			return null;
 		}
@@ -234,7 +244,7 @@ public class RequestDispatcher {
 	}
 	
 	private Command leaveEventFactory() {
-		String eventId = request.getParameter("eventId");
+		String eventId = request.getParameter(EVENT_ID);
 		
 		if (eventId == null) {
 			return null;
