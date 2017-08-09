@@ -240,7 +240,7 @@ public class RequestDispatcher {
 			return null;
 		}
 		
-		return new CreateEventCommand(userId, title, date, description, location);
+		return new CreateEventCommand(userId, title, date, location, description);
 	}
 	
 	private Command leaveEventFactory() {
