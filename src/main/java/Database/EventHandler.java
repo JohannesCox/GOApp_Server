@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-
+/**
+ * This class manages the accesses to the table "Event" in the database
+ * @author Martin
+ *
+ */
 public class EventHandler {
-	private SessionFactory factory;
+	
 	public EventHandler() {
 
 	}

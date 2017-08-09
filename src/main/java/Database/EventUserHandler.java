@@ -9,14 +9,10 @@ import java.util.Random;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 
 public class EventUserHandler {
-	
-	private SessionFactory factory;
 	
 	public EventUserHandler() {
 
@@ -48,7 +44,12 @@ public class EventUserHandler {
 		}
 		return success;
 	}
-
+	/**
+	 * This method models a join to an event. Creates a new relation (eventID, userID, admin), with admin set to false
+	 * @param eventID of the event to join
+	 * @param userID of the user
+	 * @return Event to be joined
+	 */
 	public Event joinEvent(String eventID, String userID) {
 		Event event = null;
 		Session session = HibernateUtil.getFactory().openSession();
@@ -56,10 +57,10 @@ public class EventUserHandler {
 		try {
 			tx = session.beginTransaction();
 			event = session.get(Event.class, eventID);
-			if(event != null) {
+			if(session.get(User.class, userID) != null || !this.isMember(userID, eventID) || event != null) {
 			EventUserRelation relation = new EventUserRelation(eventID, userID, false);
 			EventUserID id = (EventUserID) session.save(relation);
-			//if(id == null || !id.equals(new EventUserID(eventID, userID)));
+			if(id == null || !id.equals(new EventUserID(eventID, userID))) return null;
 			}
 			tx.commit();
 		} catch(HibernateException he) {
@@ -131,7 +132,12 @@ public class EventUserHandler {
 		}
 		return admin;
 	}
-	
+	/**
+	 * Checks whether the user with given userID is member of the event with given eventID
+	 * @param userID of the user
+	 * @param eventID of the event
+	 * @return true, if the user is member of the event
+	 */
 	public boolean isMember(String userID, String eventID) {
 		boolean isMember = false;
 		Session session = HibernateUtil.getFactory().openSession();
@@ -150,7 +156,7 @@ public class EventUserHandler {
 		return isMember;
 	}
 	/**
-	 * Creates a list of all relations to the corresponding ID. An empty list will be created if there is no such 
+	 * Creates a list of all relations to the corresponding eventID. An empty list will be created if there is no such 
 	 * relation
 	 * @param eventID of the event
 	 * @return list of the relations
@@ -163,7 +169,11 @@ public class EventUserHandler {
 		session.close();
 		return relations;
 	}
-	
+	/**
+	 * Creates a list of all relations to the corresponding userID. An empty list will be created if there is no such relation
+	 * @param userID of the user
+	 * @return list of the relations
+	 */
 	public List<EventUserRelation> getRelations_byuserID(String userID){
 		Session session = HibernateUtil.getFactory().openSession();
 		Criteria cr = session.createCriteria(EventUserRelation.class);
@@ -194,6 +204,11 @@ public class EventUserHandler {
 		}
 		
 	}
+	/**
+	 * Deletes a list of relations. This method is invoked, if an event or a user is deleted
+	 * @param relations to delete
+	 * @return true, if the relations could be deleted
+	 */
 	boolean deleteRelations(List<EventUserRelation> relations) {
 		Session session = HibernateUtil.getFactory().openSession();
 		boolean success = true;
@@ -214,7 +229,11 @@ public class EventUserHandler {
 		}
 		return success;
 	}
-	
+	/**
+	 * Creates a list of all events the user with given userID is a member. The created list is empty, if the user is not member of any events
+	 * @param userID of the user
+	 * @return list of events
+	 */
 	public List<Event> getAllUserEvents(String userID) {
 		List<EventUserRelation> relations = this.getRelations_byuserID(userID);
 		List<Event> list = new ArrayList<Event>();
@@ -223,7 +242,11 @@ public class EventUserHandler {
 		}
 		return list;
 	}
-	
+	/**
+	 * Returns a mapping (userID, isAdmin) of all members of an event.
+	 * @param eventID
+	 * @return Map of all members of the event 
+	 */
 	public Map<String,Boolean> getMembers(String eventID) {
 		Map<String, Boolean> members= new HashMap<String,Boolean>();
 		List<EventUserRelation> relations = this.getRelations_byeventID(eventID);

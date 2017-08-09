@@ -24,7 +24,7 @@ public class Event {
 	private String description;
 	@Column(name="lastmodified")
 	private int lastmodified;
-	
+	Event(){}
 	Event(String eventname, Date date, String location, String description) {
 		new IdGenerator();
 		this.eventID = IdGenerator.uuid();

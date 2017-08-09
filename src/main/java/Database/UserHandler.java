@@ -5,12 +5,11 @@ import java.util.List;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 
 
 public class UserHandler {
-	private SessionFactory factory;
+
 	public UserHandler() {
 	}
 	
@@ -51,23 +50,24 @@ public class UserHandler {
 	}
 	
 	public boolean deleteUser(String userID) {
-		boolean success = true;
+		boolean success = false;
 		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
 			User user = (User) session.get(User.class, userID);
-			if(user != null) {
+			if(user == null) {
+			} else {
 			EventUserHandler euh = new EventUserHandler();
 			List<EventUserRelation> membership = euh.getRelations_byuserID(userID);
 			if(!membership.isEmpty()) euh.deleteRelations(membership);
 			session.delete(user);
+			success = true;
 			tx.commit();
 			}
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
 			he.printStackTrace();
-			success = false;
 		} finally {
 			session.close();
 		}
