@@ -18,6 +18,7 @@ class EventUserRelation {
 	
 	@Column(name="admin")
 	private boolean admin;
+	EventUserRelation(){}
 	
 	EventUserRelation(String eventID, String userID, boolean admin) {
 		this.eventID = eventID;
