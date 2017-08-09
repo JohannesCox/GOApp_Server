@@ -1,5 +1,7 @@
 package RequestHandler.Commands;
 
+import com.google.gson.JsonObject;
+
 import Database.Event;
 import Database.EventUserHandler;
 
@@ -23,7 +25,9 @@ public class JoinEventCommand extends Command {
 		Event event = euh.joinEvent(eventId, userId);
 		
 		if (event == null) {
-			return "";
+			JsonObject jo = new JsonObject();
+			jo.addProperty("successful", false);			
+			return jo.toString();
 		} else {
 			return event.serialize().toString();
 		}	
