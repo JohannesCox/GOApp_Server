@@ -2,15 +2,12 @@ package RequestHandler;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.math3.ml.clustering.DoublePoint;
 
 import com.google.gson.JsonParser;
-import com.google.api.client.util.Sets;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -46,7 +43,7 @@ public class RequestDispatcher {
 	private String userId;
 	
 	/**
-	 * Creates the command belonging to the HttpRequest. If the request is not valdi null is returned.
+	 * Creates the command belonging to the HttpRequest. If the request is not valid null is returned.
 	 * Otherwise it returns the fitting Request-Handler (Command-Class).
 	 * @param request
 	 */
