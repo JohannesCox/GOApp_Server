@@ -29,7 +29,9 @@ public class JoinEventCommand extends Command {
 			jo.addProperty("successful", false);			
 			return jo.toString();
 		} else {
-			return event.serialize().toString();
+			JsonObject jo = event.serialize();
+			jo.addProperty("successful", true);
+			return jo.toString();
 		}	
 
 	}

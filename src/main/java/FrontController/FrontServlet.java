@@ -63,6 +63,7 @@ public class FrontServlet extends HttpServlet{
 	
 	private void sendIncorrectRequestError(HttpServletResponse response) {
 		JsonObject jo = new JsonObject();
+		jo.addProperty("successful", "false");
 		jo.addProperty("error", "InvalidRequestError");	
 		try {
 			response.getWriter().write(jo.toString());
@@ -75,6 +76,7 @@ public class FrontServlet extends HttpServlet{
 	
 	private void sendAuthentificationError(HttpServletResponse response) {
 		JsonObject jo = new JsonObject();
+		jo.addProperty("successful", "false");
 		jo.addProperty("error", "Authentificationerror");
 		try {
 			response.getWriter().write(jo.toString());

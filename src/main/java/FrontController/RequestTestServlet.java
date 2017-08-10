@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonObject;
+
 import RequestHandler.RequestDispatcher;
 import RequestHandler.Commands.Command;
 
@@ -42,6 +44,9 @@ public class RequestTestServlet extends HttpServlet {
 		Command requestHandler = requestDispatcher.createHandler();
 		
 		if (requestHandler == null) {
+			JsonObject jo = new JsonObject();
+			jo.addProperty("error", "Invalid Request!");
+			jo.addProperty("successful", "false");
 			response.getWriter().write("Invalid Request!");
 		   	response.getWriter().flush();
 		   	response.getWriter().close();
