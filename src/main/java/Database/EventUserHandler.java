@@ -247,11 +247,13 @@ public class EventUserHandler {
 	 * @param eventID
 	 * @return Map of all members of the event 
 	 */
-	public Map<String,Boolean> getMembers(String eventID) {
+	public Map<String,Boolean> getMembers(String userID,String eventID) {
 		Map<String, Boolean> members= new HashMap<String,Boolean>();
+		if(this.isMember(userID, eventID)) {
 		List<EventUserRelation> relations = this.getRelations_byeventID(eventID);
 		for(EventUserRelation rel : relations) {
 			members.put(rel.getUserID(), rel.isAdmin());
+		}
 		}
 		return members;
 	}
