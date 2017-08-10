@@ -21,6 +21,10 @@ public class DeleteEventCommand extends Command {
 		JsonObject jo = new JsonObject();
 		jo.addProperty("successful", success);
 		
+		if(!success) {
+			jo.addProperty("error", "InternalError");
+		}
+		
 		return jo.toString();
 		
 	}

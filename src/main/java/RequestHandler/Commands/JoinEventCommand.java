@@ -24,15 +24,16 @@ public class JoinEventCommand extends Command {
 		EventUserHandler euh = new EventUserHandler();
 		Event event = euh.joinEvent(eventId, userId);
 		
+		JsonObject jo = new JsonObject();
+		
 		if (event == null) {
-			JsonObject jo = new JsonObject();
-			jo.addProperty("successful", false);			
-			return jo.toString();
+			jo.addProperty("successful", false);
 		} else {
-			JsonObject jo = event.serialize();
+			jo = event.serialize();
 			jo.addProperty("successful", true);
-			return jo.toString();
 		}	
+		
+		return jo.toString();
 
 	}
 

@@ -30,14 +30,15 @@ public class UpdateEventCommand extends Command {
 		EventHandler eh = new EventHandler();
 		Event event = eh.updateEvent(userId, eventId, title, date, location, description);
 		
+		JsonObject jo = new JsonObject();
+		
 		if (event == null) {
-			JsonObject jo = new JsonObject();
 			jo.addProperty("successful", false);
-			return jo.toString();
 		} else {
-			JsonObject jo = event.serialize();
+			jo = event.serialize();
 			jo.addProperty("successful", true);
-			return jo.toString();
 		}
+		
+		return jo.toString();
 	}
 }

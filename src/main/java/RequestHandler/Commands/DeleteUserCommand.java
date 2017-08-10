@@ -21,6 +21,10 @@ public class DeleteUserCommand extends Command {
 		
 		jo.addProperty("successful", success);
 		
+		if(!success) {
+			jo.addProperty("error", "InternalError");
+		}
+		
 		return jo.toString();
 
 	}

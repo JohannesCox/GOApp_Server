@@ -33,16 +33,17 @@ public class CreateEventCommand extends Command {
 		EventHandler eh = new EventHandler();
 		Event event = eh.createEvent(userId, title, date, location, description);
 		
+		JsonObject jo = new JsonObject();
+		
 		if (event == null) {
-			JsonObject jo = new JsonObject();
 			jo.addProperty("successful", false);
-			jo.addProperty("error", "Internal error!");
-			return jo.toString();
+			jo.addProperty("error", "Internal error");	
 		} else {
-			JsonObject jo = event.serialize();
+			jo = event.serialize();
 			jo.addProperty("successful", true);
-			return jo.toString();
 		}
+		
+		return jo.toString();
 
 
 	}
