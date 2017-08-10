@@ -36,7 +36,7 @@ public class FrontServlet extends HttpServlet{
 		if (session == null) {
 		    userId = verifyUser(request);
 		    if (userId == "") {
-		    	sendAuthentificationError(response);
+		    	sendResponse(response, getAuthentificationError());
 		    	return;
 		    }
 		    session = request.getSession();
@@ -52,7 +52,7 @@ public class FrontServlet extends HttpServlet{
 		Command requestHandler = requestDispatcher.createHandler();
 		
 		if (requestHandler == null) {
-			sendIncorrectRequestError(response);
+			sendResponse(response, getIncorrectRequestError());
 			return;
 		} else {
 		
@@ -61,30 +61,18 @@ public class FrontServlet extends HttpServlet{
 		}
 	}
 	
-	private void sendIncorrectRequestError(HttpServletResponse response) {
+	private String getIncorrectRequestError() {
 		JsonObject jo = new JsonObject();
 		jo.addProperty("successful", "false");
 		jo.addProperty("error", "InvalidRequestError");	
-		try {
-			response.getWriter().write(jo.toString());
-			response.getWriter().flush();
-		   	response.getWriter().close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return jo.toString();
 	}
 	
-	private void sendAuthentificationError(HttpServletResponse response) {
+	private String getAuthentificationError() {
 		JsonObject jo = new JsonObject();
 		jo.addProperty("successful", "false");
 		jo.addProperty("error", "Authentificationerror");
-		try {
-			response.getWriter().write(jo.toString());
-			response.getWriter().flush();
-		   	response.getWriter().close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		return jo.toString();
 	}
 	
 	private void sendResponse(HttpServletResponse response, String responseString) {
