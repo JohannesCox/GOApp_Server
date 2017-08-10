@@ -25,7 +25,7 @@ public class GetMembersCommand extends Command {
 
 		EventUserHandler euh = new EventUserHandler();
 		
-		Map<String, Boolean> usernamesAndAdmin = euh.getMembers(eventId);
+		Map<String, Boolean> usernamesAndAdmin = euh.getMembers(userId, eventId);
 		
 		JsonArray ja = new JsonArray();
 		
