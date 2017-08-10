@@ -169,7 +169,7 @@ public class RequestDispatcher {
 		if (eventId == null) {
 			return null;
 		} else {
-			return new JoinEventCommand(userId, eventId);
+			return new JoinEventCommand(eventId, userId);
 		}
 	}
 
