@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.math3.ml.clustering.DoublePoint;
 
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -43,15 +44,20 @@ public class RequestDispatcher {
 	private String userId;
 	
 	/**
-	 * Creates the command belonging to the HttpRequest. If the request is not valid null is returned.
-	 * Otherwise it returns the fitting Request-Handler (Command-Class).
-	 * @param request
+	 * Creates a new RequestDispatcher with a HttpRequest and an userId.
+	 * @param req The HttpRequest which should be dispatched.
+	 * @param uId The UserId of the user which send the request.
 	 */
 	public RequestDispatcher(HttpServletRequest req, String uId) {
 		request = req;
 		userId = uId;
 	}
 	
+	/**
+	 * Creates the command belonging to the HttpRequest saved in the class during creation. If the request is not valid null
+	 *  is returned. Otherwise it returns the fitting Request-Handler (Command-Class).
+	 * @return Type Command if the request was valid, otherwise null.
+	 */
 	public Command createHandler() {
 		
 		String requestString = request.getParameter(REQUEST);
@@ -93,8 +99,17 @@ public class RequestDispatcher {
 		
 		String eventS = request.getParameter(EVENT);
 		
+		if (eventS == null) {
+			return null;
+		}
+		
 		JsonParser jp = new JsonParser();
-		JsonObject jo = (JsonObject) jp.parse(eventS);
+		JsonObject jo = null;
+		try {
+			jo = (JsonObject) jp.parse(eventS);
+		} catch(JsonSyntaxException e) {
+			return null;
+		}
 		
 		String eventId;
 		String title;
@@ -186,15 +201,29 @@ public class RequestDispatcher {
 	private Command getEventsFactory() {
 		
 		String eventS = request.getParameter(EVENT);
+		if(eventS == null) {
+			return null;
+		}
 		
 		JsonParser jp = new JsonParser();
-		JsonArray ja = (JsonArray) jp.parse(eventS);
+		JsonArray ja = null;
+		try {
+			ja = (JsonArray) jp.parse(eventS);
+		} catch(JsonSyntaxException e) {
+			return null;
+		}
 		
 		HashMap<String,Integer> eventList = new HashMap<String,Integer>();
 		
 		for (int i = 0; i < ja.size(); i++) {
 		    JsonObject rec = (JsonObject) ja.get(i);
-		    eventList.put(rec.get(EVENT_ID).getAsString(), rec.get(LASTMODIFIED).getAsInt());
+		    try {
+		    	eventList.put(rec.get(EVENT_ID).getAsString(), rec.get(LASTMODIFIED).getAsInt());
+		    } catch(NullPointerException e) {
+		    	return null;
+		    } catch(ClassCastException e) {
+		    	return null;
+		    }
 		}
 		
 		return new GetEventsCommand(userId, eventList);
@@ -218,9 +247,17 @@ public class RequestDispatcher {
 	private Command createEventFactory() {
 		
 		String eventS = request.getParameter(EVENT);
+		if (eventS == null) {
+			return null;
+		}
 		
 		JsonParser jp = new JsonParser();
-		JsonObject jo = (JsonObject) jp.parse(eventS);
+		JsonObject jo = null;
+		try {
+			jo = (JsonObject) jp.parse(eventS);
+		} catch(JsonSyntaxException e) {
+			return null;
+		}
 		
 		String title;
 		long dateL;
