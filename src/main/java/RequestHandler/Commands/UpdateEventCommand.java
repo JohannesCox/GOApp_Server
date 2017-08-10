@@ -33,10 +33,10 @@ public class UpdateEventCommand extends Command {
 		JsonObject jo = new JsonObject();
 		
 		if (event == null) {
-			jo.addProperty("successful", false);
+			jo.addProperty(super.SUCCES_VAR, false);
 		} else {
 			jo = event.serialize();
-			jo.addProperty("successful", true);
+			jo.addProperty(super.SUCCES_VAR, true);
 		}
 		
 		return jo.toString();

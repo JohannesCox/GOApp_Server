@@ -29,7 +29,7 @@ public class StopEventCommand extends Command {
 		}
 		
 		JsonObject jo = new JsonObject();
-		jo.addProperty("successful", success);
+		jo.addProperty(super.SUCCES_VAR, success);
 		
 		return jo.toString();
 	}

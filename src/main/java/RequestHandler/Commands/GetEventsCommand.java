@@ -59,7 +59,7 @@ public class GetEventsCommand extends Command {
 		for (String eId: eventsList.keySet()) {	
 			if (!newEvents.containsKey(eId)) {
 				JsonObject jo = new JsonObject();
-				jo.addProperty("DeletedEvent", eId);
+				jo.addProperty("deletedEvent", eId);
 				ja.add(jo);
 			}
 		}

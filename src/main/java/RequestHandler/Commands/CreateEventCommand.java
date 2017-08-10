@@ -36,11 +36,11 @@ public class CreateEventCommand extends Command {
 		JsonObject jo = new JsonObject();
 		
 		if (event == null) {
-			jo.addProperty("successful", false);
-			jo.addProperty("error", "Internal error");	
+			jo.addProperty(super.SUCCES_VAR, false);
+			jo.addProperty(super.ERROR_VAR, super.INT_ERROR);	
 		} else {
 			jo = event.serialize();
-			jo.addProperty("successful", true);
+			jo.addProperty(super.SUCCES_VAR, true);
 		}
 		
 		return jo.toString();
