@@ -47,11 +47,11 @@ public class GetEventsCommand extends Command {
 		JsonArray ja = new JsonArray();
 		
 		for (Event e: changedEvents.values()) {
-			JsonObject jo = new JsonObject();
-			jo.addProperty("event", e.serialize().toString());
+			JsonObject jo = e.serialize();
 			
 			//check if the user is an admin of the event
 			jo.addProperty("isAdmin", euh.isAdmin(userId, e.getEventID()));
+			jo.addProperty("isDeleted", false);
 			ja.add(jo);
 		}
 		
@@ -60,6 +60,7 @@ public class GetEventsCommand extends Command {
 			if (!newEvents.containsKey(eId)) {
 				JsonObject jo = new JsonObject();
 				jo.addProperty("deletedEvent", eId);
+				jo.addProperty("isDeleted", true);
 				ja.add(jo);
 			}
 		}
