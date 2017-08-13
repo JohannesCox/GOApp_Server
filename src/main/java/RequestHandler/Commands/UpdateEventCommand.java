@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 
 import Database.Event;
 import Database.EventHandler;
+import Database.EventUserHandler;
 
 public class UpdateEventCommand extends Command {
 	
@@ -34,6 +35,12 @@ public class UpdateEventCommand extends Command {
 		
 		if (event == null) {
 			jo.addProperty(super.SUCCES_VAR, false);
+			EventUserHandler euh = new EventUserHandler();
+			if (euh.isAdmin(userId, eventId)) {
+				jo.addProperty(super.ERROR_VAR, super.INT_ERROR);
+			} else {
+				jo.addProperty(super.ERROR_VAR, super.ADMIN_ERROR);
+			}
 		} else {
 			jo = event.serialize();
 			jo.addProperty(super.SUCCES_VAR, true);

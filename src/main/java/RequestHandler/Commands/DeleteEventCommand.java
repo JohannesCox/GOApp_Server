@@ -3,6 +3,7 @@ package RequestHandler.Commands;
 import com.google.gson.JsonObject;
 
 import Database.EventHandler;
+import Database.EventUserHandler;
 
 public class DeleteEventCommand extends Command {
 	
@@ -22,7 +23,12 @@ public class DeleteEventCommand extends Command {
 		jo.addProperty(super.SUCCES_VAR, success);
 		
 		if(!success) {
-			jo.addProperty(super.ERROR_VAR, super.INT_ERROR);
+			EventUserHandler euh = new EventUserHandler();
+			if (euh.isAdmin(userId, eventId)) {
+				jo.addProperty(super.ERROR_VAR, super.INT_ERROR);
+			} else {
+				jo.addProperty(super.ERROR_VAR, super.ADMIN_ERROR);
+			}
 		}
 		
 		return jo.toString();
