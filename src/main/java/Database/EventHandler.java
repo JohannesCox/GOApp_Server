@@ -98,7 +98,7 @@ public class EventHandler {
 	 */
 	public boolean deleteEvent(String userID, String eventID) {
 		EventUserHandler euh = new EventUserHandler();
-		if(euh.isAdmin(userID, eventID)) {
+		if(!euh.isAdmin(userID, eventID)) {
 			return false;
 		} else {
 			Session session = HibernateUtil.getFactory().openSession();
