@@ -47,6 +47,7 @@ public class StartEventCommand extends Command {
 			ca.updateGPS(user3, loc3);
 			ca.updateGPS(user4, loc4);
 			ca.updateGPS(user5, loc5);
+			algorithms.put("TestEvent", ca);
 		}
 		//end creating dummy points
 		
