@@ -12,8 +12,11 @@ import com.google.gson.JsonObject;
 
 public class ClusteringAlgorithm {
 	
-	private final double EPS = 0.001;
-	private final int MINPNTS = 2;
+	//the maximum distance for 2 points to be in the same cluster. Is equal to about 60m.
+	private final double EPS = 0.0007;
+	
+	//The minimum of points which can build a cluster. The value 1 means that a cluster contains at least 2 points.
+	private final int MINPNTS = 1;
 	
 	private HashMap<String, DoublePoint> gpsData;
 	EuclideanDistance measurement;
@@ -77,4 +80,5 @@ public class ClusteringAlgorithm {
 		start[1] = start[1] / size;
 		return new DoublePoint(start);
 	}
+
 }
