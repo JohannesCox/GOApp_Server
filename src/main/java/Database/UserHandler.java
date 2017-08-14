@@ -50,7 +50,7 @@ public class UserHandler {
 	}
 	
 	public boolean deleteUser(String userID) {
-		boolean success = false;
+		boolean success = true;
 		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
 		try {
@@ -60,9 +60,10 @@ public class UserHandler {
 			} else {
 			EventUserHandler euh = new EventUserHandler();
 			List<EventUserRelation> membership = euh.getRelations_byuserID(userID);
-			if(!membership.isEmpty()) euh.deleteRelations(membership);
+			for(EventUserRelation rel : membership) {
+				if(euh.leaveEvent(userID, rel.getEventID())== false) success = false;
+			}
 			session.delete(user);
-			success = true;
 			tx.commit();
 			}
 		} catch(HibernateException he) {

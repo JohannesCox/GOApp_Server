@@ -18,8 +18,10 @@ public class EventHandler {
 	}
 	
 	Event getEvent(String eventID) {
+		
 		Session session = HibernateUtil.getFactory().openSession();
 		Event event = session.get(Event.class, eventID);
+		session.close();
 		return event;
 	}
 	/**
@@ -87,6 +89,8 @@ public class EventHandler {
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
 			he.printStackTrace();
+		} finally {
+			session.close();
 		}
 		return event;
 	}
@@ -98,14 +102,14 @@ public class EventHandler {
 	 */
 	public boolean deleteEvent(String userID, String eventID) {
 		EventUserHandler euh = new EventUserHandler();
-		if(!euh.isAdmin(userID, eventID)) {
+		if(!euh.isAdmin(userID, eventID)) { //check whether user has permission
 			return false;
 		} else {
 			Session session = HibernateUtil.getFactory().openSession();
 			Transaction tx = null;
 			try {
 				tx = session.beginTransaction();
-				Event event = session.get(Event.class, eventID);
+				Event event = session.get(Event.class, eventID); 
 				List<EventUserRelation> relations = euh.getRelations_byeventID(eventID);
 				if(event == null || euh.deleteRelations(relations) == false) return false;
 				session.delete(event);

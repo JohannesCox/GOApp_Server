@@ -179,6 +179,7 @@ public class EventUserHandler {
 		Criteria cr = session.createCriteria(EventUserRelation.class);
 		cr.add(Restrictions.eq("userID", userID));
 		List<EventUserRelation> relations = cr.list();
+		session.close();
 		return relations;
 	}
 
