@@ -6,19 +6,26 @@ import Database.Event;
 import Database.EventUserHandler;
 
 /**
- *Adds userId to the event in the database. If successful process() returns
- * the event otherwise an empty String.
+ * The command to add a user to an event.
  */
 public class JoinEventCommand extends Command {
 	
 	private String eventId;
 	private String userId;
 	
+	/**
+	 * Creates a new command to add the user to the event.
+	 * @param eId The eventId of the event.
+	 * @param uId The userId of the user.
+	 */
 	public JoinEventCommand(String eId, String uId) {
 		eventId = eId;
 		userId = uId;
 	}
 	
+	/**
+	 * Adds the user to the event. The returned String specifies if the action was successful or not.
+	 */
 	public String process() {
 
 		EventUserHandler euh = new EventUserHandler();
@@ -35,6 +42,14 @@ public class JoinEventCommand extends Command {
 		
 		return jo.toString();
 
+	}
+	
+	public String getEventId() {
+		return eventId;
+	}
+	
+	public String getUserId() {
+		return userId;
 	}
 
 }

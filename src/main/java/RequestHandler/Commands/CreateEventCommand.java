@@ -8,7 +8,7 @@ import Database.Event;
 import Database.EventHandler;
 
 /**
- * Creates event. 
+ * The Command to create an event.
  */
 public class CreateEventCommand extends Command {
 	
@@ -18,6 +18,14 @@ public class CreateEventCommand extends Command {
 	private String location;
 	private String description;
 	
+	/**
+	 * Creates a command which can create an event with the following parameters.
+	 * @param uId The userId of the user who sends the request.
+	 * @param titleS The title of the event.
+	 * @param d The date of the event.
+	 * @param loc The location of the event.
+	 * @param desc The description of the event.
+	 */
 	public CreateEventCommand(String uId, String titleS, Date d, String loc,
 			String desc) {
 		userId = uId;
@@ -27,6 +35,9 @@ public class CreateEventCommand extends Command {
 		description = desc;
 	}
 	
+	/**
+	 * Creates a new Event. If the creation was successful the event will be returned as a String.
+	 */
 	@Override
 	public String process() {
 		
@@ -47,5 +58,23 @@ public class CreateEventCommand extends Command {
 
 
 	}
+	
+	public Date getDate() {
+		return date;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public String getLocation() {
+		return location;
+	}
+	public String getUserId() {
+		return userId;
+	}
+	
 	
 }

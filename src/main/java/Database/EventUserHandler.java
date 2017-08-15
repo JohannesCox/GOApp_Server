@@ -234,6 +234,7 @@ public class EventUserHandler {
 		}
 		return success;
 	}
+	
 	/**
 	 * Creates a list of all events the user with given userID is a member. The created list is empty, if the user is not member of any events
 	 * @param userID of the user
@@ -247,6 +248,7 @@ public class EventUserHandler {
 		}
 		return list;
 	}
+	
 	/**
 	 * Returns a mapping (userID, isAdmin) of all members of an event.
 	 * @param eventID

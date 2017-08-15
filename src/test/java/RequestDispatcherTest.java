@@ -1,11 +1,8 @@
-import org.apache.commons.math3.ml.clustering.DoublePoint;
 import org.junit.*;
 
 import RequestHandler.RequestDispatcher;
 import RequestHandler.Commands.Command;
-import RequestHandler.Commands.CreateEventCommand;
-import RequestHandler.Commands.StartEventCommand;
-import RequestHandler.Commands.StopEventCommand;
+import RequestHandler.Commands.UpdateEventCommand;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
@@ -14,6 +11,11 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ *This class is testing the public methods of the class "RequestDispatcher".
+ * Depending on the command which should created, it is tested if the command was created and
+ * if the behavior of the command is correct.
+ */
 public class RequestDispatcherTest {
 
 	public final String USER1 = "TestUser1";
@@ -38,6 +40,10 @@ public class RequestDispatcherTest {
 		Command ce1 = rd.createHandler();
 		
 		assertNotNull(ce1);
+		
+		Command ce2 = new UpdateEventCommand(USER1, EVENTID, title, new Date(date), location, description);
+		
+		assertEquals(ce1.process(), ce2.process());
 	}
 	
 	@Test
@@ -67,9 +73,5 @@ public class RequestDispatcherTest {
 		Command ce1 = rd.createHandler();
 		
 		assertNotNull(ce1);
-		
-		Command ce2 = new StopEventCommand(USER1, EVENTID);
-		
-		assertEquals(ce1.process(), ce2.process());
 	}
 }
