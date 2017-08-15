@@ -232,17 +232,9 @@ public class EventUserHandler extends DataHandler {
 		Map<String, Boolean> members= new HashMap<String,Boolean>();
 		if(this.isMember(userID, eventID)) {
 		List<EventUserRelation> relations = this.getRelations_byeventID(eventID);
-		Session session = HibernateUtil.getFactory().openSession();
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
 		for(EventUserRelation rel : relations) {
 			User user = this.getUser(rel.getUserID());
 			members.put(user.getUsername(), rel.isAdmin());
-		}
-		} catch(HibernateException he) {
-			tx.rollback();
-			he.printStackTrace();
 		}
 		}
 		return members;
