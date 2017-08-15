@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 
-public class UserHandler {
+public class UserHandler extends DataHandler {
 
 	public UserHandler() {
 	}
@@ -51,13 +51,12 @@ public class UserHandler {
 	
 	public boolean deleteUser(String userID) {
 		boolean success = true;
+		User user = this.getUser(userID);
+		if(user == null) return false;
 		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			User user = (User) session.get(User.class, userID);
-			if(user == null) {
-			} else {
 			EventUserHandler euh = new EventUserHandler();
 			List<EventUserRelation> membership = euh.getRelations_byuserID(userID);
 			for(EventUserRelation rel : membership) {
@@ -65,7 +64,6 @@ public class UserHandler {
 			}
 			session.delete(user);
 			tx.commit();
-			}
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
 			he.printStackTrace();
@@ -76,10 +74,7 @@ public class UserHandler {
 		return success;
 	}
 	public boolean user_exists(String userID) {
-		
-		Session session = HibernateUtil.getFactory().openSession();
-		User user = session.get(User.class, userID);
-		session.close();
+		User user = this.getUser(userID);
 		return user == null ? false : true;
 			
 	}

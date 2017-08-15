@@ -11,19 +11,12 @@ import org.hibernate.Transaction;
  * @author Martin
  *
  */
-public class EventHandler {
+public class EventHandler extends DataHandler {
 	
 	public EventHandler() {
 
 	}
 	
-	Event getEvent(String eventID) {
-		
-		Session session = HibernateUtil.getFactory().openSession();
-		Event event = session.get(Event.class, eventID);
-		session.close();
-		return event;
-	}
 	/**
 	 * Creates an event in the database. But first the relation (eventID, userID, admin=true) will be created.
 	 * If the creation of the relation was successful the database-entry can be set.
@@ -37,21 +30,18 @@ public class EventHandler {
 	 */
 	public Event createEvent(String userID, String eventname, 
 			Date date, String location, String description) {
+		if(this.getUser(userID) == null) return null;
 		String id = null;
 		Event event = new Event(eventname, date, location, description);
 		String eventID = event.getEventID();
 		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
 		try {
-			
 			tx = session.beginTransaction();
-			User user =  session.get(User.class, userID);
-			if(user != null) {
 			EventUserHandler handler = new EventUserHandler();
 			if(handler.createRelation(eventID, userID) == true) {
 			id = (String) session.save(event);
 			tx.commit();
-			}
 			}
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
@@ -106,16 +96,16 @@ public class EventHandler {
 	public boolean deleteEvent(String userID, String eventID) {
 		EventUserHandler euh = new EventUserHandler();
 		boolean success = false;
-		if(!euh.isAdmin(userID, eventID)) { //check whether user has permission
+		Event event = this.getEvent(eventID);
+		if(event == null || !euh.isAdmin(userID, eventID) ) { //check whether user has permission
 			return success;
 		} else {
 			Session session = HibernateUtil.getFactory().openSession();
 			Transaction tx = null;
 			try {
-				tx = session.beginTransaction();
-				Event event = session.get(Event.class, eventID); 
+				tx = session.beginTransaction(); 
 				List<EventUserRelation> relations = euh.getRelations_byeventID(eventID);
-				if(event == null || euh.deleteRelations(relations) == false) {	
+				if(euh.deleteRelations(relations) == false) {	
 				} else {
 				session.delete(event);
 				tx.commit();
