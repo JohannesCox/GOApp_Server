@@ -23,7 +23,6 @@ public class StartEventCommand extends Command {
 		doublepoint = dp;
 		
 		//TODO Delete! For Testing only
-		
 		//Start creating dummy points
 		if(!algorithms.containsKey("TestEvent")) {
 			ClusteringAlgorithm ca = new ClusteringAlgorithm();
