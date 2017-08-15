@@ -45,11 +45,14 @@ public class EventHandler {
 		try {
 			
 			tx = session.beginTransaction();
+			User user =  session.get(User.class, userID);
+			if(user != null) {
 			EventUserHandler handler = new EventUserHandler();
-			if(handler.createRelation(eventID, userID) == false) return null;
+			if(handler.createRelation(eventID, userID) == true) {
 			id = (String) session.save(event);
-			
 			tx.commit();
+			}
+			}
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
 			he.printStackTrace();
@@ -102,8 +105,9 @@ public class EventHandler {
 	 */
 	public boolean deleteEvent(String userID, String eventID) {
 		EventUserHandler euh = new EventUserHandler();
+		boolean success = false;
 		if(!euh.isAdmin(userID, eventID)) { //check whether user has permission
-			return false;
+			return success;
 		} else {
 			Session session = HibernateUtil.getFactory().openSession();
 			Transaction tx = null;
@@ -111,9 +115,12 @@ public class EventHandler {
 				tx = session.beginTransaction();
 				Event event = session.get(Event.class, eventID); 
 				List<EventUserRelation> relations = euh.getRelations_byeventID(eventID);
-				if(event == null || euh.deleteRelations(relations) == false) return false;
+				if(event == null || euh.deleteRelations(relations) == false) {	
+				} else {
 				session.delete(event);
 				tx.commit();
+				success = true;
+				}
 				
 			} catch(HibernateException he) {
 				if(tx != null) tx.rollback();
@@ -121,9 +128,8 @@ public class EventHandler {
 			} finally {
 				session.close();
 			}
-			
+			return success;
 		}
-		return true;
 	}
 	/**
 	 * Deletes an event with given eventID. This method is only invoked, if EventUserHandler.leaveEvent(...) leads to an empty members list

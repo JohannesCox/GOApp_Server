@@ -75,5 +75,13 @@ public class UserHandler {
 		
 		return success;
 	}
+	public boolean user_exists(String userID) {
+		
+		Session session = HibernateUtil.getFactory().openSession();
+		User user = session.get(User.class, userID);
+		session.close();
+		return user == null ? false : true;
+			
+	}
 }
 

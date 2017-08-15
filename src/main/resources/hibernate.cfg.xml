@@ -9,12 +9,13 @@
 		<property name="hibernate.connection.username">PSESoSe17User4</property>
 		<property name="hibernate.connection.password">w5q8zurebuZ7vEpe</property>
 		
-		<property name="hbm2ddl.auto">update</property>
+		<property name="hbm2ddl.auto">create</property>
 		<mapping class="Database.User"/>
 		<mapping class="Database.Event"/>
 		<mapping class="Database.EventUserRelation"/>
 	<!-- port 3306 -->
 	<!-- connection url_old = https//i43pc164.ipd.kit.edu:3306/PSESoSe17Gruppe4 -->
 	<!-- hostname = i43pc164 -->
+	<!-- <property name="hbm2ddl.auto">update</property> -->
 	</session-factory>
 </hibernate-configuration>
