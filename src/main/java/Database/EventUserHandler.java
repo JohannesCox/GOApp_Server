@@ -256,8 +256,18 @@ public class EventUserHandler {
 		Map<String, Boolean> members= new HashMap<String,Boolean>();
 		if(this.isMember(userID, eventID)) {
 		List<EventUserRelation> relations = this.getRelations_byeventID(eventID);
+		Session session = HibernateUtil.getFactory().openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
 		for(EventUserRelation rel : relations) {
-			members.put(rel.getUserID(), rel.isAdmin());
+			String id = rel.getUserID();
+			boolean admin = rel.isAdmin();
+			members.put(session.get(User.class,id).getUsername(), admin);
+		}
+		} catch(HibernateException he) {
+			tx.rollback();
+			he.printStackTrace();
 		}
 		}
 		return members;
