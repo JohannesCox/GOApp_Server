@@ -60,7 +60,10 @@ public class EventUserHandler {
 			if(session.get(User.class, userID) != null || !this.isMember(userID, eventID) || event != null) {
 			EventUserRelation relation = new EventUserRelation(eventID, userID, false);
 			EventUserID id = (EventUserID) session.save(relation);
-			if(id == null || !id.equals(new EventUserID(eventID, userID))) return null;
+			if(id == null || !id.equals(new EventUserID(eventID, userID))) {
+			tx.rollback();
+			event = null;
+			}
 			}
 			tx.commit();
 		} catch(HibernateException he) {
