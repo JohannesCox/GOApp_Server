@@ -45,10 +45,13 @@ public class EventHandler {
 		try {
 			
 			tx = session.beginTransaction();
+			User user =  session.get(User.class, userID);
+			if(user != null) {
 			EventUserHandler handler = new EventUserHandler();
 			if(handler.createRelation(eventID, userID) == true) {
 			id = (String) session.save(event);
 			tx.commit();
+			}
 			}
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
@@ -125,9 +128,8 @@ public class EventHandler {
 			} finally {
 				session.close();
 			}
-			
+			return success;
 		}
-		return success;
 	}
 	/**
 	 * Deletes an event with given eventID. This method is only invoked, if EventUserHandler.leaveEvent(...) leads to an empty members list
