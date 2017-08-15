@@ -88,9 +88,10 @@ public class EventUserHandler {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
+			User user = session.get(User.class, userID);
 			EventUserRelation relation = 
 					session.get(EventUserRelation.class, new EventUserID(eventID, userID));
-			if(relation != null) {
+			if(user != null || relation != null) {
 			session.delete(relation);
 			List<EventUserRelation> members = this.getRelations_byeventID(eventID);
 			if(relation.isAdmin()) {
