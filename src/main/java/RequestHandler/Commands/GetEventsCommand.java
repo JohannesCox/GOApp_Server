@@ -10,20 +10,27 @@ import Database.Event;
 import Database.EventUserHandler;
 
 /**
- * Gets a List of eventIds with their lastModified value. Returns a list of
- * all events with a higher lastModified value.
+ * The command to get all events of a user.
  */
 public class GetEventsCommand extends Command {
 	
 	private String userId;
 	private HashMap<String,Integer> eventsList;
 	
+	/**
+	 * Creates a new command to get all events of a user.
+	 * @param uID The userId of the user whose events should be get
+	 * @param eventsL A HashMap<eventId,lastModified> of all events that are already known to the user.
+	 */
 	public GetEventsCommand(String uID, HashMap<String,Integer> eventsL) {
 		userId = uID;
 		eventsList = eventsL;
 		
 	}
 	
+	/**
+	 * Gets a List of all changed events of a user.
+	 */
 	public String process() {
 		EventUserHandler euh = new EventUserHandler();
 		List<Event> events = euh.getAllUserEvents(userId);
@@ -42,7 +49,6 @@ public class GetEventsCommand extends Command {
 				changedEvents.remove(e.getEventID());
 			}
 		}
-			
 		
 		JsonArray ja = new JsonArray();
 		
@@ -67,5 +73,13 @@ public class GetEventsCommand extends Command {
 		
 		return ja.toString();
 		
+	}
+	
+	public HashMap<String, Integer> getEventsList() {
+		return eventsList;
+	}
+	
+	public String getUserId() {
+		return userId;
 	}
 }

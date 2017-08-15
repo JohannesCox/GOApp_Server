@@ -9,21 +9,31 @@ import com.google.gson.JsonObject;
 import Database.EventUserHandler;
 import RequestHandler.ClusteringAlgorithm;
 
+/**
+ * The command to start an event and to get the current group locations of an event.
+ */
 public class StartEventCommand extends Command {
 	
-	public static HashMap<String,ClusteringAlgorithm> algorithms = new HashMap<String,ClusteringAlgorithm>();
+	//This HashMap includes the Clustering-Algorithm for an event.
+	private static HashMap<String,ClusteringAlgorithm> algorithms = new HashMap<String,ClusteringAlgorithm>();
 	
 	private String userId;
 	private String eventId;
 	private DoublePoint doublepoint;
 	
+	/**
+	 * The command to start an event.
+	 * @param uId The userId of the user.
+	 * @param eId The eventId of the event.
+	 * @param dp The location of the user as a 2-dimensional DoublePoint. The first value should be the latitude and
+	 * the second one the longitude in degrees.
+	 */
 	public StartEventCommand(String uId, String eId, DoublePoint dp) {
 		userId = uId;
 		eventId = eId;
 		doublepoint = dp;
 		
 		//TODO Delete! For Testing only
-		
 		//Start creating dummy points
 		if(!algorithms.containsKey("TestEvent")) {
 			ClusteringAlgorithm ca = new ClusteringAlgorithm();
@@ -54,10 +64,15 @@ public class StartEventCommand extends Command {
 		
 	}
 	
+	/**
+	 * Adds the users location to the Clustering-Algorithm. Returns the group locations or an error
+	 * if the user is not a member of the event.
+	 */
 	public String process() {
 		
 		EventUserHandler euh = new EventUserHandler();
 		
+		//check if the user is a member of the event
 		if (!euh.isMember(userId, eventId)) {
 			JsonObject jo = new JsonObject();
 			jo.addProperty("error", "You are not a member of the event!");
@@ -72,6 +87,27 @@ public class StartEventCommand extends Command {
 		
 		return algorithms.get(eventId).updateGPS(userId, doublepoint).toString();
 
+	}
+	
+	public DoublePoint getDoublepoint() {
+		return doublepoint;
+	}
+	
+	public String getEventId() {
+		return eventId;
+	}
+	
+	public String getUserId() {
+		return userId;
+	}
+	
+	/**
+	 * Returns a HashMap of the Clustering-Algorithms for the different events.
+	 * @return A HashMap<eventId, ClusteringAlgorithm> where for each event which was started by at least one user the
+	 * belonging Clustering-Algorithm is saved.
+	 */
+	public static HashMap<String, ClusteringAlgorithm> getAlgorithms() {
+		return algorithms;
 	}
 
 }

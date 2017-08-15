@@ -14,6 +14,11 @@ import com.google.gson.JsonObject;
 import RequestHandler.RequestDispatcher;
 import RequestHandler.Commands.Command;
 
+/**
+ * This class is the only entry point to the server. All requests have to be send to this servlet.
+ * 
+ */
+
 @WebServlet("/FrontServlet")
 public class FrontServlet extends HttpServlet{
 	
@@ -42,7 +47,7 @@ public class FrontServlet extends HttpServlet{
 		    session = request.getSession();
 		    session.setAttribute("UserId",userId);
 	    
-		//
+		// there is an existing session with the user. The userId can be taken from the session.
 		} else {
 			session = request.getSession();
 			userId = (String) session.getAttribute("UserId");

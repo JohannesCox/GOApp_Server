@@ -8,19 +8,27 @@ import com.google.gson.JsonObject;
 import Database.EventUserHandler;
 
 /**
- *Returns a List of all members of an event. The username and if the user is an admin
- *of the event is returned.
+ * The command to get all members of an event.
  */
 public class GetMembersCommand extends Command {
 	
 	private String userId;
 	private String eventId;
 	
+	/**
+	 * Creates a new command to get all members of an event.
+	 * @param uId The userId of the user who created the request.
+	 * @param eId The eventId of the event.
+	 */
 	public GetMembersCommand(String uId, String eId) {
 		userId = uId;
 		eventId = eId;
 	}
 	
+	/**
+	 *Returns a List of the user names of all members of an event. If the user is not a member
+	 *of the event an empty list is returned.
+	 */
 	public String process() {
 
 		EventUserHandler euh = new EventUserHandler();
@@ -37,5 +45,13 @@ public class GetMembersCommand extends Command {
 		}
 		
 		return ja.toString();
+	}
+	
+	public String getEventId() {
+		return eventId;
+	}
+	
+	public String getUserId() {
+		return userId;
 	}
 }
