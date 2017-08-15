@@ -97,15 +97,15 @@ public class EventUserHandler {
 			if(relation.isAdmin()) {
 				if(members.isEmpty()) {
 					EventHandler eh = new EventHandler();
-					eh.deleteEvent(eventID);
+					success = eh.deleteEvent(eventID);
+					tx.commit();
 				} else {
 					nominateAdmin(members);
+					success = true;
+					tx.commit();
 				}
 				}
-			}
-			tx.commit();
-			success = true;
-			
+			}	
 			
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
