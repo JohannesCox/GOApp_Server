@@ -1,4 +1,4 @@
-package CommandsTest;
+package requestHandlerTests;
 import static org.junit.Assert.*;
 
 import org.apache.commons.math3.ml.clustering.DoublePoint;

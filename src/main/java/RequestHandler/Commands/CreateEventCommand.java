@@ -18,6 +18,8 @@ public class CreateEventCommand extends Command {
 	private String location;
 	private String description;
 	
+	private EventHandler eventHandler;
+	
 	/**
 	 * Creates a command which can create an event with the following parameters.
 	 * @param uId The userId of the user who sends the request.
@@ -33,6 +35,7 @@ public class CreateEventCommand extends Command {
 		date = d;
 		location = loc;
 		description = desc;
+		eventHandler = new EventHandler();
 	}
 	
 	/**
@@ -41,8 +44,7 @@ public class CreateEventCommand extends Command {
 	@Override
 	public String process() {
 		
-		EventHandler eh = new EventHandler();
-		Event event = eh.createEvent(userId, title, date, location, description);
+		Event event = eventHandler.createEvent(userId, title, date, location, description);
 		
 		JsonObject jo = new JsonObject();
 		
@@ -76,5 +78,11 @@ public class CreateEventCommand extends Command {
 		return userId;
 	}
 	
+	public EventHandler getEventHandler() {
+		return eventHandler;
+	}
 	
+	public void setEventHandler(EventHandler eventHandler) {
+		this.eventHandler = eventHandler;
+	}
 }

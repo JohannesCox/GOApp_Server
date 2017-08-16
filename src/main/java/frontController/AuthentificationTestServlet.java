@@ -1,4 +1,4 @@
-package FrontController;
+package frontController;
 
 import java.io.IOException;
 

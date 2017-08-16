@@ -1,4 +1,4 @@
-package FrontControllerTests;
+package requestHandlerTests;
 import org.apache.commons.math3.ml.clustering.DoublePoint;
 import org.junit.*;
 
