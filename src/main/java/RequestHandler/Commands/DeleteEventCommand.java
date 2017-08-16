@@ -13,14 +13,19 @@ public class DeleteEventCommand extends Command {
 	private String userId;
 	private String eventId;
 	
+	private EventHandler eventHandler;
+	private EventUserHandler eventUserHandler;
+	
 	/**
 	 * Creates a command which can delete an event.
 	 * @param uId The userId of the user who sent the request.
-	 * @param eId
+	 * @param eId The eventId of the event.
 	 */
 	public DeleteEventCommand(String uId, String eId) {
 		userId = uId;
 		eventId = eId;
+		eventHandler = new EventHandler();
+		eventUserHandler = new EventUserHandler();
 	}
 	
 	/**
@@ -29,15 +34,14 @@ public class DeleteEventCommand extends Command {
 	 */
 	@Override
 	public String process() {
-		EventHandler eh = new EventHandler();
-		boolean success = eh.deleteEvent(userId, eventId);
+		
+		boolean success = eventHandler.deleteEvent(userId, eventId);
 		
 		JsonObject jo = new JsonObject();
 		jo.addProperty(super.SUCCES_VAR, success);
 		
 		if(!success) {
-			EventUserHandler euh = new EventUserHandler();
-			if (euh.isAdmin(userId, eventId)) {
+			if (eventUserHandler.isAdmin(userId, eventId)) {
 				jo.addProperty(super.ERROR_VAR, super.INT_ERROR);
 			} else {
 				jo.addProperty(super.ERROR_VAR, super.ADMIN_ERROR);
@@ -54,5 +58,21 @@ public class DeleteEventCommand extends Command {
 	
 	public String getUserId() {
 		return userId;
+	}
+	
+	public EventHandler getEventHandler() {
+		return eventHandler;
+	}
+	
+	public EventUserHandler getEventUserHandler() {
+		return eventUserHandler;
+	}
+	
+	public void setEventHandler(EventHandler eventHandler) {
+		this.eventHandler = eventHandler;
+	}
+	
+	public void setEventUserHandler(EventUserHandler eventUserHandler) {
+		this.eventUserHandler = eventUserHandler;
 	}
 }

@@ -69,6 +69,7 @@ public class ClusteringAlgorithm {
 			DoublePoint centerOfCluster = getCenter(c);
 			jo.addProperty("lat", centerOfCluster.getPoint()[0]);
 			jo.addProperty("lng", centerOfCluster.getPoint()[1]);
+			jo.addProperty("amountOfPoints", c.getPoints().size());
 			ja.add(jo);
 		}
 		

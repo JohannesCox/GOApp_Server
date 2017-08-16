@@ -25,6 +25,9 @@ public class FrontServlet extends HttpServlet{
 	
 	private static final long serialVersionUID = 1L;
 	
+	//the maximum time in seconds between two requests before the session expires.
+	private static final int MAXSESSIONINTERVALL = 1800;
+	
 	private String userId;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -46,6 +49,7 @@ public class FrontServlet extends HttpServlet{
 		    }
 		    session = request.getSession();
 		    session.setAttribute("UserId",userId);
+		    session.setMaxInactiveInterval(MAXSESSIONINTERVALL);
 	    
 		// there is an existing session with the user. The userId can be taken from the session.
 		} else {
