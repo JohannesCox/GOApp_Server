@@ -12,7 +12,13 @@ public class UserHandler extends DataHandler {
 
 	public UserHandler() {
 	}
-	
+	/**
+	 * Adds a user to the table "User"
+	 * @param userID of the user to be added
+	 * @param username of the user
+	 * @param email of the user
+	 * @return true, if the user could be added
+	 */
 	public boolean addUser(String userID, String username, String email) {
 		String id = null;
 		Session session = HibernateUtil.getFactory().openSession();
@@ -30,7 +36,12 @@ public class UserHandler extends DataHandler {
 		}
 		return id.equals(userID) ? true : false;
 	}
-	
+	/**
+	 * Adds a user to the table "User"
+	 * @param userID of the user to be added
+	 * @param username of the user
+	 * @return true, if the user could be added 
+	 */
 	public boolean addUser(String userID, String username) {
 		String id = null;
 		Session session = HibernateUtil.getFactory().openSession();
@@ -48,7 +59,11 @@ public class UserHandler extends DataHandler {
 		}
 		return id.equals(userID) ? true : false;
 	}
-	
+	/**
+	 * Removes a user from the table "User" and its EventUserRelations.
+	 * @param userID of the user to be removed
+	 * @return true, if the removal was successful
+	 */
 	public boolean deleteUser(String userID) {
 		boolean success = true;
 		User user = this.getUser(userID);
@@ -73,6 +88,11 @@ public class UserHandler extends DataHandler {
 		
 		return success;
 	}
+	/**
+	 * Checks whether the user exists in the database
+	 * @param userID of the user
+	 * @return true, if the user exists
+	 */
 	public boolean user_exists(String userID) {
 		User user = this.getUser(userID);
 		return user == null ? false : true;
