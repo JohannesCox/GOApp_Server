@@ -11,6 +11,7 @@ public class SignUpCommand extends Command {
 	
 	private String userId;
 	private String username;
+	private UserHandler userHandler;
 	
 	/**
 	 * Creates a new command to add a user.
@@ -20,6 +21,7 @@ public class SignUpCommand extends Command {
 	public SignUpCommand(String uId, String userN) {
 		userId = uId;
 		username = userN;
+		userHandler = new UserHandler();
 	}
 	
 	/**
@@ -27,8 +29,8 @@ public class SignUpCommand extends Command {
 	 * specifies if the action was successful.
 	 */
 	public String process() {
-		UserHandler uh = new UserHandler();
-		boolean success = uh.addUser(userId, username);
+
+		boolean success = userHandler.addUser(userId, username);
 		
 		JsonObject jo = new JsonObject();
 		
@@ -43,6 +45,14 @@ public class SignUpCommand extends Command {
 	
 	public String getUsername() {
 		return username;
+	}
+	
+	public UserHandler getUserHandler() {
+		return userHandler;
+	}
+	
+	public void setUserHandler(UserHandler userHandler) {
+		this.userHandler = userHandler;
 	}
 
 }

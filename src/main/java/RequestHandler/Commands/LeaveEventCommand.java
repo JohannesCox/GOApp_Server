@@ -11,6 +11,7 @@ public class LeaveEventCommand extends Command {
 	
 	private String userId;
 	private String eventId;
+	private EventUserHandler eventUserHandler;
 	
 	/**
 	 * Creates a new command which removes a user from an event.
@@ -20,14 +21,15 @@ public class LeaveEventCommand extends Command {
 	public LeaveEventCommand(String uId, String eId) {
 		userId = uId;
 		eventId = eId;
+		eventUserHandler = new EventUserHandler();
 	}
 	
 	/**
 	 * Removes the user from the event. Returns if the action was successful or not.
 	 */
 	public String process() {
-		EventUserHandler euh = new EventUserHandler();
-		boolean success = euh.leaveEvent(userId, eventId);
+
+		boolean success = eventUserHandler.leaveEvent(userId, eventId);
 		
 		JsonObject jo = new JsonObject();
 		
@@ -42,5 +44,13 @@ public class LeaveEventCommand extends Command {
 	
 	public String getUserId() {
 		return userId;
+	}
+	
+	public EventUserHandler getEventUserHandler() {
+		return eventUserHandler;
+	}
+	
+	public void setEventUserHandler(EventUserHandler eventUserHandler) {
+		this.eventUserHandler = eventUserHandler;
 	}
 }

@@ -16,6 +16,7 @@ public class GetEventsCommand extends Command {
 	
 	private String userId;
 	private HashMap<String,Integer> eventsList;
+	private EventUserHandler eventUserHandler;
 	
 	/**
 	 * Creates a new command to get all events of a user.
@@ -25,15 +26,15 @@ public class GetEventsCommand extends Command {
 	public GetEventsCommand(String uID, HashMap<String,Integer> eventsL) {
 		userId = uID;
 		eventsList = eventsL;
-		
+		eventUserHandler = new EventUserHandler();
 	}
 	
 	/**
 	 * Gets a List of all changed events of a user.
 	 */
 	public String process() {
-		EventUserHandler euh = new EventUserHandler();
-		List<Event> events = euh.getAllUserEvents(userId);
+		
+		List<Event> events = eventUserHandler.getAllUserEvents(userId);
 		
 		HashMap<String, Event> newEvents = new HashMap<String, Event>();
 		
@@ -56,7 +57,7 @@ public class GetEventsCommand extends Command {
 			JsonObject jo = e.serialize();
 			
 			//check if the user is an admin of the event
-			jo.addProperty("isAdmin", euh.isAdmin(userId, e.getEventID()));
+			jo.addProperty("isAdmin", eventUserHandler.isAdmin(userId, e.getEventID()));
 			jo.addProperty("isDeleted", false);
 			ja.add(jo);
 		}
@@ -81,5 +82,13 @@ public class GetEventsCommand extends Command {
 	
 	public String getUserId() {
 		return userId;
+	}
+	
+	public EventUserHandler getEventUserHandler() {
+		return eventUserHandler;
+	}
+	
+	public void setEventUserHandler(EventUserHandler eventUserHandler) {
+		this.eventUserHandler = eventUserHandler;
 	}
 }

@@ -10,6 +10,7 @@ import Database.UserHandler;
 public class DeleteUserCommand extends Command {
 	
 	private String userId;
+	private UserHandler userHandler;
 	
 	/**
 	 * Creates a Command which can delete the user with the given userId.
@@ -17,6 +18,7 @@ public class DeleteUserCommand extends Command {
 	 */
 	public DeleteUserCommand(String uId) {
 		userId = uId;
+		userHandler = new UserHandler();
 	}
 	
 	/**
@@ -25,8 +27,7 @@ public class DeleteUserCommand extends Command {
 	@Override
 	public String process() {
 
-		UserHandler uh = new UserHandler();
-		boolean success = uh.deleteUser(userId);
+		boolean success = userHandler.deleteUser(userId);
 		
 		JsonObject jo = new JsonObject();
 		
@@ -43,4 +44,13 @@ public class DeleteUserCommand extends Command {
 	public String getUserId() {
 		return userId;
 	}
+	
+	public UserHandler getUserHandler() {
+		return userHandler;
+	}
+	
+	public void setUserHandler(UserHandler userHandler) {
+		this.userHandler = userHandler;
+	}
 }
+

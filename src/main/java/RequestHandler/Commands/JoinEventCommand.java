@@ -12,6 +12,7 @@ public class JoinEventCommand extends Command {
 	
 	private String eventId;
 	private String userId;
+	private EventUserHandler eventUserHandler;
 	
 	/**
 	 * Creates a new command to add the user to the event.
@@ -21,6 +22,7 @@ public class JoinEventCommand extends Command {
 	public JoinEventCommand(String eId, String uId) {
 		eventId = eId;
 		userId = uId;
+		eventUserHandler = new EventUserHandler();
 	}
 	
 	/**
@@ -28,8 +30,7 @@ public class JoinEventCommand extends Command {
 	 */
 	public String process() {
 
-		EventUserHandler euh = new EventUserHandler();
-		Event event = euh.joinEvent(eventId, userId);
+		Event event = eventUserHandler.joinEvent(eventId, userId);
 		
 		JsonObject jo = new JsonObject();
 		
@@ -52,4 +53,11 @@ public class JoinEventCommand extends Command {
 		return userId;
 	}
 
+	public EventUserHandler getEventUserHandler() {
+		return eventUserHandler;
+	}
+	
+	public void setEventUserHandler(EventUserHandler eventUserHandler) {
+		this.eventUserHandler = eventUserHandler;
+	}
 }

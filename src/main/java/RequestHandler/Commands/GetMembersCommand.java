@@ -14,6 +14,7 @@ public class GetMembersCommand extends Command {
 	
 	private String userId;
 	private String eventId;
+	private EventUserHandler eventUserHandler;
 	
 	/**
 	 * Creates a new command to get all members of an event.
@@ -23,6 +24,7 @@ public class GetMembersCommand extends Command {
 	public GetMembersCommand(String uId, String eId) {
 		userId = uId;
 		eventId = eId;
+		eventUserHandler = new EventUserHandler();
 	}
 	
 	/**
@@ -30,10 +32,8 @@ public class GetMembersCommand extends Command {
 	 *of the event an empty list is returned.
 	 */
 	public String process() {
-
-		EventUserHandler euh = new EventUserHandler();
 		
-		Map<String, Boolean> usernamesAndAdmin = euh.getMembers(userId, eventId);
+		Map<String, Boolean> usernamesAndAdmin = eventUserHandler.getMembers(userId, eventId);
 		
 		JsonArray ja = new JsonArray();
 		
@@ -53,5 +53,13 @@ public class GetMembersCommand extends Command {
 	
 	public String getUserId() {
 		return userId;
+	}
+	
+	public EventUserHandler getEventUserHandler() {
+		return eventUserHandler;
+	}
+	
+	public void setEventUserHandler(EventUserHandler eventUserHandler) {
+		this.eventUserHandler = eventUserHandler;
 	}
 }

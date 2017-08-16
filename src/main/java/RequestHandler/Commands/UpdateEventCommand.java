@@ -20,6 +20,9 @@ public class UpdateEventCommand extends Command {
 	private String location;
 	private String description;
 	
+	private EventHandler eventHandler;
+	private EventUserHandler eventUserHandler;
+	
 	/**
 	 * Creates a new command to update an already existing event.
 	 * @param uId The userId of the user.
@@ -37,6 +40,8 @@ public class UpdateEventCommand extends Command {
 		date = d;
 		location = loc;
 		description = desc;
+		eventHandler = new EventHandler();
+		eventUserHandler = new EventUserHandler();
 	}
 	
 	/**
@@ -44,15 +49,14 @@ public class UpdateEventCommand extends Command {
 	 * was successful or not.
 	 */
 	public String process() {
-		EventHandler eh = new EventHandler();
-		Event event = eh.updateEvent(userId, eventId, title, date, location, description);
+
+		Event event = eventHandler.updateEvent(userId, eventId, title, date, location, description);
 		
 		JsonObject jo = new JsonObject();
 		
 		if (event == null) {
 			jo.addProperty(super.SUCCES_VAR, false);
-			EventUserHandler euh = new EventUserHandler();
-			if (euh.isAdmin(userId, eventId)) {
+			if (eventUserHandler.isAdmin(userId, eventId)) {
 				jo.addProperty(super.ERROR_VAR, super.INT_ERROR);
 			} else {
 				jo.addProperty(super.ERROR_VAR, super.ADMIN_ERROR);
@@ -89,5 +93,20 @@ public class UpdateEventCommand extends Command {
 		return userId;
 	}
 	
+	public EventHandler getEventHandler() {
+		return eventHandler;
+	}
+	
+	public EventUserHandler getEventUserHandler() {
+		return eventUserHandler;
+	}
+	
+	public void setEventHandler(EventHandler eventHandler) {
+		this.eventHandler = eventHandler;
+	}
+	
+	public void setEventUserHandler(EventUserHandler eventUserHandler) {
+		this.eventUserHandler = eventUserHandler;
+	}
 	
 }

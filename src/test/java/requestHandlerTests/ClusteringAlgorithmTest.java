@@ -50,20 +50,23 @@ public class ClusteringAlgorithmTest {
 		assertEquals(result1, "[]"); //No groups locations exist yet
 
 		String result2 = ca.updateGPS(user2, loc2).toString();
-		assertEquals(result2, "[{\"lat\":49.009428,\"lng\":8.4041605}]"); //the middle between Point1 and Point2
+		//the middle between Point1 and Point2
+		assertEquals(result2, "[{\"lat\":49.009428,\"lng\":8.4041605,\"amountOfPoints\":2}]"); 
 
 		String result3 = ca.updateGPS(user3, loc3).toString();
 		//As Point 3 is not in the same cluster as point 1 and point 2 nothing changes
-		assertEquals(result3, "[{\"lat\":49.009428,\"lng\":8.4041605}]"); 
+		assertEquals(result3, "[{\"lat\":49.009428,\"lng\":8.4041605,\"amountOfPoints\":2}]"); 
 		System.out.println(result3);
 		
 		String result4 = ca.updateGPS(user4, loc4).toString();
 		//Now there are 2 clusters
-		assertEquals(result4, "[{\"lat\":49.009428,\"lng\":8.4041605},{\"lat\":49.0117045,\"lng\":8.404005}]"); 
+		assertEquals(result4, "[{\"lat\":49.009428,\"lng\":8.4041605,\"amountOfPoints\":2},"
+				+ "{\"lat\":49.0117045,\"lng\":8.404005,\"amountOfPoints\":2}]"); 
 		
 		String result5 = ca.updateGPS(user5, loc5).toString();
 		//Nothing changes as the 5th point is an outsider
-		assertEquals(result5, "[{\"lat\":49.009428,\"lng\":8.4041605},{\"lat\":49.0117045,\"lng\":8.404005}]"); 
+		assertEquals(result5, "[{\"lat\":49.009428,\"lng\":8.4041605,\"amountOfPoints\":2},"
+				+ "{\"lat\":49.0117045,\"lng\":8.404005,\"amountOfPoints\":2}]"); 
 		
 		//user1 updates his position
 		double[] gps1 = new double[2];
@@ -72,7 +75,8 @@ public class ClusteringAlgorithmTest {
 		loc1 = new DoublePoint(gps1);
 		String result6 = ca.updateGPS(user1, loc1).toString();
 		//The first cluster location changed
-		assertEquals(result6, "[{\"lat\":49.009414,\"lng\":8.4041345},{\"lat\":49.0117045,\"lng\":8.404005}]"); 
+		assertEquals(result6, "[{\"lat\":49.009414,\"lng\":8.4041345,\"amountOfPoints\":2},"
+				+ "{\"lat\":49.0117045,\"lng\":8.404005,\"amountOfPoints\":2}]"); 
 		
 		//user3 stops the event
 		boolean empty = ca.stopEvent(user3);
@@ -81,7 +85,7 @@ public class ClusteringAlgorithmTest {
 		String result7 = ca.updateGPS(user5, loc5).toString();
 		//There is no more second cluster as user3 stopped the event
 		//the other points did not change
-		assertEquals(result7, "[{\"lat\":49.009414,\"lng\":8.4041345}]"); 
+		assertEquals(result7, "[{\"lat\":49.009414,\"lng\":8.4041345,\"amountOfPoints\":2}]"); 
 	}
 
 }
