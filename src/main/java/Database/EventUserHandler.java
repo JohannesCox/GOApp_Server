@@ -12,7 +12,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
-public class EventUserHandler {
+public class EventUserHandler extends DataHandler {
 	
 	public EventUserHandler() {
 
@@ -51,19 +51,20 @@ public class EventUserHandler {
 	 * @return Event to be joined
 	 */
 	public Event joinEvent(String eventID, String userID) {
-		Event event = null;
+		Event event = this.getEvent(eventID);
+		User user = this.getUser(userID);
+		if(event == null || user == null) return null;
 		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			event = session.get(Event.class, eventID);
-			if(session.get(User.class, userID) != null || !this.isMember(userID, eventID) || event != null) {
+			if(!this.isMember(userID, eventID)) {
 			EventUserRelation relation = new EventUserRelation(eventID, userID, false);
 			EventUserID id = (EventUserID) session.save(relation);
-			if(id == null || !id.equals(new EventUserID(eventID, userID))) {
-			tx.rollback();
-			event = null;
-			}
+				if(id == null || !id.equals(new EventUserID(eventID, userID))) {
+					tx.rollback();
+					event = null;
+				}
 			}
 			tx.commit();
 		} catch(HibernateException he) {
@@ -84,34 +85,31 @@ public class EventUserHandler {
 	 */
 	public boolean leaveEvent(String userID, String eventID) {
 		boolean success = false;
-		Session session = HibernateUtil.getFactory().openSession();
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			User user = session.get(User.class, userID);
-			EventUserRelation relation = 
-					session.get(EventUserRelation.class, new EventUserID(eventID, userID));
-			if(user != null || relation != null) {
-			session.delete(relation);
-			List<EventUserRelation> members = this.getRelations_byeventID(eventID);
-			if(relation.isAdmin()) {
-				if(members.isEmpty()) {
-					EventHandler eh = new EventHandler();
-					success = eh.deleteEvent(eventID);
-					tx.commit();
-				} else {
-					nominateAdmin(members);
-					success = true;
-					tx.commit();
+		User user = this.getUser(userID);
+		EventUserRelation relation = this.getRelation(eventID, userID);
+		if(user == null || relation == null) return success;
+			Session session = HibernateUtil.getFactory().openSession();
+			Transaction tx = null;
+			try {
+				tx = session.beginTransaction();
+				session.delete(relation);
+				List<EventUserRelation> members = this.getRelations_byeventID(eventID);
+				if(relation.isAdmin()) {
+					if(members.isEmpty()) {
+						EventHandler eh = new EventHandler();
+						success = eh.deleteEvent(eventID);
+						tx.commit();
+					} else {
+						nominateAdmin(members);
+						success = true;
+						tx.commit();
+					}
 				}
-				}
-			}	
-			
-		} catch(HibernateException he) {
-			if(tx != null) tx.rollback();
-			he.printStackTrace();
-		} finally {
-			session.close();
+			} catch(HibernateException he) {
+				if(tx != null) tx.rollback();
+				he.printStackTrace();
+			} finally {
+				session.close();
 		}
 		return success;
 	}
@@ -122,19 +120,8 @@ public class EventUserHandler {
 		 * @return true, if the user is administrator of the event. 
 		 */
 	public boolean isAdmin(String userID, String eventID) {
-		boolean admin = false;
-		Session session = HibernateUtil.getFactory().openSession();
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			EventUserRelation relation = session.get(EventUserRelation.class, new EventUserID(eventID, userID));
-			admin = relation.isAdmin() == true ? true : false;
-			tx.commit();
-			
-		} finally {
-			session.close();
-		}
-		return admin;
+		EventUserRelation relation = this.getRelation(eventID, userID);
+		return relation.isAdmin();
 	}
 	/**
 	 * Checks whether the user with given userID is member of the event with given eventID
@@ -143,21 +130,8 @@ public class EventUserHandler {
 	 * @return true, if the user is member of the event
 	 */
 	public boolean isMember(String userID, String eventID) {
-		boolean isMember = false;
-		Session session = HibernateUtil.getFactory().openSession();
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			if(session.get(EventUserRelation.class, new EventUserID(eventID, userID)) != null)
-				isMember = true;
-			tx.commit();
-		} catch(HibernateException he) {
-			if(tx != null) tx.rollback();
-			he.printStackTrace();
-		} finally {
-			session.close();
-		}
-		return isMember;
+		EventUserRelation relation = this.getRelation(eventID, userID);
+		return relation == null ? false : true;
 	}
 	/**
 	 * Creates a list of all relations to the corresponding eventID. An empty list will be created if there is no such 
@@ -257,10 +231,11 @@ public class EventUserHandler {
 	public Map<String,Boolean> getMembers(String userID,String eventID) {
 		Map<String, Boolean> members= new HashMap<String,Boolean>();
 		if(this.isMember(userID, eventID)) {
-		List<EventUserRelation> relations = this.getRelations_byeventID(eventID);
-		for(EventUserRelation rel : relations) {
-			members.put(rel.getUserID(), rel.isAdmin());
-		}
+			List<EventUserRelation> relations = this.getRelations_byeventID(eventID);
+			for(EventUserRelation rel : relations) {
+				User user = this.getUser(rel.getUserID());
+				members.put(user.getUsername(), rel.isAdmin());
+			}
 		}
 		return members;
 	}

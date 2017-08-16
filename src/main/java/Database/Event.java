@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import org.hibernate.annotations.Table;
 
 import com.google.gson.JsonObject;
+
+
 @Entity
 @Table(appliesTo = "Event")
 public class Event {
