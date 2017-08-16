@@ -9,7 +9,9 @@ import org.apache.commons.math3.ml.distance.EuclideanDistance;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-
+/**
+ * This class includes the clustering algorithm for the event classes. One instance of this class should belong to one event.
+ */
 public class ClusteringAlgorithm {
 	
 	//the maximum distance for 2 points to be in the same cluster. Is equal to about 60m.
@@ -22,6 +24,9 @@ public class ClusteringAlgorithm {
 	EuclideanDistance measurement;
 	DBSCANClusterer<DoublePoint> clusterer;
 	
+	/**
+	 * Creates a new empty instance of ClusteringAlgorithm.
+	 */
 	public ClusteringAlgorithm() {
 		gpsData = new HashMap<String, DoublePoint>();
 		measurement = new EuclideanDistance();
@@ -40,7 +45,8 @@ public class ClusteringAlgorithm {
 	}
 	
 	/**
-	 * returns true if all user stopped the event
+	 * Stops the event for that specific user and deletes his gps data.
+	 * @return returns true if all user stopped the event otherwise false.
 	 */
 	public boolean stopEvent(String uId) {
 		

@@ -46,7 +46,7 @@ public class RequestDispatcher {
 	/**
 	 * Creates a new RequestDispatcher with a HttpRequest and an userId.
 	 * @param req The HttpRequest which should be dispatched.
-	 * @param uId The UserId of the user which send the request.
+	 * @param uId The UserId of the user who sent the request.
 	 */
 	public RequestDispatcher(HttpServletRequest req, String uId) {
 		request = req;
