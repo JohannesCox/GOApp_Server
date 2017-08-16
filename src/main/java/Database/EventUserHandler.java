@@ -61,10 +61,10 @@ public class EventUserHandler extends DataHandler {
 			if(!this.isMember(userID, eventID)) {
 			EventUserRelation relation = new EventUserRelation(eventID, userID, false);
 			EventUserID id = (EventUserID) session.save(relation);
-			if(id == null || !id.equals(new EventUserID(eventID, userID))) {
-			tx.rollback();
-			event = null;
-			}
+				if(id == null || !id.equals(new EventUserID(eventID, userID))) {
+					tx.rollback();
+					event = null;
+				}
 			}
 			tx.commit();
 		} catch(HibernateException he) {
@@ -88,28 +88,28 @@ public class EventUserHandler extends DataHandler {
 		User user = this.getUser(userID);
 		EventUserRelation relation = this.getRelation(eventID, userID);
 		if(user == null || relation == null) return success;
-		Session session = HibernateUtil.getFactory().openSession();
-		Transaction tx = null;
-		try {
-			tx = session.beginTransaction();
-			session.delete(relation);
-			List<EventUserRelation> members = this.getRelations_byeventID(eventID);
-			if(relation.isAdmin()) {
-				if(members.isEmpty()) {
-					EventHandler eh = new EventHandler();
-					success = eh.deleteEvent(eventID);
-					tx.commit();
-				} else {
-					nominateAdmin(members);
-					success = true;
-					tx.commit();
+			Session session = HibernateUtil.getFactory().openSession();
+			Transaction tx = null;
+			try {
+				tx = session.beginTransaction();
+				session.delete(relation);
+				List<EventUserRelation> members = this.getRelations_byeventID(eventID);
+				if(relation.isAdmin()) {
+					if(members.isEmpty()) {
+						EventHandler eh = new EventHandler();
+						success = eh.deleteEvent(eventID);
+						tx.commit();
+					} else {
+						nominateAdmin(members);
+						success = true;
+						tx.commit();
+					}
 				}
-				}
-		} catch(HibernateException he) {
-			if(tx != null) tx.rollback();
-			he.printStackTrace();
-		} finally {
-			session.close();
+			} catch(HibernateException he) {
+				if(tx != null) tx.rollback();
+				he.printStackTrace();
+			} finally {
+				session.close();
 		}
 		return success;
 	}
@@ -231,11 +231,11 @@ public class EventUserHandler extends DataHandler {
 	public Map<String,Boolean> getMembers(String userID,String eventID) {
 		Map<String, Boolean> members= new HashMap<String,Boolean>();
 		if(this.isMember(userID, eventID)) {
-		List<EventUserRelation> relations = this.getRelations_byeventID(eventID);
-		for(EventUserRelation rel : relations) {
-			User user = this.getUser(rel.getUserID());
-			members.put(user.getUsername(), rel.isAdmin());
-		}
+			List<EventUserRelation> relations = this.getRelations_byeventID(eventID);
+			for(EventUserRelation rel : relations) {
+				User user = this.getUser(rel.getUserID());
+				members.put(user.getUsername(), rel.isAdmin());
+			}
 		}
 		return members;
 	}

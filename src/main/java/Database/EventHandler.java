@@ -40,8 +40,8 @@ public class EventHandler extends DataHandler {
 			tx = session.beginTransaction();
 			EventUserHandler handler = new EventUserHandler();
 			if(handler.createRelation(eventID, userID) == true) {
-			id = (String) session.save(event);
-			tx.commit();
+				id = (String) session.save(event);
+				tx.commit();
 			}
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
@@ -97,7 +97,7 @@ public class EventHandler extends DataHandler {
 		EventUserHandler euh = new EventUserHandler();
 		boolean success = false;
 		Event event = this.getEvent(eventID);
-		if(event == null || !euh.isAdmin(userID, eventID) ) { //check whether user has permission
+		if(event == null || !euh.isAdmin(userID, eventID) ) { 
 			return success;
 		} else {
 			Session session = HibernateUtil.getFactory().openSession();
@@ -105,13 +105,11 @@ public class EventHandler extends DataHandler {
 			try {
 				tx = session.beginTransaction(); 
 				List<EventUserRelation> relations = euh.getRelations_byeventID(eventID);
-				if(euh.deleteRelations(relations) == false) {	
-				} else {
-				session.delete(event);
-				tx.commit();
-				success = true;
-				}
-				
+				if(euh.deleteRelations(relations) == true) {	
+					session.delete(event);
+					tx.commit();
+					success = true;
+				}	
 			} catch(HibernateException he) {
 				if(tx != null) tx.rollback();
 				he.printStackTrace();
