@@ -85,6 +85,32 @@ public class EventHandler extends DataHandler {
 		if(id == null || !id.equals(eventID)) return null;
 		return event;
 	}
+	
+	public boolean storePicture(String userID, String eventID, String picture) {
+		boolean success = false;
+		Event event = this.getEvent(eventID);
+		EventUserRelation relation = this.getRelation(eventID, userID);
+		if(event == null || relation == null) {
+			return success;
+		} else {
+			Session session = HibernateUtil.getFactory().openSession();
+			Transaction tx = null;
+			try {
+				tx = session.beginTransaction();
+				event.setPicture(picture);
+				session.saveOrUpdate(event);
+				tx.commit();
+				success = true;
+			} catch(HibernateException he) {
+				if(tx != null) tx.rollback();
+				he.printStackTrace();
+			} finally {
+				session.close();
+			}
+		}
+		
+		return success;
+	}
 	/**
 	 * Updates an event, if the user has the permission.
 	 * @param userID of the user, trying to update the event
