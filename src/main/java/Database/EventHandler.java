@@ -90,7 +90,7 @@ public class EventHandler extends DataHandler {
 		boolean success = false;
 		Event event = this.getEvent(eventID);
 		EventUserRelation relation = this.getRelation(eventID, userID);
-		if(event == null || relation == null) {
+		if(event == null || relation == null || !relation.isAdmin()) {
 			return success;
 		} else {
 			Session session = HibernateUtil.getFactory().openSession();
@@ -110,6 +110,16 @@ public class EventHandler extends DataHandler {
 		}
 		
 		return success;
+	}
+	
+	String getPicture(String userID, String eventID) {
+		Event event = this.getEvent(eventID);
+		EventUserRelation relation = this.getRelation(eventID, userID);
+		if(event == null || relation == null) {
+			return null;
+		} else {
+			return event.getPicture();
+		}
 	}
 	/**
 	 * Updates an event, if the user has the permission.
