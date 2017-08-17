@@ -3,6 +3,7 @@ package commandsTest;
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,8 +21,8 @@ public class GetEventsCommandTest {
 	private HashMap<String, Integer> input1 = new HashMap<String, Integer>();
 	private HashMap<String, Integer> input2 = new HashMap<String, Integer>();
 	
-	private List<Event> handlerOutput1;
-	private List<Event> handlerOutput2;
+	private List<Event> handlerOutput1 = new ArrayList<Event>();
+	private List<Event> handlerOutput2 = new ArrayList<Event>();
 	
 	private String  eventId1 = "e1";
 	private String  eventId2 = "e2";
