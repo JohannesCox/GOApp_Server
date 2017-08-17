@@ -1,5 +1,7 @@
 package RequestHandler;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,7 +22,12 @@ public class ClusteringAlgorithm {
 	//The minimum of points which can build a cluster. The value 1 means that a cluster contains at least 2 points.
 	private final int MINPNTS = 1;
 	
+	//Time in seconds until the gps data of a user is deleted (if not updated)
+	private final long maxTime = 1200;
+	
 	private HashMap<String, DoublePoint> gpsData;
+	private HashMap<String, Long> gpsAddingTime;
+	
 	EuclideanDistance measurement;
 	DBSCANClusterer<DoublePoint> clusterer;
 	
@@ -31,6 +38,7 @@ public class ClusteringAlgorithm {
 		gpsData = new HashMap<String, DoublePoint>();
 		measurement = new EuclideanDistance();
 		clusterer = new DBSCANClusterer<DoublePoint>(EPS, MINPNTS, measurement);
+		gpsAddingTime = new HashMap<String, Long>();
 	}
 	
 	/**
@@ -41,6 +49,7 @@ public class ClusteringAlgorithm {
 	 */
 	public JsonArray updateGPS(String uId, DoublePoint dp) {
 		gpsData.put(uId, dp);
+		gpsAddingTime.put(uId, (new Date()).getTime());
 		return calculate();
 	}
 	
@@ -50,6 +59,8 @@ public class ClusteringAlgorithm {
 	 */
 	public boolean stopEvent(String uId) {
 		
+		gpsAddingTime.remove(uId);
+		
 		synchronized(gpsData) {
 			gpsData.remove(uId);
 			return (gpsData.isEmpty());
@@ -58,6 +69,8 @@ public class ClusteringAlgorithm {
 	}
 	
 	private JsonArray calculate() {
+		
+		checkForExpiredGps();
 		
 		List<Cluster<DoublePoint>> clusters = clusterer.cluster(gpsData.values());
 		JsonArray ja = new JsonArray();
@@ -72,6 +85,28 @@ public class ClusteringAlgorithm {
 		}
 		
 		return ja;
+	}
+	
+	//Deletes all the gps data of users which havent´t updated their gps for a certain period of time
+	private void checkForExpiredGps() {
+		
+		long date = (new Date()).getTime();
+		List<String> usersToDel = new ArrayList<String>();
+		
+		synchronized(gpsAddingTime) {
+			for(String user: gpsAddingTime.keySet()) {
+				if (Math.abs(date - gpsAddingTime.get(user)) > maxTime) {
+					usersToDel.add(user);
+				}
+			}
+		}
+		synchronized(gpsData) {
+			for (String user: usersToDel) {
+				if (gpsData.containsKey(user)) {
+					gpsData.remove(user);
+				}
+			}
+		}
 	}
 	
 	private DoublePoint getCenter(Cluster<DoublePoint> c) {	

@@ -12,19 +12,7 @@ import com.google.gson.JsonSyntaxException;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import RequestHandler.Commands.Command;
-import RequestHandler.Commands.CreateEventCommand;
-import RequestHandler.Commands.DeleteEventCommand;
-import RequestHandler.Commands.DeleteUserCommand;
-import RequestHandler.Commands.GetEventsCommand;
-import RequestHandler.Commands.GetMembersCommand;
-import RequestHandler.Commands.JoinEventCommand;
-import RequestHandler.Commands.LeaveEventCommand;
-import RequestHandler.Commands.SignUpCommand;
-import RequestHandler.Commands.StartEventCommand;
-import RequestHandler.Commands.StopEventCommand;
-import RequestHandler.Commands.UpdateEventCommand;
-
+import RequestHandler.Commands.*;
 /**
  * This class is the Command factory. 
  */
@@ -39,6 +27,7 @@ public class RequestDispatcher {
 	private final String LOCATION = "location";
 	private final String DESCRIPTION = "description";
 	private final String LASTMODIFIED = "lastModified";
+	private final String IMAGE = "image";
 	
 	private HttpServletRequest request;
 	private String userId;
@@ -90,11 +79,37 @@ public class RequestDispatcher {
 				return updateEventFactory();
 			case("stopEvent"):
 				return stopEventFactory();
+			case("uploadEventImage"):
+				return uploadEventImageFactory();
+			case("downloadEventImage"):
+				return downloadEventImageFactory();
 			default: return null;
 		
 		}
 	}
 	
+	private Command downloadEventImageFactory() {
+		String eventId = request.getParameter(EVENT_ID);
+		String image = request.getParameter(IMAGE);
+		
+		if(image == null || eventId == null) {
+			return null;
+		} else {
+			return (new DownloadEventImageCommand(userId, eventId, image));
+		}
+	}
+
+	private Command uploadEventImageFactory() {
+		String eventId = request.getParameter(EVENT_ID);
+		String image = request.getParameter(IMAGE);
+		
+		if(image == null || eventId == null) {
+			return null;
+		} else {
+			return (new UploadEventImageCommand(userId, eventId, image));
+		}
+	}
+
 	private Command updateEventFactory() {
 		
 		String eventS = request.getParameter(EVENT);
