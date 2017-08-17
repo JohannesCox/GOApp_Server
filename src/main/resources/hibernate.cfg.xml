@@ -8,6 +8,7 @@
 		<property name="hibernate.connection.url">jdbc:mysql://localhost/PSESoSe17Gruppe4</property>
 		<property name="hibernate.connection.username">PSESoSe17User4</property>
 		<property name="hibernate.connection.password">w5q8zurebuZ7vEpe</property>
+		<property name="show_sql">true</property>
 		
 		<!--  Configuring connection pool
 		<property name="hibernate.c3p0.min_size">1</property> = 
