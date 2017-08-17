@@ -2,9 +2,12 @@ package Database;
 
 import java.util.Date;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 import org.hibernate.annotations.Table;
 
@@ -14,26 +17,53 @@ import com.google.gson.JsonObject;
 @Entity
 @Table(appliesTo = "Event")
 public class Event {
-	@Id @Column(name="eventID")
+	
+	@Id 
+	@Column(name="eventID")
 	private String eventID;
+	
 	@Column(name="eventname")
 	private String eventname;
+	
 	@Column(name="date")
 	private Date date;
+	
 	@Column(name="location")
 	private String location;
+	
 	@Column(name="description")
 	private String description;
+	
+	@Lob
+	@Basic(fetch = FetchType.LAZY)
+	@Column(name="picture")
+	private String picture;
+	
 	@Column(name="lastmodified")
 	private int lastmodified;
-	Event(){}
-	Event(String eventname, Date date, String location, String description) {
+	
+	public Event(){	
+	}
+	
+	public Event(String eventname, Date date, String location, String description, String picture) {
 		new IdGenerator();
 		this.eventID = IdGenerator.uuid();
 		this.eventname = eventname;
 		this.date = date;
 		this.location = location;
 		this.description = description;
+		this.picture = picture;
+		this.lastmodified = 0;
+		
+	}
+	public Event(String eventname, Date date, String location, String description) {
+		new IdGenerator();
+		this.eventID = IdGenerator.uuid();
+		this.eventname = eventname;
+		this.date = date;
+		this.location = location;
+		this.description = description;
+		this.picture = null;
 		this.lastmodified = 0;
 		
 	}
@@ -54,7 +84,7 @@ public class Event {
 		this.eventname = eventname;
 	}
 
-	Date getDate() {
+	public Date getDate() {
 		return date;
 	}
 
@@ -62,7 +92,7 @@ public class Event {
 		this.date = date;
 	}
 
-	String getLocation() {
+	public String getLocation() {
 		return location;
 	}
 
@@ -70,7 +100,7 @@ public class Event {
 		this.location = location;
 	}
 
-	String getDescription() {
+	public String getDescription() {
 		return description;
 	}
 
@@ -78,6 +108,14 @@ public class Event {
 		this.description = description;
 	}
 
+	public String getPicture() {
+		return picture;
+	}
+	
+	void setPicture(String picture) {
+		this.picture = picture;
+	}
+	
 	public int getLastmodified() {
 		return lastmodified;
 	}

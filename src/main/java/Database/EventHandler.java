@@ -19,8 +19,7 @@ public class EventHandler extends DataHandler {
 	/**
 	 * Creates an event in the database. But first the relation (eventID, userID, admin=true) will be created.
 	 * If the creation of the relation was successful the database-entry can be set.
-	 * @param userID of the user creating the event
-	 * @param eventID of the event 
+	 * @param userID of the user creating the event 
 	 * @param eventname of the event
 	 * @param date of the event
 	 * @param location of the event
@@ -32,6 +31,41 @@ public class EventHandler extends DataHandler {
 		if(this.getUser(userID) == null) return null;
 		String id = null;
 		Event event = new Event(eventname, date, location, description);
+		String eventID = event.getEventID();
+		Session session = HibernateUtil.getFactory().openSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			EventUserHandler handler = new EventUserHandler();
+			if(handler.createRelation(eventID, userID) == true) {
+				id = (String) session.save(event);
+				tx.commit();
+			}
+		} catch(HibernateException he) {
+			if(tx != null) tx.rollback();
+			he.printStackTrace();
+		} finally {
+			session.close();
+		}
+		if(id == null || !id.equals(eventID)) return null;
+		return event;
+	}
+	/**
+	 * Creates an event in the database. But first the relation (eventID, userID, admin=true) will be created.
+	 * If the creation of the relation was successful the database-entry can be set.
+	 * @param userID of the user creating the event
+	 * @param eventname of the event
+	 * @param date of the event
+	 * @param location of the event
+	 * @param description of the event
+	 * @param picture of the event
+	 * @return event, if the entry could be created. Otherwise return null.
+	 */
+	public Event createEvent(String userID, String eventname, 
+			Date date, String location, String description, String picture) {
+		if(this.getUser(userID) == null) return null;
+		String id = null;
+		Event event = new Event(eventname, date, location, description, picture);
 		String eventID = event.getEventID();
 		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
