@@ -8,8 +8,11 @@
 		<property name="hibernate.connection.url">jdbc:mysql://localhost/PSESoSe17Gruppe4</property>
 		<property name="hibernate.connection.username">PSESoSe17User4</property>
 		<property name="hibernate.connection.password">w5q8zurebuZ7vEpe</property>
+		<property name="hibernate.connection.release_mode">after_statement</property>
 		<property name="show_sql">true</property>
-		
+		<property name="hibernate.c3p0.min_size">1</property>
+		<property name="hibernate.c3p0.max_size">100</property>
+		<property name="hibernate.c3p0.timeout">120</property>
 		<!--  Configuring connection pool
 		<property name="hibernate.c3p0.min_size">1</property> = 
 		Minimum number of JDBC connections in the pool. Hibernate default: 1
@@ -30,13 +33,13 @@
   		idle time in seconds before a connection is automatically validated. Hibernate default: 0
   		-->
 		
-		<property name="hbm2ddl.auto">create</property>
+		<property name="hbm2ddl.auto">update</property>
 		<mapping class="Database.User"/>
 		<mapping class="Database.Event"/>
 		<mapping class="Database.EventUserRelation"/>
 	<!-- port 3306 -->
 	<!-- connection url_old = https//i43pc164.ipd.kit.edu:3306/PSESoSe17Gruppe4 -->
 	<!-- hostname = i43pc164 -->
-	<!-- <property name="hbm2ddl.auto">update</property> -->
+	<!-- <property name="hbm2ddl.auto">create</property> -->
 	</session-factory>
 </hibernate-configuration>
