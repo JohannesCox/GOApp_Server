@@ -110,6 +110,9 @@ public class EventUserHandler extends DataHandler {
 						success = true;
 						tx.commit();
 					}
+				} else {
+					success = true;
+					tx.commit();
 				}
 			} catch(HibernateException he) {
 				if(tx != null) tx.rollback();
@@ -175,12 +178,12 @@ public class EventUserHandler extends DataHandler {
 	 */
 	public void nominateAdmin(List<EventUserRelation> members) {
 		Session session = HibernateUtil.getFactory().openSession();
-		EventUserRelation relation = (EventUserRelation) members.get(new Random().nextInt(members.size()));
+		EventUserRelation relation = members.get(new Random().nextInt(members.size()));
 		relation.setAdmin(true);
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			session.update(relation);
+			session.saveOrUpdate(relation);
 			tx.commit();
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();

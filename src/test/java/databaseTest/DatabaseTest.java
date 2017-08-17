@@ -1,6 +1,6 @@
 package databaseTest;
 
-import static org.junit.Assert.*;
+
 
 import java.io.File;
 
@@ -14,9 +14,7 @@ import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
-import org.junit.Test;
 
-import com.microsoft.schemas.office.excel.CTClientData.Factory;
 
 import Database.HibernateUtil;
 
@@ -33,7 +31,7 @@ public class DatabaseTest extends DBTestCase {
 			e.printStackTrace();
 		}
 		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, "com.mysql.jdbc.Driver");  
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, "jdbc:mysql://localhost/PSESoSe17Gruppe4");  
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, "jdbc:mysql:C:/Users/Martin/Downloads/PSESoSe17Gruppe4");  
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, "PSESoSe17User4");  
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, "w5q8zurebuZ7vEpe");  
 	}
