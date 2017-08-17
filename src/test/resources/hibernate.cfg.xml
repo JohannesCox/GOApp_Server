@@ -9,26 +9,6 @@
 		<property name="hibernate.connection.username">PSESoSe17User4</property>
 		<property name="hibernate.connection.password">w5q8zurebuZ7vEpe</property>
 		
-		<!--  Configuring connection pool
-		<property name="hibernate.c3p0.min_size">1</property> = 
-		Minimum number of JDBC connections in the pool. Hibernate default: 1
-		
-  		<property name="hibernate.c3p0.max_size">100</property> = 
-  		Maximum number of JDBC connections in the pool. Hibernate default: 100
-  		
-  		<property name="hibernate.c3p0.timeout">120</property> = 
-  		When an idle connection is removed from the pool (in second). Hibernate default: 0, never expire.
-  		
-  		<property name="hibernate.c3p0.max_statements">50</property> = 
-  		Number of prepared statements will be cached. Increase performance. Hibernate default: 0 , caching is disable.
-  		
-  		<property name="hibernate.c3p0.acquire_increment"></property> =
-  		Number of connections acquired at a time when there’s no connection available in the pool
-  		
-  		<property name="hibernate.c3p0.idle_test_period">3000</property> = 
-  		idle time in seconds before a connection is automatically validated. Hibernate default: 0
-  		-->
-		
 		<property name="hbm2ddl.auto">create</property>
 		<mapping class="Database.User"/>
 		<mapping class="Database.Event"/>

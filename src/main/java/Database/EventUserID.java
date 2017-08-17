@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 /**
  * This class models the composite primary key of the EventUserRelations
- * @author Martin
  *
  */
 public class EventUserID implements Serializable {

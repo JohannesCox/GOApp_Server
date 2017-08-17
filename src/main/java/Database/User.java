@@ -9,7 +9,7 @@ import org.hibernate.annotations.Table;
 
 @Entity
 @Table(appliesTo = "User")
-class User {
+public class User {
 	
 	@Id
 	@Column(name="userID")
@@ -21,19 +21,19 @@ private String username;
 private String email;
 	User(){}
 	
-	User(String userID, String username, String email) {
+	public User(String userID, String username, String email) {
 		this.userID = userID;
 		this.username = username;
 		this.email = email;
 	}
 	
-	User(String userID, String username){
+	public User(String userID, String username){
 		this.userID = userID;
 		this.username = username;
 		this.email = null;
 	}
 
-	String getUserID() {
+	public String getUserID() {
 	return userID;
 }
 
@@ -42,7 +42,7 @@ void setUserID(String userID) {
 }
 
 
-String getUsername() {
+public String getUsername() {
 	return username;
 }
 
@@ -51,7 +51,7 @@ void setUsername(String username) {
 }
 
 
-String getEmail() {
+public String getEmail() {
 	return email;
 }
 void setEmail(String email) {

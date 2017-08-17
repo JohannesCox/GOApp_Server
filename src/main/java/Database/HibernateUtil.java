@@ -24,7 +24,7 @@ static {
 	}
 }
 
-static synchronized SessionFactory getFactory() {
+public static synchronized SessionFactory getFactory() {
 	return factory;
 }
 

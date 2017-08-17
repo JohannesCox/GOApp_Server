@@ -19,7 +19,8 @@ public class EventUserHandler extends DataHandler {
 	}
 	//TODO: check whether createRelation and joinEvent can be combined in one method
 	/**
-	 * This method is invoked with the creation of an event. Creates the relation between the creator of the event and the event itself
+	 * This method is invoked with the creation of an event. 
+	 * Creates the relation between the creator of the event and the event itself.
 	 * The creator of the event, will be automatically the administrator of the event 
 	 * @param eventID of the event
 	 * @param userID of the user creating the event
@@ -45,7 +46,8 @@ public class EventUserHandler extends DataHandler {
 		return success;
 	}
 	/**
-	 * This method models a join to an event. Creates a new relation (eventID, userID, admin), with admin set to false
+	 * This method models a join to an event. 
+	 * Creates a new relation (eventID, userID, admin), with admin set to false.
 	 * @param eventID of the event to join
 	 * @param userID of the user
 	 * @return Event to be joined
@@ -81,7 +83,7 @@ public class EventUserHandler extends DataHandler {
 	 * another admin from left members will be nominated 
 	 * @param userID of the corresponding user
 	 * @param eventID of the corresponding event
-	 * @return true, if leaving the event was succesful
+	 * @return true, if leaving the event was successful
 	 */
 	public boolean leaveEvent(String userID, String eventID) {
 		boolean success = false;
@@ -94,12 +96,16 @@ public class EventUserHandler extends DataHandler {
 				tx = session.beginTransaction();
 				session.delete(relation);
 				List<EventUserRelation> members = this.getRelations_byeventID(eventID);
+				members.remove(relation);
+				//check whether the user is admin 
 				if(relation.isAdmin()) {
+					
 					if(members.isEmpty()) {
 						EventHandler eh = new EventHandler();
 						success = eh.deleteEvent(eventID);
 						tx.commit();
 					} else {
+						
 						nominateAdmin(members);
 						success = true;
 						tx.commit();
@@ -148,7 +154,8 @@ public class EventUserHandler extends DataHandler {
 		return relations;
 	}
 	/**
-	 * Creates a list of all relations to the corresponding userID. An empty list will be created if there is no such relation
+	 * Creates a list of all relations to the corresponding userID. 
+	 * An empty list will be created if there is no such relation.
 	 * @param userID of the user
 	 * @return list of the relations
 	 */
@@ -210,7 +217,8 @@ public class EventUserHandler extends DataHandler {
 	}
 	
 	/**
-	 * Creates a list of all events the user with given userID is a member. The created list is empty, if the user is not member of any events
+	 * Creates a list of all events the user with given userID is a member. 
+	 * The created list is empty, if the user is not member of any events
 	 * @param userID of the user
 	 * @return list of events
 	 */

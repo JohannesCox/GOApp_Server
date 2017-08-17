@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+	<User userID="1" username="TestUser1"/>
+	<User userID="2" username="TestUser2"/>
+	<User userID="3" username="TestUser3"/>
+	<User userID="4" username="TestUser4"/>
+	<Event eventID="eID1" eventname="TestEvent1" date="20170815142001" location="23.01,44.00" description="abc"/>
+	<Event eventID="eID2" eventname="TestEvent1" date="20170815142211" location="20.4,34.12" description="def"/>
+	<EventUserRelation eventID="eID1" userID="1" admin="1"/>
+	<EventUserRelation eventID="eID1" userID="2" admin="0"/>
+	<EventUserRelation eventID="eID2" userID="3" admin="1"/>
+	
+</dataset>
