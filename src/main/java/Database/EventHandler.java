@@ -8,7 +8,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 /**
  * This class manages the accesses to the table "Event" in the database
- * @author Martin
  *
  */
 public class EventHandler extends DataHandler {
@@ -76,7 +75,8 @@ public class EventHandler extends DataHandler {
 			event.setDate(date);
 			event.setLocation(location);
 			event.setDescription(description);
-			event.setLastmodified(event.getLastmodified()+1); // increments the lastmodified parameter to guarantee synchronization with client
+			// increment the lastmodified parameter to guarantee synchronization with client
+			event.setLastmodified(event.getLastmodified()+1); 
 			session.update(event);
 			tx.commit();
 		} catch(HibernateException he) {

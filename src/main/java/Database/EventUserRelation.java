@@ -9,7 +9,7 @@ import javax.persistence.Table;
 @Entity
 @IdClass(EventUserID.class)
 @Table(name= "EventUserRelation")
-class EventUserRelation {
+public class EventUserRelation {
 	@Id @Column(name="eventID")
 	private String eventID;
 	@Id @Column(name="userID")
@@ -26,7 +26,7 @@ class EventUserRelation {
 		this.admin = admin;
 	}
 
-	String getEventID() {
+	public String getEventID() {
 		return eventID;
 	}
 
@@ -34,7 +34,7 @@ class EventUserRelation {
 		this.eventID = eventID;
 	}
 
-	String getUserID() {
+	public String getUserID() {
 		return userID;
 	}
 
@@ -42,7 +42,7 @@ class EventUserRelation {
 		this.userID = userID;
 	}
 
-	boolean isAdmin() {
+	public boolean isAdmin() {
 		return admin;
 	}
 
