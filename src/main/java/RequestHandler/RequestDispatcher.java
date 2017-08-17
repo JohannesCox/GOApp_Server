@@ -90,12 +90,11 @@ public class RequestDispatcher {
 	
 	private Command downloadEventImageFactory() {
 		String eventId = request.getParameter(EVENT_ID);
-		String image = request.getParameter(IMAGE);
 		
-		if(image == null || eventId == null) {
+		if(eventId == null) {
 			return null;
 		} else {
-			return (new DownloadEventImageCommand(userId, eventId, image));
+			return (new DownloadEventImageCommand(userId, eventId));
 		}
 	}
 
