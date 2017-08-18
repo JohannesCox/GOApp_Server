@@ -35,6 +35,8 @@ public class GetEventsCommandTest {
 	private int newLM2 = 1;
 	private int newLM3 = 1;
 	
+	private long date = 1503072074059L;
+	
 	private Event ev1;
 	private Event ev2;
 	private Event ev3;
@@ -52,13 +54,13 @@ public class GetEventsCommandTest {
 	@Before
 	public void setUp() {
 		
-		input1.put(eventId2, lastMod1);
+		input1.put(eventId1, lastMod1);
 		input1.put(eventId2, lastMod2);
 		input1.put(eventId3, lastMod3);
 		
 		input2.put(eventId1, lastMod1);
-		input2.put(eventId2, newLM2);
-		input2.put(eventId3, newLM3);
+		input2.put(eventId2, lastMod2);
+		input2.put(eventId3, lastMod3);
 		
 		ev1 = createTestE(eventId1, lastMod1);
 		ev2 = createTestE(eventId2, lastMod2);
@@ -68,8 +70,8 @@ public class GetEventsCommandTest {
 		handlerOutput1.add(ev2);
 		handlerOutput1.add(ev3);
 		
-		changedEv2 = createTestE(eventId1, newLM2);
-		changedEv3 = createTestE(eventId1, newLM3);
+		changedEv2 = createTestE(eventId2, newLM2);
+		changedEv3 = createTestE(eventId3, newLM3);
 		
 		handlerOutput2.add(ev1);
 		handlerOutput2.add(changedEv2);
@@ -77,10 +79,17 @@ public class GetEventsCommandTest {
 		
 		euh1 = createMock(EventUserHandler.class);
 		expect(euh1.getAllUserEvents(userId)).andReturn(handlerOutput1);
+		expect(euh1.isAdmin(userId, eventId1)).andReturn(false);
+		expect(euh1.isAdmin(userId, eventId2)).andReturn(false);
+		expect(euh1.isAdmin(userId, eventId3)).andReturn(true);
 		replay(euh1);
 		
 		euh2 = createMock(EventUserHandler.class);
 		expect(euh2.getAllUserEvents(userId)).andReturn(handlerOutput2);
+		expect(euh2.isAdmin(userId, eventId1)).andReturn(false);
+		expect(euh2.isAdmin(userId, eventId2)).andReturn(false);
+		expect(euh2.isAdmin(userId, eventId3)).andReturn(true);
+		replay(euh2);
 		
 		testGEC1 = new GetEventsCommand(userId, input1);
 		testGEC2 = new GetEventsCommand(userId, input2);
@@ -92,25 +101,33 @@ public class GetEventsCommandTest {
 	
 	@Test
 	public void testNoChangeInEvents() {
-		
+		String result = testGEC1.process();
+		//no event has changed
+		assertEquals(result, "[]");
 	}
 	
 	@Test
 	public void testTwoChangesInEvents() {
+		String result = testGEC2.process();
 		
+		String expectedRes = "[{\"eventId\":\"" + eventId2 + "\",\"title\":\"name\",\"date\":" + date + ",\"location\":\"location\","
+				+ "\"description\":\"description\",\"lastModified\":" + newLM2 + ",\"isAdmin\":false,\"isDeleted\":false},{\"eventId\""
+				+ ":\"" + eventId3 + "\",\"title\":\"name\",\"date\":" + date + ",\"location\":\"location\",\"description\":\"description\","
+				+ "\"lastModified\":" + newLM3 + ",\"isAdmin\":true,\"isDeleted\":false}]";
+		assertEquals(result, expectedRes);
 	}
 	
 	private Event createTestE(String eId, int lastMod) {
 		JsonObject jo = new JsonObject();
 		jo.addProperty("eventId", eId);
 		jo.addProperty("title", "name");
-		jo.addProperty("date", (new Date()).getTime());
+		jo.addProperty("date", date);
 		jo.addProperty("location", "location");
 		jo.addProperty("description", "description");
 		jo.addProperty("lastModified", lastMod);
 		Event event = createMock(Event.class);
 		expect(event.serialize()).andReturn(jo);
-		expect(event.getEventID()).andReturn(eId);
+		expect(event.getEventID()).andReturn(eId).anyTimes();
 		expect(event.getLastmodified()).andReturn(lastMod);
 		replay(event);
 		return event;
