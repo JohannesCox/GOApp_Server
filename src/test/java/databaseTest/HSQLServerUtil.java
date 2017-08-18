@@ -12,9 +12,7 @@ import org.slf4j.LoggerFactory;
   
 /** 
  * Utility to start the HSQL server. 
- * 
- * @author Denis Pavlov 
- * @since 1.0.0 
+ *  
  * 
  */  
 public final class HSQLServerUtil {  
