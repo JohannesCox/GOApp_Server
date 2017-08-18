@@ -76,7 +76,7 @@ public class Event {
 		this.eventID = eventID;
 	}
 
-	String getEventname() {
+	public String getEventname() {
 		return eventname;
 	}
 
@@ -124,6 +124,64 @@ public class Event {
 		this.lastmodified = lastmodified;
 	}
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((date == null) ? 0 : date.hashCode());
+		result = prime * result + ((description == null) ? 0 : description.hashCode());
+		result = prime * result + ((eventID == null) ? 0 : eventID.hashCode());
+		result = prime * result + ((eventname == null) ? 0 : eventname.hashCode());
+		result = prime * result + lastmodified;
+		result = prime * result + ((location == null) ? 0 : location.hashCode());
+		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Event other = (Event) obj;
+		if (date == null) {
+			if (other.date != null)
+				return false;
+		} else if (!date.equals(other.date))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (eventID == null) {
+			if (other.eventID != null)
+				return false;
+		} else if (!eventID.equals(other.eventID))
+			return false;
+		if (eventname == null) {
+			if (other.eventname != null)
+				return false;
+		} else if (!eventname.equals(other.eventname))
+			return false;
+		if (lastmodified != other.lastmodified)
+			return false;
+		if (location == null) {
+			if (other.location != null)
+				return false;
+		} else if (!location.equals(other.location))
+			return false;
+		if (picture == null) {
+			if (other.picture != null)
+				return false;
+		} else if (!picture.equals(other.picture))
+			return false;
+		return true;
+	}
+
 	public JsonObject serialize() {
 		JsonObject jo = new JsonObject();
 		jo.addProperty("eventId", eventID);

@@ -4,12 +4,16 @@
 	<User userID="2" username="TestUser2"/>
 	<User userID="3" username="TestUser3"/>
 	<User userID="4" username="TestUser4"/>
+	<User userID="5" username="TestUser5"/>
 	<Event eventID="eID1" eventname="TestEvent1" date="2017-08-15 14:20:01" location="23.01,44.00" description="abc" 
+	 lastmodified="0"/>
+	<Event eventID="eID2" eventname="TestEvent2" date="2017-08-15 14:22:11" location="20.4,34.12" description="def"
 	lastmodified="0"/>
-	<Event eventID="eID2" eventname="TestEvent1" date="2017-08-15 14:22:11" location="20.4,34.12" description="def"
-	lastmodified="0"/>
+	<Event eventID="eID3" eventname="TestEvent3" date="2017-08-18 22:29:02" location="2.12,13.04" description="ghi"
+	lastmodified="0" picture="testPicture"/>
 	<EventUserRelation eventID="eID1" userID="1" admin="1"/>
 	<EventUserRelation eventID="eID1" userID="2" admin="0"/>
 	<EventUserRelation eventID="eID2" userID="3" admin="1"/>
+	<EventUserRelation eventID="eID3" userID="5" admin="1"/>
 	
 </dataset>
