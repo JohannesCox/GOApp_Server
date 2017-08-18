@@ -12,14 +12,16 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 /**
- * This class includes the clustering algorithm for the event classes. One instance of this class should belong to one event.
+ * This class includes the clustering algorithm for the event classes. 
+ * One instance of this class should belong to one event.
  */
 public class ClusteringAlgorithm {
 	
-	//the maximum distance for 2 points to be in the same cluster. Is equal to about 60m.
+	//the maximum distance for 2 points to be in the same cluster in degrees. Is equal to about 60m.
 	private final double EPS = 0.0007;
 	
-	//The minimum of points which can build a cluster. The value 1 means that a cluster contains at least 2 points.
+	//The minimum of points which can build a cluster. 
+	//The value 1 means that a cluster contains at least 2 points.
 	private final int MINPNTS = 1;
 	
 	//Time in seconds until the gps data of a user is deleted (if not updated)

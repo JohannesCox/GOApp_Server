@@ -18,7 +18,6 @@ import requestHandler.commands.Command;
  * This class is the only entry point to the server. All requests have to be send to this servlet.
  * 
  */
-
 @WebServlet("/FrontServlet")
 public class FrontServlet extends HttpServlet{
 	
@@ -63,7 +62,7 @@ public class FrontServlet extends HttpServlet{
 			}
 		}
 		
-		RequestDispatcher requestDispatcher = new RequestDispatcher(request,userId);
+		RequestDispatcher requestDispatcher = new RequestDispatcher(request, userId);
 		Command requestHandler = requestDispatcher.createHandler();
 		
 		if (requestHandler == null) {

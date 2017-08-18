@@ -1,6 +1,8 @@
 package requestHandler.commands;
 
-
+/**
+ * All commands-classes which process a certain request should inherit from this class.
+ */
 public abstract class Command {
 	
 	protected final String SUCCES_VAR = "successful";
@@ -10,7 +12,7 @@ public abstract class Command {
 	
 	/**
 	 * Should be overwritten by every class which inherits from this class. 
-	 * @return
+	 * @return Returns the result of the processing of the request.
 	 */
 	public String process(){
 		return null;
