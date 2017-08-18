@@ -44,7 +44,7 @@ public class FrontServlet extends HttpServlet{
 		if (session == null) {
 		    userId = verifyUser(request);
 		    if (userId == "") {
-		    	sendResponse(response, getAuthentificationError());
+		    	sendAuthentErrorResponse(response);
 		    	return;
 		    }
 		    session = request.getSession();
@@ -52,41 +52,64 @@ public class FrontServlet extends HttpServlet{
 		    session.setMaxInactiveInterval(MAXSESSIONINTERVALL);
 	    
 		// there is an existing session with the user. The userId can be taken from the session.
+		// there is no need to verify the IdToken
 		} else {
-			session = request.getSession();
-			userId = (String) session.getAttribute("UserId");
+			if (session.getAttribute("UserId") == null) {
+				sendAuthentErrorResponse(response);
+				return;
+			} else {
+				session = request.getSession();
+				userId = (String) session.getAttribute("UserId");
+			}
 		}
 		
 		RequestDispatcher requestDispatcher = new RequestDispatcher(request,userId);
 		Command requestHandler = requestDispatcher.createHandler();
 		
 		if (requestHandler == null) {
-			sendResponse(response, getIncorrectRequestError());
+			sendIncorrectRequestErrorResponse(response);
 			return;
 		} else {
 		
 			String responseString = requestHandler.process();	
-			sendResponse(response, responseString);
+			sendSuccessResponse(response, responseString);
+			return;
 		}
 	}
 	
-	private String getIncorrectRequestError() {
-		JsonObject jo = new JsonObject();
-		jo.addProperty("successful", "false");
-		jo.addProperty("error", "InvalidRequestError");	
-		return jo.toString();
-	}
-	
-	private String getAuthentificationError() {
-		JsonObject jo = new JsonObject();
-		jo.addProperty("successful", "false");
-		jo.addProperty("error", "Authentificationerror");
-		return jo.toString();
-	}
-	
-	private void sendResponse(HttpServletResponse response, String responseString) {
+	private void sendSuccessResponse(HttpServletResponse response, String responseString) {
 		try {
 			response.getWriter().write(responseString);
+			response.getWriter().flush();
+		   	response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	   	
+	}
+	
+	private void sendAuthentErrorResponse(HttpServletResponse response) {
+		try {
+			response.setStatus(401);
+			JsonObject jo = new JsonObject();
+			jo.addProperty("successful", "false");
+			jo.addProperty("error", "Authentificationerror");
+			response.getWriter().write(jo.toString());
+			response.getWriter().flush();
+		   	response.getWriter().close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	   	
+	}
+	
+	private void sendIncorrectRequestErrorResponse(HttpServletResponse response) {
+		try {
+			response.setStatus(400);
+			JsonObject jo = new JsonObject();
+			jo.addProperty("successful", "false");
+			jo.addProperty("error", "InvalidRequestError");	
+			response.getWriter().write(jo.toString());
 			response.getWriter().flush();
 		   	response.getWriter().close();
 		} catch (IOException e) {

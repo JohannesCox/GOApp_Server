@@ -1,6 +1,7 @@
 package RequestHandler;
 
 import java.util.Date;
+
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import RequestHandler.Commands.*;
+
 /**
  * This class is the Command factory. 
  */
@@ -73,12 +75,12 @@ public class RequestDispatcher {
 				return leaveEventFactory();
 			case("signUp"):
 				return signUpFactory();
-			/*case("startEvent"):
+			case("startEvent"):
 				return startEventFactory();
 			case("updateEvent"):
 				return updateEventFactory();
 			case("stopEvent"):
-				return stopEventFactory();*/
+				return stopEventFactory();
 			case("uploadEventImage"):
 				return uploadEventImageFactory();
 			case("downloadEventImage"):
