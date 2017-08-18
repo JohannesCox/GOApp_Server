@@ -6,20 +6,18 @@ import java.util.Map;
 
 import java.util.UUID;
 
-
 /**
- * used to generate universal unique ids
- * in order to generate ids with supposed characteristic,
- * the java class java.util.UUID will be used,
+ * Generates universal unique ids.
+ * In order to generate Ids with the desired characteristics,
+ * the java class java.util.UUID is used,
  * which can generate a hexadecimal universal unique id with 32 characters.
  * In addition UUID will use java class java.security.SecureRandom for random,
  * which can guarantee the strength of cryptography.
- * After conversion into 62 system, which be build up with digits, lower -and upper case letter,
- * a universal unique ids with 19 characters will be finally generated
+ * After conversion into 62 system, which is build up with digits, lower -and upper case letter,
+ * a universal unique ids with 19 characters is generated.
  *
  */
 public class IdGenerator {
-
 
     /**
      * the characters could be used in Id
@@ -33,7 +31,7 @@ public class IdGenerator {
             'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L',
 
             'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y',
-
+            
             'Z' };
 
 
@@ -42,14 +40,10 @@ public class IdGenerator {
      */
     final static Map<Character, Integer> digitMap = new HashMap<Character, Integer>();
 
-
-
     static {
 
         for (int i = 0; i < digits.length; i++) {
-
             digitMap.put(digits[i], (int) i);
-
         }
 
     }
@@ -60,12 +54,10 @@ public class IdGenerator {
      */
     public static final int MAX_RADIX = digits.length;
 
-
     /**
      * The constant MIN_RADIX for minimal radix
      */
     public static final int MIN_RADIX = 2;
-
 
     /**
      * translate a decimal number to a string with the given system
@@ -77,59 +69,35 @@ public class IdGenerator {
     public static String toString(long i, int radix) {
 
         if (radix < MIN_RADIX || radix > MAX_RADIX)
-
             radix = 10;
 
         if (radix == 10)
-
             return Long.toString(i);
 
-
-
         final int size = 65;
-
         int charPos = 64;
-
-
-
         char[] buf = new char[size];
 
         boolean negative = (i < 0);
 
-
-
         if (!negative) {
-
             i = -i;
-
         }
 
-
-
         while (i <= -radix) {
-
             buf[charPos--] = digits[(int) (-(i % radix))];
-
             i = i / radix;
-
         }
 
         buf[charPos] = digits[(int) (-i)];
 
-
-
         if (negative) {
-
             buf[--charPos] = '-';
-
         }
-
-
 
         return new String(buf, charPos, (size - charPos));
 
     }
-
 
     /**
      * For input string number format exception.
@@ -143,7 +111,6 @@ public class IdGenerator {
 
     }
 
-
     /**
      * to translate a string with the given system to a decimal number
      *
@@ -154,30 +121,21 @@ public class IdGenerator {
     public static long toNumber(String s, int radix) {
 
         if (s == null) {
-
             throw new NumberFormatException("null");
 
         }
 
-
-
         if (radix < MIN_RADIX) {
-
             throw new NumberFormatException("radix " + radix
-
                     + " less than Numbers.MIN_RADIX");
 
         }
 
         if (radix > MAX_RADIX) {
-
             throw new NumberFormatException("radix " + radix
-
                     + " greater than Numbers.MAX_RADIX");
 
         }
-
-
 
         long result = 0;
 
@@ -191,30 +149,20 @@ public class IdGenerator {
 
         Integer digit;
 
-
-
         if (len > 0) {
-
             char firstChar = s.charAt(0);
 
             if (firstChar < '0') {
-
+            	
                 if (firstChar == '-') {
-
                     negative = true;
-
                     limit = Long.MIN_VALUE;
 
                 } else if (firstChar != '+')
-
                     throw forInputString(s);
-
-
 
                 if (len == 1) {
-
                     throw forInputString(s);
-
                 }
 
                 i++;
@@ -224,33 +172,24 @@ public class IdGenerator {
             multmin = limit / radix;
 
             while (i < len) {
-
                 digit = digitMap.get(s.charAt(i++));
 
                 if (digit == null) {
-
                     throw forInputString(s);
-
                 }
 
                 if (digit < 0) {
-
                     throw forInputString(s);
-
                 }
 
                 if (result < multmin) {
-
                     throw forInputString(s);
-
                 }
 
                 result *= radix;
 
                 if (result < limit + digit) {
-
                     throw forInputString(s);
-
                 }
 
                 result -= digit;
@@ -267,22 +206,14 @@ public class IdGenerator {
 
     }
 
-
-
-
-
-
-
     private static String digits(long val, int digits) {
 
         long hi = 1L << (digits * 4);
 
         return IdGenerator.toString(hi | (val & (hi - 1)), IdGenerator.MAX_RADIX)
-
                 .substring(1);
 
     }
-
 
     /**
      * to generate an universal unique id
@@ -294,21 +225,14 @@ public class IdGenerator {
         UUID uuid = UUID.randomUUID();
 
         StringBuilder sb = new StringBuilder();
-
         sb.append(digits(uuid.getMostSignificantBits() >> 32, 8));
-
         sb.append(digits(uuid.getMostSignificantBits() >> 16, 4));
-
         sb.append(digits(uuid.getMostSignificantBits(), 4));
-
         sb.append(digits(uuid.getLeastSignificantBits() >> 48, 4));
-
         sb.append(digits(uuid.getLeastSignificantBits(), 12));
 
         return sb.toString();
 
     }
-
-
 
 }
