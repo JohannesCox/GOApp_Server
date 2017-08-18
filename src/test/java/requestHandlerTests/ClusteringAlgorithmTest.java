@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 import org.apache.commons.math3.ml.clustering.DoublePoint;
 import org.junit.*;
 
-import RequestHandler.ClusteringAlgorithm;
+import requestHandler.ClusteringAlgorithm;
 
 /**
  * This class includes tests for the ClusteringAlgorithm class. 

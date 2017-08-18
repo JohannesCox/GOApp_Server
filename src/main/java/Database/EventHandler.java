@@ -112,7 +112,7 @@ public class EventHandler extends DataHandler {
 		return success;
 	}
 	
-	String getPicture(String userID, String eventID) {
+	public String getPicture(String userID, String eventID) {
 		Event event = this.getEvent(eventID);
 		EventUserRelation relation = this.getRelation(eventID, userID);
 		if(event == null || relation == null) {

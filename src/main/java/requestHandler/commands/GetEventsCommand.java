@@ -1,4 +1,4 @@
-package RequestHandler.Commands;
+package requestHandler.commands;
 
 import java.util.HashMap;
 import java.util.List;

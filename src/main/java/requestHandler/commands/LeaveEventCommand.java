@@ -1,48 +1,41 @@
-package RequestHandler.Commands;
+package requestHandler.commands;
 
 import com.google.gson.JsonObject;
 
-import Database.Event;
 import Database.EventUserHandler;
 
 /**
- * The command to add a user to an event.
+ * The command to remove a user from an event.
  */
-public class JoinEventCommand extends Command {
+public class LeaveEventCommand extends Command {
 	
-	private String eventId;
 	private String userId;
+	private String eventId;
 	private EventUserHandler eventUserHandler;
 	
 	/**
-	 * Creates a new command to add the user to the event.
-	 * @param eId The eventId of the event.
+	 * Creates a new command which removes a user from an event.
 	 * @param uId The userId of the user.
+	 * @param eId The eventId of the event.
 	 */
-	public JoinEventCommand(String eId, String uId) {
-		eventId = eId;
+	public LeaveEventCommand(String uId, String eId) {
 		userId = uId;
+		eventId = eId;
 		eventUserHandler = new EventUserHandler();
 	}
 	
 	/**
-	 * Adds the user to the event. The returned String specifies if the action was successful or not.
+	 * Removes the user from the event. Returns if the action was successful or not.
 	 */
 	public String process() {
 
-		Event event = eventUserHandler.joinEvent(eventId, userId);
+		boolean success = eventUserHandler.leaveEvent(userId, eventId);
 		
 		JsonObject jo = new JsonObject();
 		
-		if (event == null) {
-			jo.addProperty(super.SUCCES_VAR, false);
-		} else {
-			jo = event.serialize();
-			jo.addProperty(super.SUCCES_VAR, true);
-		}	
+		jo.addProperty(super.SUCCES_VAR, success);
 		
 		return jo.toString();
-
 	}
 	
 	public String getEventId() {
@@ -52,7 +45,7 @@ public class JoinEventCommand extends Command {
 	public String getUserId() {
 		return userId;
 	}
-
+	
 	public EventUserHandler getEventUserHandler() {
 		return eventUserHandler;
 	}

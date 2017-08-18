@@ -1,6 +1,7 @@
-package RequestHandler;
+package requestHandler;
 
 import java.util.Date;
+
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -9,10 +10,12 @@ import org.apache.commons.math3.ml.clustering.DoublePoint;
 
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+
+import requestHandler.commands.*;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import RequestHandler.Commands.*;
 /**
  * This class is the Command factory. 
  */
@@ -90,12 +93,11 @@ public class RequestDispatcher {
 	
 	private Command downloadEventImageFactory() {
 		String eventId = request.getParameter(EVENT_ID);
-		String image = request.getParameter(IMAGE);
 		
-		if(image == null || eventId == null) {
+		if(eventId == null) {
 			return null;
 		} else {
-			return (new DownloadEventImageCommand(userId, eventId, image));
+			return (new DownloadEventImageCommand(userId, eventId));
 		}
 	}
 

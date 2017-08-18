@@ -1,4 +1,4 @@
-package RequestHandler.Commands;
+package requestHandler.commands;
 
 
 public abstract class Command {
