@@ -8,8 +8,9 @@ import Database.*;
 public class UserTest extends DatabaseTest {
 private UserHandler handler;
 @Before
-public void setUp() {
+public void setUp() throws Exception {
 	handler = new UserHandler();
+	super.setUp();
 }
 @Test
 public void testAddUser() {
@@ -51,8 +52,10 @@ public void testDeleteUser_eDeleted() {
 	String userID ="3";
 	String eventID="eID2";
 	if(handler.deleteUser(userID)) {
+		assertNull(session.get(User.class, userID));
 		assertNull(session.get(EventUserRelation.class, new EventUserID(eventID, userID)));
 		assertNull(session.get(Event.class, eventID));
+		
 	}
 }
 @Test

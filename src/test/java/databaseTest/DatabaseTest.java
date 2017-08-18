@@ -14,45 +14,49 @@ import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
-
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import Database.HibernateUtil;
 
-public class DatabaseTest extends DBTestCase {
-	private IDatabaseConnection connection;
-	private SessionFactory factory;
-	Session session;
+public abstract class DatabaseTest extends DBTestCase {
+	private static final Logger LOG = LoggerFactory.getLogger(DatabaseTest.class);  
+	  
+    private static SessionFactory sessionFactory;  
+    protected Session session;  
 	public DatabaseTest() {
-		try {
-		factory = HibernateUtil.getFactory();
-		connection = new DatabaseConnection(factory.getSessionFactoryOptions()
-				.getServiceRegistry().getService(ConnectionProvider.class).getConnection());
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, "com.mysql.jdbc.Driver");  
-        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, "jdbc:mysql:C:/Users/Martin/Downloads/PSESoSe17Gruppe4");  
+		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, "org.hsqldb.jdbcDriver");  
+        System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, "jdbc:hsqldb:mem:PSESoSe17Gruppe4");  
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_USERNAME, "PSESoSe17User4");  
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_PASSWORD, "w5q8zurebuZ7vEpe");  
 	}
 	
-	@Override
+	@Before
 	protected void setUp() throws Exception {
-		super.setUp();
-		try {
-			session = factory.openSession();
-			DatabaseOperation.CLEAN_INSERT.execute(connection,this.getDataSet());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		HSQLServerUtil.getInstance().start("PSESoSe17Gruppe4");  
+		  
+        LOG.info("Loading hibernate...");  
+        if (sessionFactory == null) {  
+            sessionFactory = HibernateUtil.getFactory();  
+        }  
+  
+        session = sessionFactory.openSession();
+        
+        super.setUp();  
 		
 	}
 	
-	@Override
-	protected void tearDown() throws Exception {
-		DatabaseOperation.DELETE_ALL.execute(connection, this.getDataSet());
-		session.close();
-	}
+	@After  
+    public void tearDown() throws Exception {  
+        session.close();  
+        super.tearDown();  
+        HSQLServerUtil.getInstance().stop();  
+    }  
+	
+
 
 
 	@Override
@@ -60,9 +64,20 @@ public class DatabaseTest extends DBTestCase {
 		// TODO Auto-generated method stub
 		FlatXmlDataSetBuilder builder = new FlatXmlDataSetBuilder();
 		 builder.setColumnSensing(true);
-		 IDataSet dataSet = builder.build(new File("Dataset.xml"));
+		 IDataSet dataSet = builder.build(new File("src/test/resources/Dataset.xml"));
 		 return dataSet;
 	}
+	@Before
+	protected DatabaseOperation getSetUpOperation() throws Exception {  
+        return DatabaseOperation.REFRESH;  
+    }  
+  
+    @After
+    protected DatabaseOperation getTearDownOperation() throws Exception {  
+        return DatabaseOperation.NONE;  
+    }  
+	
+	
 
 
 
