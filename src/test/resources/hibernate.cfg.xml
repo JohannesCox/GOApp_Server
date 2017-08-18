@@ -3,13 +3,16 @@
 "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
 	<session-factory name="hibernate.cfg.xml">
-		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-		<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-		<property name="hibernate.connection.url">jdbc:mysql://C:\Users\Martin\Downloads\PSESoSe17Gruppe4</property>
-		<property name="hibernate.connection.username">PSESoSe17User4</property>
-		<property name="hibernate.connection.password">w5q8zurebuZ7vEpe</property>
-		
-		<property name="hbm2ddl.auto">create</property>
+	<property name="dialect">org.hibernate.dialect.HSQLDialect</property>  
+        <property name="hibernate.cache.use_query_cache">false</property>  
+        <property name="hibernate.cache.use_second_level_cache">false</property>  
+        <property name="hbm2ddl.auto">create</property> <!-- this will let us create the test database automatically from our mapping files (or annotations) -->  
+        <property name="hibernate.show_sql">true</property> <!-- not necessary but nice to have so that you can see what hibernate is actually doing and when. -->  
+        <property name="connection.driver_class">org.hsqldb.jdbcDriver</property>  
+        <property name="connection.url">jdbc:hsqldb:mem:PSESoSe17Gruppe4</property><!-- mem protocol will make it an in memory db -->  
+        <property name="connection.username">PSESoSe17User4</property>  
+        <property name="connection.password">w5q8zurebuZ7vEpe</property>  
+        <property name="connection.pool_size">1</property>  
 		<mapping class="Database.User"/>
 		<mapping class="Database.Event"/>
 		<mapping class="Database.EventUserRelation"/>

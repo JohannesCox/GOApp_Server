@@ -98,6 +98,7 @@ public class EventHandler extends DataHandler {
 			try {
 				tx = session.beginTransaction();
 				event.setPicture(picture);
+				event.setLastmodified(event.getLastmodified() +1);
 				session.saveOrUpdate(event);
 				tx.commit();
 				success = true;
