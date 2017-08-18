@@ -2,19 +2,8 @@ package requestHandlerTests;
 import org.apache.commons.math3.ml.clustering.DoublePoint;
 import org.junit.*;
 
-import RequestHandler.RequestDispatcher;
-import RequestHandler.Commands.Command;
-import RequestHandler.Commands.CreateEventCommand;
-import RequestHandler.Commands.DeleteEventCommand;
-import RequestHandler.Commands.DeleteUserCommand;
-import RequestHandler.Commands.GetEventsCommand;
-import RequestHandler.Commands.GetMembersCommand;
-import RequestHandler.Commands.JoinEventCommand;
-import RequestHandler.Commands.LeaveEventCommand;
-import RequestHandler.Commands.SignUpCommand;
-import RequestHandler.Commands.StartEventCommand;
-import RequestHandler.Commands.StopEventCommand;
-import RequestHandler.Commands.UpdateEventCommand;
+import requestHandler.*;
+import requestHandler.commands.*;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;

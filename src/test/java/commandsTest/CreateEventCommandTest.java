@@ -6,7 +6,7 @@ import com.google.gson.JsonObject;
 
 import Database.Event;
 import Database.EventHandler;
-import RequestHandler.Commands.CreateEventCommand;
+import requestHandler.commands.CreateEventCommand;
 
 import static org.easymock.EasyMock.*;
 import static org.junit.Assert.*;

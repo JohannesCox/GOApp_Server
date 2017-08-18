@@ -1,4 +1,4 @@
-package RequestHandler;
+package requestHandler;
 
 import java.util.Date;
 
@@ -10,10 +10,11 @@ import org.apache.commons.math3.ml.clustering.DoublePoint;
 
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+
+import requestHandler.commands.*;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import RequestHandler.Commands.*;
 
 /**
  * This class is the Command factory. 

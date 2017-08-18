@@ -1,4 +1,4 @@
-package RequestHandler.Commands;
+package requestHandler.commands;
 
 import java.util.HashMap;
 
@@ -7,7 +7,7 @@ import org.apache.commons.math3.ml.clustering.DoublePoint;
 import com.google.gson.JsonObject;
 
 import Database.EventUserHandler;
-import RequestHandler.ClusteringAlgorithm;
+import requestHandler.ClusteringAlgorithm;
 
 /**
  * The command to start an event and to get the current group locations of an event.

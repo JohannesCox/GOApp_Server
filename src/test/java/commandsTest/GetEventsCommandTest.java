@@ -14,7 +14,7 @@ import com.google.gson.JsonObject;
 
 import Database.Event;
 import Database.EventUserHandler;
-import RequestHandler.Commands.GetEventsCommand;
+import requestHandler.commands.GetEventsCommand;
 
 public class GetEventsCommandTest {
 

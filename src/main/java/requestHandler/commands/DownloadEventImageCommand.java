@@ -1,51 +1,50 @@
-package RequestHandler.Commands;
+package requestHandler.commands;
 
 import com.google.gson.JsonObject;
 
 import Database.EventHandler;
 
-public class UploadEventImageCommand extends Command {
+public class DownloadEventImageCommand extends Command {
 
 	private String userId;
 	private String eventId;
-	private String image;
 	
 	private EventHandler eventHandler;
 	
-	public UploadEventImageCommand(String uId, String eId, String img) {
+	public DownloadEventImageCommand(String uId, String eId) {
 		userId = uId;
 		eventId = eId;
-		image = img;
 		eventHandler = new EventHandler();
 	}
 	
 	public String process() {
 		
-		boolean success = eventHandler.storePicture(userId, eventId, image);
-		
+		String img = eventHandler.getPicture(userId, eventId);
 		JsonObject jo = new JsonObject();
-		jo.addProperty(SUCCES_VAR, success);
-		return jo.toString();
 		
+		if (img == null) {
+			jo.addProperty(SUCCES_VAR, false);
+		} else {
+			jo.addProperty(SUCCES_VAR, true);
+			jo.addProperty("image", img);
+		}
+		
+		return jo.toString();
 	}
 	
 	public EventHandler getEventHandler() {
 		return eventHandler;
 	}
 	
-	public void setEventHandler(EventHandler eventHandler) {
-		this.eventHandler = eventHandler;
-	}
-	
 	public String getEventId() {
 		return eventId;
 	}
 	
-	public String getImage() {
-		return image;
-	}
-	
 	public String getUserId() {
 		return userId;
+	}
+	
+	public void setEventHandler(EventHandler eventHandler) {
+		this.eventHandler = eventHandler;
 	}
 }

@@ -1,4 +1,4 @@
-package edu.kit.sose2017go4.goprototype.helper;
+package Database;
 
 import java.util.HashMap;
 

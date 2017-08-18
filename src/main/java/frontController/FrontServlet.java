@@ -11,8 +11,8 @@ import javax.servlet.http.HttpSession;
 
 import com.google.gson.JsonObject;
 
-import RequestHandler.RequestDispatcher;
-import RequestHandler.Commands.Command;
+import requestHandler.RequestDispatcher;
+import requestHandler.commands.Command;
 
 /**
  * This class is the only entry point to the server. All requests have to be send to this servlet.
