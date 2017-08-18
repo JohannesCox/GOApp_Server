@@ -73,12 +73,12 @@ public class RequestDispatcher {
 				return leaveEventFactory();
 			case("signUp"):
 				return signUpFactory();
-			case("startEvent"):
+			/*case("startEvent"):
 				return startEventFactory();
 			case("updateEvent"):
 				return updateEventFactory();
 			case("stopEvent"):
-				return stopEventFactory();
+				return stopEventFactory();*/
 			case("uploadEventImage"):
 				return uploadEventImageFactory();
 			case("downloadEventImage"):
