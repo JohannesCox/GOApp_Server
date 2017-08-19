@@ -11,9 +11,16 @@
 	lastmodified="0"/>
 	<Event eventID="eID3" eventname="TestEvent3" date="2017-08-18 22:29:02" location="2.12,13.04" description="ghi"
 	lastmodified="0" picture="testPicture"/>
+	<Event eventID="OneForAll" eventname="OneForAll" date="2017-08-19 16:00:00" location="0.00,0.00" description="jkl"
+	lastmodified="2"/>
 	<EventUserRelation eventID="eID1" userID="1" admin="1"/>
 	<EventUserRelation eventID="eID1" userID="2" admin="0"/>
 	<EventUserRelation eventID="eID2" userID="3" admin="1"/>
 	<EventUserRelation eventID="eID3" userID="5" admin="1"/>
+	<EventUserRelation eventID="OneForAll" userID="1" admin="0"/>
+	<EventUserRelation eventID="OneForAll" userID="2" admin="1"/>
+	<EventUserRelation eventID="OneForAll" userID="3" admin="0"/>
+	<EventUserRelation eventID="OneForAll" userID="5" admin="0"/>
+	
 	
 </dataset>

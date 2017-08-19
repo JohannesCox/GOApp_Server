@@ -235,7 +235,7 @@ public class EventUserHandler extends DataHandler {
 	}
 	
 	/**
-	 * Returns a mapping (userID, isAdmin) of all members of an event.
+	 * Returns a mapping (username, isAdmin) of all members of an event.
 	 * @param eventID
 	 * @return Map of all members of the event 
 	 */
