@@ -6,27 +6,28 @@ import java.io.File;
 
 import org.dbunit.DBTestCase;
 import org.dbunit.PropertiesBasedJdbcDatabaseTester;
-import org.dbunit.database.DatabaseConnection;
-import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.dbunit.operation.DatabaseOperation;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.engine.jdbc.connections.spi.ConnectionProvider;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import Database.HibernateUtil;
 
+/**
+ * This class configures the database(-connection) for the test cases.
+ */
 public abstract class DatabaseTest extends DBTestCase {
+	
 	private static final Logger LOG = LoggerFactory.getLogger(DatabaseTest.class);  
 	  
     private static SessionFactory sessionFactory;  
-    protected Session session;  
+    protected Session session; 
+ 
 	public DatabaseTest() {
 		System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_DRIVER_CLASS, "org.hsqldb.jdbcDriver");  
         System.setProperty(PropertiesBasedJdbcDatabaseTester.DBUNIT_CONNECTION_URL, "jdbc:hsqldb:mem:PSESoSe17Gruppe4");  

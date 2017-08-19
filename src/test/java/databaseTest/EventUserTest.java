@@ -4,19 +4,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import static org.hamcrest.collection.IsIterableContainingInAnyOrder.containsInAnyOrder;
+import static org.junit.Assert.assertThat;
 import org.junit.*;
 
-import Database.*;
 
+import Database.*;
+/**
+ * This class tests the methods of the EventUserHandler
+ *
+ */
 public class EventUserTest extends DatabaseTest {
 	private EventUserHandler handler;
 	
+	/**
+	 * Initializes the EventUserHandler and sets up the configuration of the database.
+	 */
 	@Before
 	public void setUp() throws Exception {
 		handler = new EventUserHandler();
 		super.setUp();
 	}
 	
+	/**
+	 * Tests the creation of the initial relation of an event. 
+	 */
 	@Test
 	public void testCreateRelation() {
 		String userID="1";
@@ -28,7 +40,9 @@ public class EventUserTest extends DatabaseTest {
 			assertNull(session.get(EventUserRelation.class, new EventUserID(eventID, userID)));
 		}
 	}
-	
+	/**
+	 * Tests method joinEvent.
+	 */
 	@Test
 	public void testJoinEvent() {
 		String userID = "1";
@@ -39,11 +53,31 @@ public class EventUserTest extends DatabaseTest {
 		assertEquals(relation, session.get(EventUserRelation.class, new EventUserID(eventID, userID)));
 	}
 	
+	/**
+	 * Tests the method leaveEvent.
+	 */
 	@Test
 	public void testLeaveEvent() {
+		String eventID1 = "eID1";
+		String userID1 = "2";
+		//trigger only deletion of the corresponding relation
+		if(handler.leaveEvent(userID1, eventID1)) {
+			assertNull(session.get(EventUserRelation.class, new EventUserID(eventID1, userID1)));
+			assertNotNull(session.get(Event.class, eventID1));
+		}
+		
+		//triggers deletion of corresponding relation and event
+		String eventID2 = "eID2";
+		String userID2 = "3";
+		if(handler.leaveEvent(userID2, eventID2)) {
+			assertNull(session.get(EventUserRelation.class, new EventUserID(eventID2, userID2)));
+			assertNull(session.get(Event.class, eventID2));
+		}
 		
 	}
-	
+	/**
+	 * Tests method isAdmin.
+	 */
 	@Test
 	public void testIsAdmin() {
 		String userID = "1";
@@ -53,6 +87,9 @@ public class EventUserTest extends DatabaseTest {
 		assertFalse(handler.isAdmin(userID2, eventID));
 	}
 	
+	/**
+	 * Tests method isMember.
+	 */
 	@Test
 	public void testIsMember() {
 		String userID = "1";
@@ -62,27 +99,35 @@ public class EventUserTest extends DatabaseTest {
 		assertFalse(handler.isMember(userID2, eventID));
 	}
 	
+	/**
+	 * Tests method getRelations_byUserID.
+	 */
 	@Test
 	public void testRelations_byUserID() {
 		String userID="1";
-		List<EventUserRelation> reference = new ArrayList<EventUserRelation>();
-		reference.add(new EventUserRelation("eID1",userID,true));
-		reference.add(new EventUserRelation("OneForAll",userID,false));
-		assertEquals(reference, handler.getRelations_byuserID(userID));
+		EventUserRelation rel1 = new EventUserRelation("eID1",userID,true);
+		EventUserRelation rel2 = new EventUserRelation("OneForAll",userID,false);
+		List<EventUserRelation> byUserID = handler.getRelations_byuserID(userID);
+		assertThat(byUserID, containsInAnyOrder(rel1, rel2));
 	}
 	
+	/**
+	 * Tests method getRelations_byEventID.
+	 */
 	@Test
 	public void testRelations_byEventID() {
 		String eventID = "OneForAll";
-		List<EventUserRelation> reference = new ArrayList<EventUserRelation>();
-		reference.add(new EventUserRelation(eventID,"1",false));
-		reference.add(new EventUserRelation(eventID,"2",true));
-		reference.add(new EventUserRelation(eventID,"3",false));
-		reference.add(new EventUserRelation(eventID,"5",false));
-		assertEquals(reference, handler.getRelations_byeventID(eventID));
+		EventUserRelation rel1 = new EventUserRelation(eventID,"1",false);
+		EventUserRelation rel2 = new EventUserRelation(eventID,"2",true);
+		EventUserRelation rel3 = new EventUserRelation(eventID,"3",false);
+		EventUserRelation rel4 = new EventUserRelation(eventID,"5",false);
+		List<EventUserRelation> byEventID = handler.getRelations_byeventID(eventID);
+		assertThat(byEventID, containsInAnyOrder(rel1, rel2, rel3, rel4));
 	}
 	
-	
+	/**
+	 * Tests method nominateAdmin.
+	 */
 	@Test
 	public void testNominateAdmin() {
 		EventUserRelation rel1 = new EventUserRelation("OneForAll","1",false);
@@ -105,20 +150,24 @@ public class EventUserTest extends DatabaseTest {
 				new EventUserID(newAdmin.getEventID(), newAdmin.getUserID())));
 	}
 	
+	/**
+	 * Tests method getAllUserEvents.
+	 */
 	@Test
 	public void testGetAllUserEvents() {
-		List<Event> reference = new ArrayList<Event>();
 		Event event1 = session.get(Event.class, "eID1");
 		Event event2 = session.get(Event.class, "OneForAll");
-		reference.add(event1);
-		reference.add(event2);
 		String userID ="1";
-		
-		assertEquals(reference, handler.getAllUserEvents(userID));
+		List<Event> userEvents = handler.getAllUserEvents(userID);
+		assertThat(userEvents, containsInAnyOrder(event1, event2));
 		assertTrue(handler.getAllUserEvents("4").isEmpty()); // user is not a member of any event
 		
 	}
 	
+	
+	/**
+	 * Tests method getMembers.
+	 */
 	@Test
 	public void testGetMembers() {
 		Map<String, Boolean> members = new HashMap<String, Boolean>();

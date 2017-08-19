@@ -14,8 +14,16 @@ public class EventUserID implements Serializable {
 protected String eventID;
 protected String userID;
 
+/**
+ * Creates an EventUserID
+ */
 public EventUserID(){}
 
+/**
+ * Creates an EventUserID
+ * @param eventID of the event
+ * @param userID of the user, who is a member of the event
+ */
 public EventUserID(String eventID, String userID) {
 	this.eventID = eventID;
 	this.userID = userID;

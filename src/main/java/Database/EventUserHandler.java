@@ -12,6 +12,10 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 
+/**
+ * Manages accesses to the table "EventUserRelation" in database
+ *
+ */
 public class EventUserHandler extends DataHandler {
 	
 	public EventUserHandler() {

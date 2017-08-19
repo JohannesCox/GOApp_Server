@@ -86,6 +86,13 @@ public class EventHandler extends DataHandler {
 		return event;
 	}
 	
+	/**
+	 * Stores a picture of an event in the database.
+	 * @param userID of the user sending the request
+	 * @param eventID of the event to update
+	 * @param picture to be stored
+	 * @return true, if the picture could be stored. Else return false.
+	 */
 	public boolean storePicture(String userID, String eventID, String picture) {
 		boolean success = false;
 		Event event = this.getEvent(eventID);
@@ -113,6 +120,12 @@ public class EventHandler extends DataHandler {
 		return success;
 	}
 	
+	/**
+	 * Retrieves the picture of the event with the corresponding eventID 
+	 * @param userID of the user sending the request
+	 * @param eventID of the event
+	 * @return picture of the event
+	 */
 	public String getPicture(String userID, String eventID) {
 		Event event = this.getEvent(eventID);
 		EventUserRelation relation = this.getRelation(eventID, userID);

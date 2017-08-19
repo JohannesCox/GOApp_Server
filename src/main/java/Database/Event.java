@@ -13,7 +13,10 @@ import org.hibernate.annotations.Table;
 
 import com.google.gson.JsonObject;
 
-
+/**
+ * This class models an Event in the database
+ *
+ */
 @Entity
 @Table(appliesTo = "Event")
 public class Event {
@@ -42,9 +45,20 @@ public class Event {
 	@Column(name="lastmodified")
 	private int lastmodified;
 	
+	/**
+	 * Creates an event
+	 */
 	public Event(){	
 	}
 	
+	/**
+	 * Creates an event.
+	 * @param eventname of the event
+	 * @param date of the event
+	 * @param location of the event
+	 * @param description of the event
+	 * @param picture of the event
+	 */
 	public Event(String eventname, Date date, String location, String description, String picture) {
 		new IdGenerator();
 		this.eventID = IdGenerator.uuid();
@@ -56,6 +70,14 @@ public class Event {
 		this.lastmodified = 0;
 		
 	}
+	
+	/**
+	 * Creates an event.
+	 * @param eventname of the event
+	 * @param date of the event
+	 * @param location of the event
+	 * @param description of the event
+	 */
 	public Event(String eventname, Date date, String location, String description) {
 		new IdGenerator();
 		this.eventID = IdGenerator.uuid();
@@ -68,58 +90,100 @@ public class Event {
 		
 	}
 
+	/**
+	 * @return eventID of the event.
+	 */
 	public String getEventID() {
 		return eventID;
 	}
 
+	/**
+	 * @param eventID of the event to set.
+	 */
 	void setEventID(String eventID) {
 		this.eventID = eventID;
 	}
 
+	/**
+	 * @return eventname of the event.
+	 */
 	public String getEventname() {
 		return eventname;
 	}
 
+	/**
+	 * @param eventname of the event to set.
+	 */
 	void setEventname(String eventname) {
 		this.eventname = eventname;
 	}
 
+	/**
+	 * @return date of the event
+	 */
 	public Date getDate() {
 		return date;
 	}
 
+	/**
+	 * @param date of the event to set.
+	 */
 	void setDate(Date date) {
 		this.date = date;
 	}
 
+	/**
+	 * @return location of the event.
+	 */
 	public String getLocation() {
 		return location;
 	}
 
+	/**
+	 * @param location of the event to set.
+	 */
 	void setLocation(String location) {
 		this.location = location;
 	}
 
+	/**
+	 * @return description of the event.
+	 */
 	public String getDescription() {
 		return description;
 	}
 
+	/**
+	 * @param description of the event to set.
+	 */
 	void setDescription(String description) {
 		this.description = description;
 	}
 
+	/**
+	 * @return picture of the event.
+	 */
 	public String getPicture() {
 		return picture;
 	}
 	
+	/**
+	 * @param picture of the event to set.
+	 */
 	void setPicture(String picture) {
 		this.picture = picture;
 	}
 	
+	/**
+	 * @return lastmodified of the event.
+	 */
 	public int getLastmodified() {
 		return lastmodified;
 	}
 
+	/**
+	 * @param lastmodified of the event to set.
+	 */
 	void setLastmodified(int lastmodified) {
 		this.lastmodified = lastmodified;
 	}
@@ -137,6 +201,7 @@ public class Event {
 		result = prime * result + ((picture == null) ? 0 : picture.hashCode());
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -181,7 +246,10 @@ public class Event {
 			return false;
 		return true;
 	}
-
+	
+	/**
+	 * @return JsonObject of the event.
+	 */
 	public JsonObject serialize() {
 		JsonObject jo = new JsonObject();
 		jo.addProperty("eventId", eventID);

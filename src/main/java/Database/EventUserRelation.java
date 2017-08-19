@@ -6,46 +6,79 @@ import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.Table;
 
+/**
+ * Models an EventUserRelation in the database. Such relation exists, if a user is member of an event. 
+ * An EventUserRelation consists of the parameters eventID, userID and admin.
+ * Admin shows wheter a user is administrator of an event, or not. 
+ */
 @Entity
 @IdClass(EventUserID.class)
 @Table(name= "EventUserRelation")
 public class EventUserRelation {
+	
 	@Id @Column(name="eventID")
 	private String eventID;
+	
 	@Id @Column(name="userID")
 	private String userID;
 	
-	
 	@Column(name="admin")
 	private boolean admin;
+	
+	/**
+	 * Creates a EventUserRelation.
+	 */
 	EventUserRelation(){}
 	
+	/**
+	 * Creates a EventUserRelation.
+	 * @param eventID of the event.
+	 * @param userID of the user, who is a member of the event
+	 * @param admin
+	 */
 	public EventUserRelation(String eventID, String userID, boolean admin) {
 		this.eventID = eventID;
 		this.userID = userID;
 		this.admin = admin;
 	}
-
+	/**
+	 * @return eventID of the relation.
+	 */
 	public String getEventID() {
 		return eventID;
 	}
 
+	/**
+	 * @param eventID of the relation to set.
+	 */
 	void setEventID(String eventID) {
 		this.eventID = eventID;
 	}
 
+	/**
+	 * @return userID of the relation.
+	 */
 	public String getUserID() {
 		return userID;
 	}
 
+	/**
+	 * @param userID of the relation to set.
+	 */
 	void setUserID(String userID) {
 		this.userID = userID;
 	}
 
+	/**
+	 * @return true, if the user is administrator of the event. Else return false.
+	 */
 	public boolean isAdmin() {
 		return admin;
 	}
 
+	/**
+	 * @param admin of relation to set.
+	 */
 	void setAdmin(boolean admin) {
 		this.admin = admin;
 	}
@@ -83,7 +116,5 @@ public class EventUserRelation {
 			return false;
 		return true;
 	}
-	
-	
-	
+		
 }

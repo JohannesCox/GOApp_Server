@@ -7,7 +7,10 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-
+/**
+ *  Manages accesses to the table "EventUserRelation" in the database.
+ *
+ */
 public class UserHandler extends DataHandler {
 
 	public UserHandler() {

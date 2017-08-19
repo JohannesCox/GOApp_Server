@@ -5,16 +5,25 @@ import java.util.Date;
 import org.junit.*;
 
 import Database.*;
-
+/**
+ * This class tests the methods of the EventHandler
+ *
+ */
 public class EventTest extends DatabaseTest {
 	private EventHandler handler;
 	
+	/**
+	 * Initializes the EventHandler and sets up the configuration of the database
+	 */
 	@Before
 	public void setUp() throws Exception {
 		handler = new EventHandler();
 		super.setUp();
 	}
 	
+	/**
+	 * Tests the creation of an event.
+	 */
 	@Test
 	public void testCreateEvent() {
 		String userID = "1";
@@ -43,6 +52,9 @@ public class EventTest extends DatabaseTest {
 		
 	}
 	
+	/**
+	 * Tests the creation of an event. As additional parameter a picture will be set.
+	 */
 	@Test
 	public void testCreateEventwPicture() {
 		String userID = "1";
@@ -71,6 +83,9 @@ public class EventTest extends DatabaseTest {
 		assertNotNull(relation);	
 	}
 	
+	/**
+	 * Tests whether a picture can be stored
+	 */
 	@Test
 	public void test_storePicture() {
 		String userID = "1";
@@ -83,6 +98,9 @@ public class EventTest extends DatabaseTest {
 		}
 	}
 	
+	/**
+	 * Tests whether a valid picture can be returned.
+	 */
 	@Test
 	public void test_getPicture() {
 		String userID_member = "5";
@@ -95,6 +113,9 @@ public class EventTest extends DatabaseTest {
 		assertNull(handler.getPicture(userID_member, notExist));
 	}
 	
+	/**
+	 * Tests updating an event
+	 */
 	@Test
 	public void testUpdateEvent() {
 		String userID = "1";
@@ -111,7 +132,9 @@ public class EventTest extends DatabaseTest {
 		assertEquals(1, event.getLastmodified());
 		
 	}
-	
+	/**
+	 * Tests the deletion of an event
+	 */
 	@Test
 	public void deleteEvent() {
 		String userID = "1";
