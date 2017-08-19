@@ -32,6 +32,7 @@ public class EventHandler extends DataHandler {
 		String id = null;
 		Event event = new Event(eventname, date, location, description);
 		String eventID = event.getEventID();
+		
 		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
 		try {
@@ -47,6 +48,7 @@ public class EventHandler extends DataHandler {
 		} finally {
 			session.close();
 		}
+		
 		if(id == null || !id.equals(eventID)) return null;
 		return event;
 	}
@@ -67,6 +69,7 @@ public class EventHandler extends DataHandler {
 		String id = null;
 		Event event = new Event(eventname, date, location, description, picture);
 		String eventID = event.getEventID();
+		
 		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
 		try {
@@ -82,6 +85,7 @@ public class EventHandler extends DataHandler {
 		} finally {
 			session.close();
 		}
+		
 		if(id == null || !id.equals(eventID)) return null;
 		return event;
 	}
@@ -97,6 +101,7 @@ public class EventHandler extends DataHandler {
 		boolean success = false;
 		Event event = this.getEvent(eventID);
 		EventUserRelation relation = this.getRelation(eventID, userID);
+		
 		if(event == null || relation == null || !relation.isAdmin()) {
 			return success;
 		} else {
@@ -149,9 +154,11 @@ public class EventHandler extends DataHandler {
 			Date date, String location, String description) {
 		Event event = null;
 		EventUserHandler euh = new EventUserHandler();
+		
 		if(!euh.isAdmin(userID, eventID)) return null; //user has no permission to update event
-		Session session = HibernateUtil.getFactory().openSession();
-		Transaction tx = null;
+			Session session = HibernateUtil.getFactory().openSession();
+			Transaction tx = null;
+		
 		try {
 			tx = session.beginTransaction();
 			event = session.get(Event.class, eventID);
@@ -181,6 +188,7 @@ public class EventHandler extends DataHandler {
 		EventUserHandler euh = new EventUserHandler();
 		boolean success = false;
 		Event event = this.getEvent(eventID);
+		
 		if(event == null || !euh.isAdmin(userID, eventID) ) { 
 			return success;
 		} else {
@@ -189,6 +197,7 @@ public class EventHandler extends DataHandler {
 			try {
 				tx = session.beginTransaction(); 
 				List<EventUserRelation> relations = euh.getRelations_byeventID(eventID);
+				
 				if(euh.deleteRelations(relations) == true) {	
 					session.delete(event);
 					tx.commit();
@@ -212,6 +221,7 @@ public class EventHandler extends DataHandler {
 		boolean success = false;
 		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
+		
 		try {
 			tx = session.beginTransaction();
 			Event event = (Event) session.get(Event.class, eventID);

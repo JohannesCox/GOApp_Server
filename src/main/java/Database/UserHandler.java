@@ -26,14 +26,17 @@ public class UserHandler extends DataHandler {
 		String id = null;
 		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
+		
 		try {
 			tx = session.beginTransaction();
 			User user = new User(userID, username, email);
 			id = (String) session.save(user);
 			tx.commit();
+			
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
 			he.printStackTrace();
+			
 		} finally {
 			session.close();
 		}
@@ -49,14 +52,17 @@ public class UserHandler extends DataHandler {
 		String id = null;
 		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
+		
 		try {
 			tx = session.beginTransaction();
 			User user = new User(userID, username);
 			id = (String) session.save(user);
 			tx.commit();
+			
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
 			he.printStackTrace();
+			
 		} finally {
 			session.close();
 		}
@@ -70,18 +76,22 @@ public class UserHandler extends DataHandler {
 	public boolean deleteUser(String userID) {
 		boolean success = true;
 		User user = this.getUser(userID);
+		
 		if(user == null) return false;
 		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
+		
 		try {
 			tx = session.beginTransaction();
 			EventUserHandler euh = new EventUserHandler();
 			List<EventUserRelation> membership = euh.getRelations_byuserID(userID);
+			
 			for(EventUserRelation rel : membership) {
 				if(euh.leaveEvent(userID, rel.getEventID())== false) success = false;
 			}
 			session.delete(user);
 			tx.commit();
+			
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
 			he.printStackTrace();

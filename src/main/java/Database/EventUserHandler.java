@@ -34,6 +34,7 @@ public class EventUserHandler extends DataHandler {
 		boolean success = false;
 		Transaction tx = null;
 		Session session = HibernateUtil.getFactory().openSession();
+		
 		try {
 			tx = session.beginTransaction();
 			EventUserRelation relation = new EventUserRelation(eventID, userID, true);
@@ -59,9 +60,11 @@ public class EventUserHandler extends DataHandler {
 	public Event joinEvent(String eventID, String userID) {
 		Event event = this.getEvent(eventID);
 		User user = this.getUser(userID);
+		
 		if(event == null || user == null) return null;
 		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
+		
 		try {
 			tx = session.beginTransaction();
 			if(!this.isMember(userID, eventID)) {
@@ -93,9 +96,11 @@ public class EventUserHandler extends DataHandler {
 		boolean success = false;
 		User user = this.getUser(userID);
 		EventUserRelation relation = this.getRelation(eventID, userID);
+		
 		if(user == null || relation == null) return success;
 			Session session = HibernateUtil.getFactory().openSession();
 			Transaction tx = null;
+			
 			try {
 				tx = session.beginTransaction();
 				session.delete(relation);
@@ -118,6 +123,7 @@ public class EventUserHandler extends DataHandler {
 					success = true;
 					tx.commit();
 				}
+				
 			} catch(HibernateException he) {
 				if(tx != null) tx.rollback();
 				he.printStackTrace();
@@ -184,6 +190,7 @@ public class EventUserHandler extends DataHandler {
 		Session session = HibernateUtil.getFactory().openSession();
 		EventUserRelation relation = members.get(new Random().nextInt(members.size()));
 		relation.setAdmin(true);
+		
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
@@ -206,6 +213,7 @@ public class EventUserHandler extends DataHandler {
 		Session session = HibernateUtil.getFactory().openSession();
 		boolean success = true;
 		Transaction tx = null;
+		
 		try {
 			tx = session.beginTransaction();
 			for(EventUserRelation rel : relations) {

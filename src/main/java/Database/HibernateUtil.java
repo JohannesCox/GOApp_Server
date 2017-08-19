@@ -24,7 +24,9 @@ static {
 		conf.addAnnotatedClass(User.class);
 		conf.addAnnotatedClass(Event.class);
 		conf.addAnnotatedClass(EventUserRelation.class);
+		
 		factory = conf.buildSessionFactory(serviceRegistry);
+		
 	} catch(Exception e) {
 		System.err.println("Initialiszing factory failed! " + e);
 	}
