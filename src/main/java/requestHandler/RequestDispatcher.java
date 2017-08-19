@@ -46,8 +46,9 @@ public class RequestDispatcher {
 	}
 	
 	/**
-	 * Creates the command belonging to the HttpRequest saved in the class during creation. If the request is not valid null
-	 *  is returned. Otherwise it returns the fitting Request-Handler (Command-Class).
+	 * Creates the command belonging to the HttpRequest saved in the class during creation. 
+	 *  If the request is not valid null is returned. Otherwise it returns the fitting 
+	 *  Request-Handler (Command-Class).
 	 * @return Type Command if the request was valid, otherwise null.
 	 */
 	public Command createHandler() {
