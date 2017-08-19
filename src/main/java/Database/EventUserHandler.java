@@ -85,7 +85,7 @@ public class EventUserHandler extends DataHandler {
 	 * @param eventID of the corresponding event
 	 * @return true, if leaving the event was successful
 	 */
-	public boolean leaveEvent(String userID, String eventID) {
+	public synchronized boolean leaveEvent(String userID, String eventID) {
 		boolean success = false;
 		User user = this.getUser(userID);
 		EventUserRelation relation = this.getRelation(eventID, userID);
@@ -176,7 +176,7 @@ public class EventUserHandler extends DataHandler {
 	 * Picks randomly a user from the members list and nominates this user for administrator
 	 * @param members of the event
 	 */
-	public void nominateAdmin(List<EventUserRelation> members) {
+	public synchronized void nominateAdmin(List<EventUserRelation> members) {
 		Session session = HibernateUtil.getFactory().openSession();
 		EventUserRelation relation = members.get(new Random().nextInt(members.size()));
 		relation.setAdmin(true);
@@ -194,7 +194,7 @@ public class EventUserHandler extends DataHandler {
 		
 	}
 	/**
-	 * Deletes a list of relations. This method is invoked, if an event or a user is deleted
+	 * Deletes a list of relations. This method is invoked, if an event is deleted
 	 * @param relations to delete
 	 * @return true, if the relations could be deleted
 	 */

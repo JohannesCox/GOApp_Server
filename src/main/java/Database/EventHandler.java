@@ -164,7 +164,7 @@ public class EventHandler extends DataHandler {
 	 * @param eventID of the event
 	 * @return true, if the event could be deleted
 	 */
-	public boolean deleteEvent(String userID, String eventID) {
+	public synchronized boolean deleteEvent(String userID, String eventID) {
 		EventUserHandler euh = new EventUserHandler();
 		boolean success = false;
 		Event event = this.getEvent(eventID);

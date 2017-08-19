@@ -20,7 +20,7 @@ public class EventUserRelation {
 	private boolean admin;
 	EventUserRelation(){}
 	
-	EventUserRelation(String eventID, String userID, boolean admin) {
+	public EventUserRelation(String eventID, String userID, boolean admin) {
 		this.eventID = eventID;
 		this.userID = userID;
 		this.admin = admin;
@@ -48,6 +48,40 @@ public class EventUserRelation {
 
 	void setAdmin(boolean admin) {
 		this.admin = admin;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (admin ? 1231 : 1237);
+		result = prime * result + ((eventID == null) ? 0 : eventID.hashCode());
+		result = prime * result + ((userID == null) ? 0 : userID.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		EventUserRelation other = (EventUserRelation) obj;
+		if (admin != other.admin)
+			return false;
+		if (eventID == null) {
+			if (other.eventID != null)
+				return false;
+		} else if (!eventID.equals(other.eventID))
+			return false;
+		if (userID == null) {
+			if (other.userID != null)
+				return false;
+		} else if (!userID.equals(other.userID))
+			return false;
+		return true;
 	}
 	
 	
