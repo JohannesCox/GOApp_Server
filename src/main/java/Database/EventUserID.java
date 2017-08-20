@@ -11,6 +11,10 @@ import java.io.Serializable;
 public class EventUserID implements Serializable {
 
 
+/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 protected String eventID;
 protected String userID;
 

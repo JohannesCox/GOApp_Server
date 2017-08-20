@@ -162,6 +162,8 @@ public class EventUserHandler extends DataHandler {
 		Session session = HibernateUtil.getFactory().openSession();
 		Criteria cr = session.createCriteria(EventUserRelation.class);
 		cr.add(Restrictions.eq("eventID", eventID));
+		
+		@SuppressWarnings("unchecked")
 		List<EventUserRelation> relations = cr.list();
 		session.close();
 		return relations;
@@ -172,10 +174,13 @@ public class EventUserHandler extends DataHandler {
 	 * @param userID of the user
 	 * @return list of the relations
 	 */
+
 	public List<EventUserRelation> getRelations_byuserID(String userID){
 		Session session = HibernateUtil.getFactory().openSession();
 		Criteria cr = session.createCriteria(EventUserRelation.class);
 		cr.add(Restrictions.eq("userID", userID));
+		
+		@SuppressWarnings("unchecked")
 		List<EventUserRelation> relations = cr.list();
 		session.close();
 		return relations;
