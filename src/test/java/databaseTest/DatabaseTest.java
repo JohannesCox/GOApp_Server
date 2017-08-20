@@ -70,7 +70,7 @@ public abstract class DatabaseTest extends DBTestCase {
 	}
 	@Before
 	protected DatabaseOperation getSetUpOperation() throws Exception {  
-        return DatabaseOperation.REFRESH;  
+        return DatabaseOperation.CLEAN_INSERT;  
     }  
   
     @After
