@@ -6,3 +6,13 @@
 # Maven
 log/
 target/
+/Commands.png
+/Commands.ucls
+/Database.png
+/Database.ucls
+/PackageDependencies.ucls
+/RequestHandlerandCommands.png
+/RequestHandlerandCommands.ucls
+/frontController.png
+/frontController.ucls
+/requestHandler.ucls
