@@ -1,6 +1,8 @@
 package requestHandler.commands;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import com.google.gson.JsonObject;
 
@@ -49,9 +51,14 @@ public class UpdateEventCommand extends Command {
 	 * was successful or not.
 	 */
 	public String process() {
-
+		
+		//Update Event
 		Event event = eventHandler.updateEvent(userId, eventId, title, date, location, description);
 		
+		//send notification
+		//TODO
+		
+		//Return new event
 		JsonObject jo = new JsonObject();
 		
 		if (event == null) {

@@ -31,6 +31,7 @@ public class RequestDispatcher {
 	private final String DESCRIPTION = "description";
 	private final String LASTMODIFIED = "lastModified";
 	private final String IMAGE = "image";
+	private final String NOTIFICATIONID = "notificationId";
 	
 	private HttpServletRequest request;
 	private String userId;
@@ -87,11 +88,24 @@ public class RequestDispatcher {
 				return uploadEventImageFactory();
 			case("downloadEventImage"):
 				return downloadEventImageFactory();
+			case("signUpWithNotId"):
+				return signUpNotificationIdFactory();
 			default: return null;
 		
 		}
 	}
 	
+	private Command signUpNotificationIdFactory() {
+		String username = request.getParameter(USERNAME);
+		String notId = request.getParameter(NOTIFICATIONID);
+		
+		if (username == null || notId == null) {
+			return null;
+		} else {
+			return new SignUpNotificationIdCommand(userId, username, notId);
+		}
+	}
+
 	private Command downloadEventImageFactory() {
 		String eventId = request.getParameter(EVENT_ID);
 		
