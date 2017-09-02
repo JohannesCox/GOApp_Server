@@ -20,20 +20,20 @@ private String userID;
 	
 	@Column(name="username")
 private String username;
-	@Column(name="Email")
-private String email;
+	@Column(name="notificationID")
+private String notificationID;
 	User(){}
 	
 	/**
 	 * Creates a user
 	 * @param userID of the user
 	 * @param username of the user
-	 * @param email of the user
+	 * @param notificationID of the user
 	 */
-	public User(String userID, String username, String email) {
+	public User(String userID, String username, String notificationID) {
 		this.userID = userID;
 		this.username = username;
-		this.email = email;
+		this.notificationID = notificationID;
 	}
 	
 	/**
@@ -44,7 +44,7 @@ private String email;
 	public User(String userID, String username){
 		this.userID = userID;
 		this.username = username;
-		this.email = null;
+		this.notificationID = null;
 	}
 
 	/**
@@ -77,17 +77,17 @@ private String email;
 
 
 	/**
-	 * @return email of the user.
+	 * @return notificationID of the user.
 	 */
-	public String getEmail() {
-		return email;
+	public String getNotificationID() {
+		return notificationID;
 	}
 	
 	/**
-	 * @param email of the user to set.
+	 * @param notificationID of the user to set.
 	 */
-	void setEmail(String email) {
-		this.email = email;
+	void setNotificationID(String notificationID) {
+		this.notificationID = notificationID;
 	}
 
 

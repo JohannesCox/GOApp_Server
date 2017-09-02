@@ -31,23 +31,24 @@ public class UserTest extends DatabaseTest {
 		handler.addUser(userID, username);
 		User user = session.get(User.class, userID);
 		assertNotNull(user);
-		assertNull(user.getEmail());
+		assertNull(user.getNotificationID());
 		assertEquals(username,user.getUsername());
 	}
 
 	/**
-	 * Tests the creation of a user. As additional parameter a mail-address will be set
+	 * Tests the creation of a user. 
+	 * As additional parameter a notificationID will be set.
 	 */
 	@Test
-	public void testAddUserwMail() {
+	public void testAddUserwNotificationID() {
 		String userID = "test2";
-		String email = "testMail";
+		String notificationID = "testNID";
 		String username = "Made";
-		handler.addUser(userID, username, email);
+		handler.addUser(userID, username, notificationID);
 		User user = session.get(User.class, userID);
 		assertNotNull(user);
 		assertEquals(username, user.getUsername());
-		assertEquals(email, user.getEmail());
+		assertEquals(notificationID, user.getNotificationID());
 	}
 	
 	/**
