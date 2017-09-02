@@ -91,11 +91,14 @@ public class EventTest extends DatabaseTest {
 		String userID = "1";
 		String eventID = "eID1";
 		String picture = "testPicture";
-		if(handler.storePicture(userID, eventID, picture)) {
-			assertEquals(picture, session.get(Event.class, eventID).getPicture());
-		} else {
-			assertNull(session.get(Event.class, eventID).getPicture());
-		}
+		boolean success = handler.storePicture(userID, eventID, picture);
+		assertTrue(success);
+		assertEquals(picture, session.get(Event.class, eventID).getPicture());
+		
+		String eventID2 = "eID2"; //user is not a member of this event
+		success = handler.storePicture(userID, eventID2, picture);
+		assertFalse(success);
+		assertNull(session.get(Event.class, eventID2).getPicture());
 	}
 	
 	/**
@@ -137,12 +140,19 @@ public class EventTest extends DatabaseTest {
 	 */
 	@Test
 	public void deleteEvent() {
-		String userID = "1";
+		String userID1 = "1";
+		String userID2 = "2";
 		String eventID = "eID1";
-		if(handler.deleteEvent(userID, eventID)) {
-			assertNull(session.get(Event.class, eventID));
-			assertNull(session.get(EventUserRelation.class, new EventUserID(eventID, userID)));
-			assertNull(session.get(EventUserRelation.class, new EventUserID(eventID, "2")));
-		}
+		boolean success = handler.deleteEvent(userID2, eventID);
+		assertFalse(success);
+		assertNotNull(session.get(Event.class, eventID));
+		
+		success = handler.deleteEvent(userID1, eventID);
+		assertTrue(success);
+		assertNull(session.get(Event.class, eventID));
+		assertNull(session.get(EventUserRelation.class, new EventUserID(eventID, userID1)));
+		assertNull(session.get(EventUserRelation.class, new EventUserID(eventID, "2")));
+		
+		
 	}
 }

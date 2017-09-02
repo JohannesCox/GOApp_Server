@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-	<User userID="1" username="TestUser1"/>
-	<User userID="2" username="TestUser2"/>
-	<User userID="3" username="TestUser3"/>
+	<User userID="1" username="TestUser1" notificationID="nID1"/>
+	<User userID="2" username="TestUser2" notificationID="nID2"/>
+	<User userID="3" username="TestUser3" notificationID="nID3"/>
 	<User userID="4" username="TestUser4"/>
 	<User userID="5" username="TestUser5"/>
 	<Event eventID="eID1" eventname="TestEvent1" date="2017-08-15 14:20:01" location="23.01,44.00" description="abc" 
