@@ -139,19 +139,19 @@ public class EventTest extends DatabaseTest {
 	 * Tests the deletion of an event
 	 */
 	@Test
-	public void deleteEvent() {
-		String userID1 = "1";
-		String userID2 = "2";
+	public void testDeleteEvent() {
+		String userID1 = "1"; //admin of the event
+		String userID2 = "2"; // not an admin of the event
 		String eventID = "eID1";
 		boolean success = handler.deleteEvent(userID2, eventID);
 		assertFalse(success);
 		assertNotNull(session.get(Event.class, eventID));
 		
-		success = handler.deleteEvent(userID1, eventID);
+		success = handler.deleteEvent(userID1, eventID); // works only if commented out the tests before
 		assertTrue(success);
 		assertNull(session.get(Event.class, eventID));
 		assertNull(session.get(EventUserRelation.class, new EventUserID(eventID, userID1)));
-		assertNull(session.get(EventUserRelation.class, new EventUserID(eventID, "2")));
+		assertNull(session.get(EventUserRelation.class, new EventUserID(eventID, userID2)));
 		
 		
 	}
