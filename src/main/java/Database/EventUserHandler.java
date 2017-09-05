@@ -267,4 +267,20 @@ public class EventUserHandler extends DataHandler {
 		}
 		return members;
 	}
+	/**
+	 * Returns a list of notificationIDs of the members of an event.
+	 * @param userID of the user sending the request
+	 * @param eventID of the event
+	 * @return list of the notificationIDs of the members
+	 */
+	public List<String> getMembersNotificationID(String userID, String eventID) {
+		List<String> notificationIDs = new ArrayList<String>();
+		if(!this.isMember(userID, eventID)) return null;
+		List<EventUserRelation> relations = this.getRelations_byeventID(eventID);
+		for(EventUserRelation rel : relations) {
+			User user = this.getUser(rel.getUserID());
+			notificationIDs.add(user.getNotificationID());
+		}
+		return notificationIDs;
+	}
 }

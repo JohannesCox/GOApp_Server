@@ -45,12 +45,22 @@ public class EventUserTest extends DatabaseTest {
 	 */
 	@Test
 	public void testJoinEvent() {
-		String userID = "1";
-		String eventID = "eID3";
-		Event event = handler.joinEvent(eventID, userID);
-		EventUserRelation relation = new EventUserRelation(eventID, userID, false);
-		assertEquals(event, session.get(Event.class, eventID));
-		assertEquals(relation, session.get(EventUserRelation.class, new EventUserID(eventID, userID)));
+		String userID1 = "1";
+		String ID_alreadyMember = "5";
+		String eventID1 = "eID3";
+		String eventID2 = "notExistent";
+		
+		Event event = handler.joinEvent(eventID1, userID1);
+		EventUserRelation relation = new EventUserRelation(eventID1, userID1, false);
+		assertEquals(event, session.get(Event.class, eventID1));
+		assertEquals(relation, session.get(EventUserRelation.class, new EventUserID(eventID1, userID1)));
+		
+		event = handler.joinEvent(eventID1, ID_alreadyMember);
+		assertEquals(event, session.get(Event.class, eventID1));
+		
+		event = handler.joinEvent(eventID2, userID1);
+		assertNull(event);
+			
 	}
 	
 	/**
@@ -61,19 +71,16 @@ public class EventUserTest extends DatabaseTest {
 		String eventID1 = "eID1";
 		String userID1 = "2";
 		//trigger only deletion of the corresponding relation
-		if(handler.leaveEvent(userID1, eventID1)) {
-			assertNull(session.get(EventUserRelation.class, new EventUserID(eventID1, userID1)));
-			assertNotNull(session.get(Event.class, eventID1));
-		}
+		assertTrue(handler.leaveEvent(userID1, eventID1));
+		assertNull(session.get(EventUserRelation.class, new EventUserID(eventID1, userID1)));
+		assertNotNull(session.get(Event.class, eventID1));
 		
 		//triggers deletion of corresponding relation and event
 		String eventID2 = "eID2";
 		String userID2 = "3";
-		if(handler.leaveEvent(userID2, eventID2)) {
-			assertNull(session.get(EventUserRelation.class, new EventUserID(eventID2, userID2)));
-			assertNull(session.get(Event.class, eventID2));
-		}
-		
+		assertTrue(handler.leaveEvent(userID2, eventID2));
+		assertNull(session.get(EventUserRelation.class, new EventUserID(eventID2, userID2)));
+		assertNull(session.get(Event.class, eventID2));
 	}
 	/**
 	 * Tests method isAdmin.
@@ -179,6 +186,17 @@ public class EventUserTest extends DatabaseTest {
 		String userID = "1";
 		String eventID = "OneForAll";
 		assertEquals(members, handler.getMembers(userID, eventID));
+	}
+	
+	@Test
+	public void testGetMembersNotificationID() {
+		String eventID = "eID1";
+		String userID1 = "1";
+		List<String> notificationIDs1 = handler.getMembersNotificationID(userID1, eventID);
+		assertThat(notificationIDs1, containsInAnyOrder("nID1","nID2"));
+		String userID2 = "5"; // not a member of event with id=eventID
+		List<String> notificationIDs2 = handler.getMembersNotificationID(userID2, eventID);
+		assertNull(notificationIDs2);
 	}
 
 }

@@ -19,17 +19,17 @@ public class UserHandler extends DataHandler {
 	 * Adds a user to the table "User"
 	 * @param userID of the user to be added
 	 * @param username of the user
-	 * @param email of the user
+	 * @param notificationID of the user
 	 * @return true, if the user could be added
 	 */
-	public boolean addUser(String userID, String username, String email) {
+	public boolean addUser(String userID, String username, String notificationID) {
 		String id = null;
 		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;
 		
 		try {
 			tx = session.beginTransaction();
-			User user = new User(userID, username, email);
+			User user = new User(userID, username, notificationID);
 			id = (String) session.save(user);
 			tx.commit();
 			

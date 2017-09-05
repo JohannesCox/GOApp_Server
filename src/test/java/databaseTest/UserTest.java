@@ -31,23 +31,24 @@ public class UserTest extends DatabaseTest {
 		handler.addUser(userID, username);
 		User user = session.get(User.class, userID);
 		assertNotNull(user);
-		assertNull(user.getEmail());
+		assertNull(user.getNotificationID());
 		assertEquals(username,user.getUsername());
 	}
 
 	/**
-	 * Tests the creation of a user. As additional parameter a mail-address will be set
+	 * Tests the creation of a user. 
+	 * As additional parameter a notificationID will be set.
 	 */
 	@Test
-	public void testAddUserwMail() {
+	public void testAddUserwNotificationID() {
 		String userID = "test2";
-		String email = "testMail";
+		String notificationID = "testNID";
 		String username = "Made";
-		handler.addUser(userID, username, email);
+		handler.addUser(userID, username, notificationID);
 		User user = session.get(User.class, userID);
 		assertNotNull(user);
 		assertEquals(username, user.getUsername());
-		assertEquals(email, user.getEmail());
+		assertEquals(notificationID, user.getNotificationID());
 	}
 	
 	/**
@@ -57,16 +58,20 @@ public class UserTest extends DatabaseTest {
 	@Test
 	public void testDeleteUser_default() {
 		String userID = "4";
-		if(handler.deleteUser(userID)) {
-			assertNull(session.get(User.class, userID));
-		}
+		boolean success = handler.deleteUser(userID);
+		assertTrue(success);
+		assertNull(session.get(User.class, userID));
+		
 		String eventID = "eID1";
 		String userID2 = "2";
-		if(handler.deleteUser(userID2)) {
-			assertNull(session.get(EventUserRelation.class, new EventUserID(eventID, userID2)));
-			assertNull(session.get(User.class, userID2));
-			assertNotNull(session.get(Event.class, eventID));
-		}
+		success = handler.deleteUser(userID2);
+		assertTrue(success);
+		assertNull(session.get(EventUserRelation.class, new EventUserID(eventID, userID2)));
+		assertNull(session.get(User.class, userID2));
+		assertNotNull(session.get(Event.class, eventID));
+		
+		String userID3 = "notExistent";
+		assertFalse(handler.deleteUser(userID3));
 	}
 
 	/**
@@ -78,11 +83,11 @@ public class UserTest extends DatabaseTest {
 	public void testDeleteUser_eDeleted() {
 		String userID ="3";
 		String eventID="eID2";
-		if(handler.deleteUser(userID)) {
-			assertNull(session.get(User.class, userID));
-			assertNull(session.get(EventUserRelation.class, new EventUserID(eventID, userID)));
-			assertNull(session.get(Event.class, eventID));	
-		}
+		boolean success = handler.deleteUser(userID);
+		assertTrue(success);
+		assertNull(session.get(User.class, userID));
+		assertNull(session.get(EventUserRelation.class, new EventUserID(eventID, userID)));
+		assertNull(session.get(Event.class, eventID));	
 	}
 	
 	/**
@@ -94,13 +99,12 @@ public class UserTest extends DatabaseTest {
 		String eventID= "eID1";
 		String userID="1";
 		String userID2="2";
-		if(handler.deleteUser(userID)) {
-			assertNull(session.get(User.class, userID));
-			assertNull(session.get(EventUserRelation.class, new EventUserID(eventID,userID)));
-			assertNotNull(session.get(Event.class, eventID));
-			assertEquals(true, session.get(EventUserRelation.class,new EventUserID(eventID,userID2)).isAdmin());
-		
-		}
+		boolean success = handler.deleteUser(userID);
+		assertTrue(success);
+		assertNull(session.get(User.class, userID));
+		assertNull(session.get(EventUserRelation.class, new EventUserID(eventID,userID)));
+		assertNotNull(session.get(Event.class, eventID));
+		assertEquals(true, session.get(EventUserRelation.class,new EventUserID(eventID,userID2)).isAdmin());
 	}
 
 
