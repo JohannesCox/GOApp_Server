@@ -15,6 +15,11 @@ import Database.Event;
 import Database.EventUserHandler;
 import requestHandler.commands.GetEventsCommand;
 
+/**
+ * Tests the class GetEventsCommand. It is checked if the response String is correct. 
+ * There are two test cases. Firstly, if the no event has changed and secondly if some events
+ * have changed. The behavior of the database access class is simulated with a mock-object.
+ */
 public class GetEventsCommandTest {
 
 	private HashMap<String, Integer> input1 = new HashMap<String, Integer>();

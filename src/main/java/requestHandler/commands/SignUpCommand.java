@@ -34,7 +34,7 @@ public class SignUpCommand extends Command {
 		
 		JsonObject jo = new JsonObject();
 		
-		jo.addProperty(super.SUCCES_VAR, success);
+		jo.addProperty(Command.SUCCES_VAR, success);
 		
 		return jo.toString();
 	}

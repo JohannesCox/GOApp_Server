@@ -4,6 +4,10 @@ import com.google.gson.JsonObject;
 
 import Database.UserHandler;
 
+/**
+ *The command to add a new user including his username and his deviceId
+ *for cloud messaging.
+ */
 public class SignUpNotificationIdCommand extends Command {
 
 	private String notificationId;
@@ -11,6 +15,12 @@ public class SignUpNotificationIdCommand extends Command {
 	private String userId;
 	private UserHandler userHandler;
 	
+	/**
+	 * creates a new empty instance.
+	 * @param uId The userId
+	 * @param userN The username of the user
+	 * @param notId The cloud messaging deviceId of the users device.
+	 */
 	public SignUpNotificationIdCommand(String uId, String userN, String notId) {
 		setUserId(uId);
 		setUsername(userN);
@@ -18,12 +28,16 @@ public class SignUpNotificationIdCommand extends Command {
 		setUserHandler(new UserHandler());
 	}
 	
+	/**
+	 * Creates a new user with the given parameters. If the user doesn´t exist, the username and the 
+	 * NotificationId is updated.
+	 */
 	public String process() {
 		boolean success = userHandler.addUser(userId, username, notificationId);
 		
 		JsonObject jo = new JsonObject();
 		
-		jo.addProperty(super.SUCCES_VAR, success);
+		jo.addProperty(Command.SUCCES_VAR, success);
 		
 		return jo.toString();
 	}

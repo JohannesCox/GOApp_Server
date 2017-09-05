@@ -7,11 +7,14 @@ import org.junit.*;
 
 import com.google.gson.JsonObject;
 
-import Database.EventHandler;
 import Database.EventUserHandler;
 import requestHandler.commands.Command;
 import requestHandler.commands.LeaveEventCommand;
 
+/**
+ * Tests the class LeaveEventCommand. It is checked if the response String is correct. 
+ * The behavior of the database access-class is simulated with a mock-object.
+ */
 public class LeaveEventCommandTest {
 
 	private String userId = "user";

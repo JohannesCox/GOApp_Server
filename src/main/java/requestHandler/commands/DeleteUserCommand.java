@@ -31,10 +31,10 @@ public class DeleteUserCommand extends Command {
 		
 		JsonObject jo = new JsonObject();
 		
-		jo.addProperty(super.SUCCES_VAR, success);
+		jo.addProperty(Command.SUCCES_VAR, success);
 		
 		if(!success) {
-			jo.addProperty(super.ERROR_VAR, super.INT_ERROR);
+			jo.addProperty(Command.ERROR_VAR, Command.INT_ERROR);
 		}
 		
 		return jo.toString();

@@ -38,13 +38,13 @@ public class DeleteEventCommand extends Command {
 		boolean success = eventHandler.deleteEvent(userId, eventId);
 		
 		JsonObject jo = new JsonObject();
-		jo.addProperty(super.SUCCES_VAR, success);
+		jo.addProperty(Command.SUCCES_VAR, success);
 		
 		if(!success) {
 			if (eventUserHandler.isAdmin(userId, eventId)) {
-				jo.addProperty(super.ERROR_VAR, super.INT_ERROR);
+				jo.addProperty(Command.ERROR_VAR, Command.INT_ERROR);
 			} else {
-				jo.addProperty(super.ERROR_VAR, super.ADMIN_ERROR);
+				jo.addProperty(Command.ERROR_VAR, Command.ADMIN_ERROR);
 			}
 		}
 		

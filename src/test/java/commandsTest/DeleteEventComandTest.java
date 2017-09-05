@@ -14,7 +14,8 @@ import requestHandler.commands.Command;
 import requestHandler.commands.DeleteEventCommand;
 
 /**
- * This class includes tests for the class DeleteEventCommand.
+ * This class includes tests for the class DeleteEventCommand. The behavior of the database access
+ * class is simulated with a mock-object.
  */
 public class DeleteEventComandTest {
 

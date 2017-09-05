@@ -35,10 +35,10 @@ public class JoinEventCommand extends Command {
 		JsonObject jo = new JsonObject();
 		
 		if (event == null) {
-			jo.addProperty(super.SUCCES_VAR, false);
+			jo.addProperty(Command.SUCCES_VAR, false);
 		} else {
 			jo = event.serialize();
-			jo.addProperty(super.SUCCES_VAR, true);
+			jo.addProperty(Command.SUCCES_VAR, true);
 		}	
 		
 		return jo.toString();

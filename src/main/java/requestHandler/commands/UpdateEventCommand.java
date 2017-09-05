@@ -1,8 +1,6 @@
 package requestHandler.commands;
 
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
 import com.google.gson.JsonObject;
 
@@ -47,8 +45,8 @@ public class UpdateEventCommand extends Command {
 	}
 	
 	/**
-	 * Updates the event. Checks if the user is an admin of the event. The returned String specifies if the operation
-	 * was successful or not.
+	 * Updates the event. Checks if the user is an admin of the event. Afterwards, sends a notification to all 
+	 * members of the event. The returned String specifies if the operation was successful or not.
 	 */
 	public String process() {
 		
@@ -56,21 +54,23 @@ public class UpdateEventCommand extends Command {
 		Event event = eventHandler.updateEvent(userId, eventId, title, date, location, description);
 		
 		//send notification
-		//TODO
+		if (event != null) {
+			//TODO
+		}
 		
-		//Return new event
+		//Return new event/error response
 		JsonObject jo = new JsonObject();
 		
 		if (event == null) {
-			jo.addProperty(super.SUCCES_VAR, false);
+			jo.addProperty(Command.SUCCES_VAR, false);
 			if (eventUserHandler.isAdmin(userId, eventId)) {
-				jo.addProperty(super.ERROR_VAR, super.INT_ERROR);
+				jo.addProperty(Command.ERROR_VAR, Command.INT_ERROR);
 			} else {
-				jo.addProperty(super.ERROR_VAR, super.ADMIN_ERROR);
+				jo.addProperty(Command.ERROR_VAR, Command.ADMIN_ERROR);
 			}
 		} else {
 			jo = event.serialize();
-			jo.addProperty(super.SUCCES_VAR, true);
+			jo.addProperty(Command.SUCCES_VAR, true);
 		}
 		
 		return jo.toString();

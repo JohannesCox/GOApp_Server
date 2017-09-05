@@ -13,12 +13,17 @@ import static org.junit.Assert.*;
 
 import java.util.Date;
 
+/**
+ * Tests the class CreateEventCommand. It is checked if the right commands for creating 
+ * an event are made in if the response String is correct. The behavior of the database access
+ * class is simulated with a mock-object.
+ */
 public class CreateEventCommandTest {
 
 	private EventHandler eh;
 	
 	private String userId = "user1";
-	private String eventname = "event title";
+	private String eventname = "event tötle";
 	private Date d = new Date();
 	private String location = "loc";
 	private String description = "descr";

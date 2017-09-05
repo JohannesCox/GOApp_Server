@@ -11,6 +11,10 @@ import Database.UserHandler;
 import requestHandler.commands.Command;
 import requestHandler.commands.SignUpCommand;
 
+/**
+ * Tests the class SignUpCommand. It is checked if the response String is correct. 
+ * The behavior of the database access-class is simulated with a mock-object.
+ */
 public class SignUpCommandTest {
 
 	private String userId = "user";
