@@ -192,22 +192,22 @@ public class EventHandler extends DataHandler {
 		if(event == null || !euh.isAdmin(userID, eventID) ) { 
 			return success;
 		} else {
+			List<EventUserRelation> relations = euh.getRelations_byeventID(eventID);
 			Session session = HibernateUtil.getFactory().openSession();
+			if(euh.deleteRelations(relations)) {
 			Transaction tx = null;
 			try {
 				tx = session.beginTransaction(); 
-				List<EventUserRelation> relations = euh.getRelations_byeventID(eventID);
-				
-				if(euh.deleteRelations(relations) == true) {	
-					session.delete(event);
-					tx.commit();
-					success = true;
-				}	
+				session.delete(event);
+				success = true;
+				tx.commit();
 			} catch(HibernateException he) {
 				if(tx != null) tx.rollback();
+				success = false;
 				he.printStackTrace();
 			} finally {
 				session.close();
+			}
 			}
 			return success;
 		}
@@ -217,7 +217,7 @@ public class EventHandler extends DataHandler {
 	 * @param eventID of the event
 	 * @return true, if the event could be deleted
 	 */
-	boolean deleteEvent(String eventID) {
+	synchronized boolean deleteEvent(String eventID) {
 		boolean success = false;
 		Session session = HibernateUtil.getFactory().openSession();
 		Transaction tx = null;

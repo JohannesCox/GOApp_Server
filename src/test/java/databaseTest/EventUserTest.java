@@ -34,11 +34,11 @@ public class EventUserTest extends DatabaseTest {
 		String userID="1";
 		String eventID = "eID6";
 		EventUserRelation relation = new EventUserRelation(eventID, userID, true);
-		if(handler.createRelation(eventID, userID)) {
-			assertEquals(relation, session.get(EventUserRelation.class, new EventUserID(eventID, userID)));
-		} else {
-			assertNull(session.get(EventUserRelation.class, new EventUserID(eventID, userID)));
-		}
+		boolean success = handler.createRelation(eventID, userID);
+		assertTrue(success);
+		assertEquals(relation, session.get(EventUserRelation.class, new EventUserID(eventID, userID)));
+		
+		
 	}
 	/**
 	 * Tests method joinEvent.
@@ -49,6 +49,7 @@ public class EventUserTest extends DatabaseTest {
 		String ID_alreadyMember = "5";
 		String eventID1 = "eID3";
 		String eventID2 = "notExistent";
+		String notAUser = "xxx";
 		
 		Event event = handler.joinEvent(eventID1, userID1);
 		EventUserRelation relation = new EventUserRelation(eventID1, userID1, false);
@@ -59,6 +60,12 @@ public class EventUserTest extends DatabaseTest {
 		assertEquals(event, session.get(Event.class, eventID1));
 		
 		event = handler.joinEvent(eventID2, userID1);
+		assertNull(event);
+		
+		event = handler.joinEvent(eventID2,notAUser);
+		assertNull(event);
+		
+		event = handler.joinEvent(eventID1, notAUser);
 		assertNull(event);
 			
 	}
@@ -81,6 +88,12 @@ public class EventUserTest extends DatabaseTest {
 		assertTrue(handler.leaveEvent(userID2, eventID2));
 		assertNull(session.get(EventUserRelation.class, new EventUserID(eventID2, userID2)));
 		assertNull(session.get(Event.class, eventID2));
+		
+		String notAnEvent = "event";
+		String notAUser="xxx";
+		assertFalse(handler.leaveEvent(notAUser, eventID1));
+		assertFalse(handler.leaveEvent(userID1, notAnEvent));
+		
 	}
 	/**
 	 * Tests method isAdmin.
@@ -186,6 +199,9 @@ public class EventUserTest extends DatabaseTest {
 		String userID = "1";
 		String eventID = "OneForAll";
 		assertEquals(members, handler.getMembers(userID, eventID));
+		
+		String notAMember = "xxx";
+		assertTrue(handler.getMembers(notAMember, eventID).isEmpty());
 	}
 	
 	@Test

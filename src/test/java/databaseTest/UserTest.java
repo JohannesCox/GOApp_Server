@@ -87,7 +87,8 @@ public class UserTest extends DatabaseTest {
 		assertTrue(success);
 		assertNull(session.get(User.class, userID));
 		assertNull(session.get(EventUserRelation.class, new EventUserID(eventID, userID)));
-		assertNull(session.get(Event.class, eventID));	
+		assertNull(session.get(Event.class, eventID));
+		
 	}
 	
 	/**
@@ -105,6 +106,15 @@ public class UserTest extends DatabaseTest {
 		assertNull(session.get(EventUserRelation.class, new EventUserID(eventID,userID)));
 		assertNotNull(session.get(Event.class, eventID));
 		assertEquals(true, session.get(EventUserRelation.class,new EventUserID(eventID,userID2)).isAdmin());
+	}
+	
+	@Test
+	public void testUser_exists() {
+		String userID1="1";
+		String userID2="notExist";
+		assertTrue(handler.user_exists(userID1));
+		assertFalse(handler.user_exists(userID2));
+		
 	}
 
 

@@ -30,7 +30,7 @@ public class EventUserHandler extends DataHandler {
 	 * @param userID of the user creating the event
 	 * @return true, if the relation, could be created
 	 */
-	public boolean createRelation(String eventID, String userID) {
+	public synchronized boolean createRelation(String eventID, String userID) {
 		boolean success = false;
 		Transaction tx = null;
 		Session session = HibernateUtil.getFactory().openSession();
@@ -57,7 +57,7 @@ public class EventUserHandler extends DataHandler {
 	 * @param userID of the user
 	 * @return Event to be joined
 	 */
-	public Event joinEvent(String eventID, String userID) {
+	public synchronized Event joinEvent(String eventID, String userID) {
 		Event event = this.getEvent(eventID);
 		User user = this.getUser(userID);
 		
@@ -138,7 +138,7 @@ public class EventUserHandler extends DataHandler {
 		 * @param eventID of event
 		 * @return true, if the user is administrator of the event. 
 		 */
-	public boolean isAdmin(String userID, String eventID) {
+	public synchronized boolean isAdmin(String userID, String eventID) {
 		EventUserRelation relation = this.getRelation(eventID, userID);
 		return relation.isAdmin();
 	}
@@ -148,7 +148,7 @@ public class EventUserHandler extends DataHandler {
 	 * @param eventID of the event
 	 * @return true, if the user is member of the event
 	 */
-	public boolean isMember(String userID, String eventID) {
+	public synchronized boolean isMember(String userID, String eventID) {
 		EventUserRelation relation = this.getRelation(eventID, userID);
 		return relation == null ? false : true;
 	}
@@ -158,7 +158,7 @@ public class EventUserHandler extends DataHandler {
 	 * @param eventID of the event
 	 * @return list of the relations
 	 */
-	public List<EventUserRelation> getRelations_byeventID(String eventID) {
+	public synchronized List<EventUserRelation> getRelations_byeventID(String eventID) {
 		Session session = HibernateUtil.getFactory().openSession();
 		Criteria cr = session.createCriteria(EventUserRelation.class);
 		cr.add(Restrictions.eq("eventID", eventID));
@@ -175,7 +175,7 @@ public class EventUserHandler extends DataHandler {
 	 * @return list of the relations
 	 */
 
-	public List<EventUserRelation> getRelations_byuserID(String userID){
+	public synchronized List<EventUserRelation> getRelations_byuserID(String userID){
 		Session session = HibernateUtil.getFactory().openSession();
 		Criteria cr = session.createCriteria(EventUserRelation.class);
 		cr.add(Restrictions.eq("userID", userID));
@@ -214,7 +214,7 @@ public class EventUserHandler extends DataHandler {
 	 * @param relations to delete
 	 * @return true, if the relations could be deleted
 	 */
-	boolean deleteRelations(List<EventUserRelation> relations) {
+	synchronized boolean deleteRelations(List<EventUserRelation> relations) {
 		Session session = HibernateUtil.getFactory().openSession();
 		boolean success = true;
 		Transaction tx = null;
@@ -226,6 +226,7 @@ public class EventUserHandler extends DataHandler {
 				session.delete(rel);
 			}
 			tx.commit();
+			
 		} catch(HibernateException he) {
 			if(tx != null) tx.rollback();
 			he.printStackTrace();
