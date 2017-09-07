@@ -84,46 +84,8 @@ public class RequestDispatcher {
 				return updateEventFactory();
 			case("stopEvent"):
 				return stopEventFactory();
-			case("uploadEventImage"):
-				return uploadEventImageFactory();
-			case("downloadEventImage"):
-				return downloadEventImageFactory();
-			case("signUpWithNotId"):
-				return signUpNotificationIdFactory();
 			default: return null;
 		
-		}
-	}
-	
-	private Command signUpNotificationIdFactory() {
-		String username = request.getParameter(USERNAME);
-		String notId = request.getParameter(NOTIFICATIONID);
-		
-		if (username == null || notId == null) {
-			return null;
-		} else {
-			return new SignUpNotificationIdCommand(userId, username, notId);
-		}
-	}
-
-	private Command downloadEventImageFactory() {
-		String eventId = request.getParameter(EVENT_ID);
-		
-		if(eventId == null) {
-			return null;
-		} else {
-			return (new DownloadEventImageCommand(userId, eventId));
-		}
-	}
-
-	private Command uploadEventImageFactory() {
-		String eventId = request.getParameter(EVENT_ID);
-		String image = request.getParameter(IMAGE);
-		
-		if(image == null || eventId == null) {
-			return null;
-		} else {
-			return (new UploadEventImageCommand(userId, eventId, image));
 		}
 	}
 
