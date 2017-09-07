@@ -52,10 +52,6 @@ public class JoinEventCommand extends Command {
 	public String getUserId() {
 		return userId;
 	}
-
-	public EventUserHandler getEventUserHandler() {
-		return eventUserHandler;
-	}
 	
 	public void setEventUserHandler(EventUserHandler eventUserHandler) {
 		this.eventUserHandler = eventUserHandler;

@@ -47,10 +47,6 @@ public class SignUpCommand extends Command {
 		return username;
 	}
 	
-	public UserHandler getUserHandler() {
-		return userHandler;
-	}
-	
 	public void setUserHandler(UserHandler userHandler) {
 		this.userHandler = userHandler;
 	}

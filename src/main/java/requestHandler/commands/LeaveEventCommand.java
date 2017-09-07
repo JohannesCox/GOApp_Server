@@ -46,10 +46,6 @@ public class LeaveEventCommand extends Command {
 		return userId;
 	}
 	
-	public EventUserHandler getEventUserHandler() {
-		return eventUserHandler;
-	}
-	
 	public void setEventUserHandler(EventUserHandler eventUserHandler) {
 		this.eventUserHandler = eventUserHandler;
 	}

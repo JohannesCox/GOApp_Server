@@ -321,6 +321,7 @@ public class RequestDispatcherTest {
 	@Test
 	public void deleteEventFactoryTest() {
 		
+		//successful creation
 		HttpServletRequest req = createMock(HttpServletRequest.class);
 		expect(req.getParameter("eventId")).andReturn(EVENTID);
 		expect(req.getParameter("request")).andReturn("deleteEvent");
@@ -337,6 +338,15 @@ public class RequestDispatcherTest {
 		
 		assertEquals(ce2.getEventId(), EVENTID);
 		assertEquals(ce2.getUserId(), USER1);
+		
+		//eventId is missing
+		HttpServletRequest req2 = createMock(HttpServletRequest.class);
+		expect(req2.getParameter("eventId")).andReturn(null);
+		expect(req2.getParameter("request")).andReturn("deleteEvent");
+		replay(req2);
+		
+		RequestDispatcher rd2 = new RequestDispatcher(req2, USER1);
+		assertNull(rd2.createHandler());
 	}
 	
 	@Test
@@ -373,6 +383,7 @@ public class RequestDispatcherTest {
 	@Test
 	public void leaveEventCommand() {
 		
+		//successful creation
 		HttpServletRequest req = createMock(HttpServletRequest.class);
 		expect(req.getParameter("eventId")).andReturn(EVENTID);
 		expect(req.getParameter("request")).andReturn("leaveEvent");
@@ -390,5 +401,44 @@ public class RequestDispatcherTest {
 		assertEquals(ce2.getEventId(), EVENTID);
 		assertEquals(ce2.getUserId(), USER1);
 		
+		//eventId is missing
+		HttpServletRequest req2 = createMock(HttpServletRequest.class);
+		expect(req2.getParameter("eventId")).andReturn(null);
+		expect(req2.getParameter("request")).andReturn("leaveEvent");
+		replay(req2);
+		
+		RequestDispatcher rd2 = new RequestDispatcher(req2, USER1);
+		assertNull(rd2.createHandler());
+		
+	}
+	
+	@Test
+	public void isEventAdminCommand() {
+		//successful creation
+		HttpServletRequest req1 = createMock(HttpServletRequest.class);
+		expect(req1.getParameter("eventId")).andReturn(EVENTID);
+		expect(req1.getParameter("request")).andReturn("isEventAdmin");
+		replay(req1);
+		
+		RequestDispatcher rd = new RequestDispatcher(req1, USER1);
+		Command ce1 = rd.createHandler();
+		assertNotNull(ce1);
+		
+		assertTrue(ce1 instanceof IsEventAdminCommand);
+		
+		IsEventAdminCommand ce2 = (IsEventAdminCommand) ce1;
+		
+		assertEquals(ce2.getEventId(), EVENTID);
+		assertEquals(ce2.getUserId(), USER1);
+		
+		//eventId is missing
+		HttpServletRequest req2 = createMock(HttpServletRequest.class);
+		expect(req2.getParameter("eventId")).andReturn(null);
+		expect(req2.getParameter("request")).andReturn("isEventAdmin");
+		replay(req2);
+		
+		RequestDispatcher rd2 = new RequestDispatcher(req2, USER1);
+		Command ce3 = rd2.createHandler();
+		assertNull(ce3);
 	}
 }

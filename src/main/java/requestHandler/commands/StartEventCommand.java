@@ -81,10 +81,6 @@ public class StartEventCommand extends Command {
 		return algorithms;
 	}
 	
-	public EventUserHandler getEventUserHandler() {
-		return eventUserHandler;
-	}
-	
 	public void setEventUserHandler(EventUserHandler eventUserHandler) {
 		this.eventUserHandler = eventUserHandler;
 	}
