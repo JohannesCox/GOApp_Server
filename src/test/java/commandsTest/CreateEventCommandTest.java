@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 
 import Database.Event;
 import Database.EventHandler;
+import requestHandler.commands.Command;
 import requestHandler.commands.CreateEventCommand;
 
 import static org.easymock.EasyMock.*;
@@ -22,7 +23,8 @@ public class CreateEventCommandTest {
 
 	private EventHandler eh;
 	
-	private String userId = "user1";
+	private String userId1 = "user1";
+	private String userId2 = "user2";
 	private String eventname = "event tötle";
 	private Date d = new Date();
 	private String location = "loc";
@@ -30,7 +32,8 @@ public class CreateEventCommandTest {
 	private String eventId = "123as";
 	private int lastModified = 0;
 	JsonObject jo;
-	CreateEventCommand toTestCEC;
+	CreateEventCommand testClass1;
+	CreateEventCommand testClass2;
 	
 	@Before
 	public void setUp() {
@@ -46,20 +49,32 @@ public class CreateEventCommandTest {
 		Event event = createMock(Event.class);
 		expect(event.serialize()).andReturn(jo);
 		replay(event);
-		expect(eh.createEvent(userId, eventname, d, location, description)).andReturn(event);
+		expect(eh.createEvent(userId1, eventname, d, location, description)).andReturn(event);
+		expect(eh.createEvent(userId2, eventname, d, location, description)).andReturn(null);
 		replay(eh);
-		toTestCEC = new CreateEventCommand(userId, eventname, d, location, description);
-		toTestCEC.setEventHandler(eh);
+		testClass1 = new CreateEventCommand(userId1, eventname, d, location, description);
+		testClass1.setEventHandler(eh);
 		
-		jo.addProperty("successful", true);
+		testClass2 = new CreateEventCommand(userId2, eventname, d, location, description);
+		testClass2.setEventHandler(eh);
+		
+		jo.addProperty(Command.SUCCES_VAR, true);
 	}
 	
 	@Test
-	public void testProcess() {
+	public void testProcessSuccess() {
 		
-		String result = toTestCEC.process();
-		
+		String result = testClass1.process();
 		assertEquals(result, jo.toString());
+
+	}
+	
+	@Test
+	public void testProcessFail() {
+		JsonObject res = new JsonObject();
+		res.addProperty(Command.SUCCES_VAR, false);
+		res.addProperty(Command.ERROR_VAR, Command.INT_ERROR);
 		
+		assertEquals(res.toString(), testClass2.process());
 	}
 }

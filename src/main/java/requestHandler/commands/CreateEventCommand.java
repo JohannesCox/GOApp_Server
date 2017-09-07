@@ -78,10 +78,6 @@ public class CreateEventCommand extends Command {
 		return userId;
 	}
 	
-	public EventHandler getEventHandler() {
-		return eventHandler;
-	}
-	
 	public void setEventHandler(EventHandler eventHandler) {
 		this.eventHandler = eventHandler;
 	}

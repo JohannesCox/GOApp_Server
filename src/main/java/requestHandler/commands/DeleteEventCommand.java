@@ -30,7 +30,7 @@ public class DeleteEventCommand extends Command {
 	
 	/**
 	 * Deletes the event if the user with userId is an admin of the event and if the
-	 * event exists. The method returns if the deletion was done successfuly.
+	 * event exists. The method returns if the deletion was done successfully.
 	 */
 	@Override
 	public String process() {
@@ -58,14 +58,6 @@ public class DeleteEventCommand extends Command {
 	
 	public String getUserId() {
 		return userId;
-	}
-	
-	public EventHandler getEventHandler() {
-		return eventHandler;
-	}
-	
-	public EventUserHandler getEventUserHandler() {
-		return eventUserHandler;
 	}
 	
 	public void setEventHandler(EventHandler eventHandler) {

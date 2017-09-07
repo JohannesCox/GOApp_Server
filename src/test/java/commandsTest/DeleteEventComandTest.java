@@ -22,9 +22,11 @@ public class DeleteEventComandTest {
 	String eId = "einEvent";
 	String uId1 = "user1";
 	String uId2 = "user2";
+	String uId3 = "user3";
 	
 	DeleteEventCommand testClass1;
 	DeleteEventCommand testClass2;
+	DeleteEventCommand testClass3;
 	
 	@Before
 	/*
@@ -35,11 +37,13 @@ public class DeleteEventComandTest {
 		EventHandler eh = createMock(EventHandler.class);
 		expect(eh.deleteEvent(uId1, eId)).andReturn(true);
 		expect(eh.deleteEvent(uId2, eId)).andReturn(false);
+		expect(eh.deleteEvent(uId3, eId)).andReturn(false);
 		replay(eh);
 		
 		EventUserHandler euh = createMock(EventUserHandler.class);
 		expect(euh.isAdmin(uId1, eId)).andReturn(true);
 		expect(euh.isAdmin(uId2, eId)).andReturn(false);
+		expect(euh.isAdmin(uId3, eId)).andReturn(true);
 		replay(euh);
 		
 		testClass1 = new DeleteEventCommand(uId1, eId);
@@ -49,6 +53,10 @@ public class DeleteEventComandTest {
 		testClass2 = new DeleteEventCommand(uId2, eId);
 		testClass2.setEventHandler(eh);
 		testClass2.setEventUserHandler(euh);
+		
+		testClass3 = new DeleteEventCommand(uId3, eId);
+		testClass3.setEventHandler(eh);
+		testClass3.setEventUserHandler(euh);
 	}
 	
 	@Test
@@ -66,5 +74,14 @@ public class DeleteEventComandTest {
 		JsonObject jo = new JsonObject();
 		jo.addProperty(Command.SUCCES_VAR, true);
 		assertEquals(result, jo.toString());
+	}
+	
+	@Test
+	public void intErrorTest() {
+		JsonObject jo = new JsonObject();
+		jo.addProperty(Command.SUCCES_VAR, false);
+		jo.addProperty(Command.ERROR_VAR, Command.INT_ERROR);
+		
+		assertEquals(testClass3.process(), jo.toString());
 	}
 }
