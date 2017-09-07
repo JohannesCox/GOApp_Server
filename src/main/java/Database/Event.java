@@ -98,13 +98,6 @@ public class Event {
 	}
 
 	/**
-	 * @param eventID of the event to set.
-	 */
-	void setEventID(String eventID) {
-		this.eventID = eventID;
-	}
-
-	/**
 	 * @return eventname of the event.
 	 */
 	public String getEventname() {
