@@ -9,7 +9,7 @@ import Database.*;
  * This class tests the methods of the EventHandler
  *
  */
-public class EventTest extends DatabaseTest {
+public class EventHandlerTest extends DatabaseTest {
 	private EventHandler handler;
 	
 	/**

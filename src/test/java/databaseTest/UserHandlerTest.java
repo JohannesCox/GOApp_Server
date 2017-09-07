@@ -9,7 +9,7 @@ import Database.*;
  * This class tests the methods of the UserHandler.
  *
  */
-public class UserTest extends DatabaseTest {
+public class UserHandlerTest extends DatabaseTest {
 	
 	private UserHandler handler;
 

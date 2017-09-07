@@ -14,7 +14,7 @@ import Database.*;
  * This class tests the methods of the EventUserHandler
  *
  */
-public class EventUserTest extends DatabaseTest {
+public class EventUserHandlerTest extends DatabaseTest {
 	private EventUserHandler handler;
 	
 	/**
