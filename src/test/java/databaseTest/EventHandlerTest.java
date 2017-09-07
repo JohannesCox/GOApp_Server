@@ -164,7 +164,7 @@ public class EventHandlerTest extends DatabaseTest {
 		assertFalse(success);
 		assertNotNull(handler.getEvent(eventID));
 		
-		success = handler.deleteEvent(userID1, eventID); // works only if commented out the tests before
+		success = handler.deleteEvent(userID1, eventID); 
 		assertTrue(success);
 		assertNull(handler.getEvent(eventID));
 		assertNull(handler.getRelation(eventID, userID1));

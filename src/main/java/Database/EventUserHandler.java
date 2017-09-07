@@ -284,4 +284,28 @@ public class EventUserHandler extends DataHandler {
 		}
 		return notificationIDs;
 	}
+	
+	/**
+	 * Returns the userID of the event's administrator.
+	 * @param userID of the user sending the request
+	 * @param eventID of the event
+	 * @return userID of the event's administrator, if successful. Else returns null.
+	 */
+	@SuppressWarnings("unchecked")
+	public String getAdminofEvent(String userID, String eventID) {
+		if(!this.isMember(userID, eventID)) return null;
+		Session session = HibernateUtil.getFactory().openSession();
+		Criteria cr = session.createCriteria(EventUserRelation.class);
+		cr.add(Restrictions.eq("eventID", eventID));
+		cr.add(Restrictions.eq("admin", true));
+		List<EventUserRelation> admins = cr.list();
+		if(admins.size() != 1) {
+			session.close();
+			return null;
+		}
+		String adminsID = admins.get(0).getUserID();
+		session.close();
+		return adminsID;
+		
+	}
 }

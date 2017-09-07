@@ -205,11 +205,26 @@ public class EventUserHandlerTest extends DatabaseTest {
 	}
 	
 	@Test
+	public void testGetAdminOfEvent() {
+		String eventID = "eID1";
+		String userID1 = "1";
+		String userID2 = "2";
+		String userID3 = "3";
+		String adminsID = handler.getAdminofEvent(userID1, eventID);
+		assertNotSame(adminsID, userID2);
+		assertEquals(adminsID, userID1);
+		assertNull(handler.getAdminofEvent(userID3, "noAdmins"));
+		assertNull(handler.getAdminofEvent(userID3, "multipleAdmins"));
+		
+	}
+	
+	@Test
 	public void testGetMembersNotificationID() {
 		String eventID = "eID1";
 		String userID1 = "1";
 		List<String> notificationIDs1 = handler.getMembersNotificationID(userID1, eventID);
 		assertThat(notificationIDs1, containsInAnyOrder("nID1","nID2"));
+		
 		String userID2 = "5"; // not a member of event with id=eventID
 		List<String> notificationIDs2 = handler.getMembersNotificationID(userID2, eventID);
 		assertNull(notificationIDs2);

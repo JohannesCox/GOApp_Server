@@ -28,6 +28,13 @@
   </build>
   
   <dependencies>
+  			<!-- https://mvnrepository.com/artifact/nl.jqno.equalsverifier/equalsverifier -->
+		<dependency>
+    		<groupId>nl.jqno.equalsverifier</groupId>
+    		<artifactId>equalsverifier</artifactId>
+    		<version>2.3.3</version>
+    		<scope>test</scope>
+		</dependency>
   		<dependency>
     		<groupId>org.hamcrest</groupId>
     		<artifactId>hamcrest-all</artifactId>
