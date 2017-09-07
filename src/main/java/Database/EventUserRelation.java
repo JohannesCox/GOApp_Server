@@ -48,25 +48,12 @@ public class EventUserRelation {
 		return eventID;
 	}
 
-	/**
-	 * @param eventID of the relation to set.
-	 */
-	void setEventID(String eventID) {
-		this.eventID = eventID;
-	}
 
 	/**
 	 * @return userID of the relation.
 	 */
 	public String getUserID() {
 		return userID;
-	}
-
-	/**
-	 * @param userID of the relation to set.
-	 */
-	void setUserID(String userID) {
-		this.userID = userID;
 	}
 
 	/**
@@ -84,7 +71,7 @@ public class EventUserRelation {
 	}
 
 	@Override
-	public int hashCode() {
+	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + (admin ? 1231 : 1237);
@@ -94,12 +81,12 @@ public class EventUserRelation {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public final boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof EventUserRelation))
 			return false;
 		EventUserRelation other = (EventUserRelation) obj;
 		if (admin != other.admin)

@@ -48,20 +48,6 @@ private String notificationID;
 	}
 
 	/**
-	 * @return userID of the user.
-	 */
-	public String getUserID() {
-		return userID;
-	}
-
-	/**
-	 * @param userID of the user to set.
-	 */
-	void setUserID(String userID) {
-		this.userID = userID;
-	}
-
-	/**
 	 * @return username of the user.
 	 */
 	public String getUsername() {
@@ -71,10 +57,6 @@ private String notificationID;
 	/**
 	 * @param username of the user to set.
 	 */
-	void setUsername(String username) {
-		this.username = username;
-	}
-
 
 	/**
 	 * @return notificationID of the user.
@@ -83,12 +65,4 @@ private String notificationID;
 		return notificationID;
 	}
 	
-	/**
-	 * @param notificationID of the user to set.
-	 */
-	void setNotificationID(String notificationID) {
-		this.notificationID = notificationID;
-	}
-
-
 }

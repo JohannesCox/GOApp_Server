@@ -98,13 +98,6 @@ public class Event {
 	}
 
 	/**
-	 * @param eventID of the event to set.
-	 */
-	void setEventID(String eventID) {
-		this.eventID = eventID;
-	}
-
-	/**
 	 * @return eventname of the event.
 	 */
 	public String getEventname() {
@@ -189,7 +182,7 @@ public class Event {
 	}
 	
 	@Override
-	public int hashCode() {
+	public final int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
@@ -204,12 +197,12 @@ public class Event {
 
 
 	@Override
-	public boolean equals(Object obj) {
+	public final boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Event))
 			return false;
 		Event other = (Event) obj;
 		if (date == null) {
