@@ -45,10 +45,6 @@ public class DeleteUserCommand extends Command {
 		return userId;
 	}
 	
-	public UserHandler getUserHandler() {
-		return userHandler;
-	}
-	
 	public void setUserHandler(UserHandler userHandler) {
 		this.userHandler = userHandler;
 	}

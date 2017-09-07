@@ -46,7 +46,7 @@ public class StartEventCommand extends Command {
 		//check if the user is a member of the event
 		if (!eventUserHandler.isMember(userId, eventId)) {
 			JsonObject jo = new JsonObject();
-			jo.addProperty("error", "You are not a member of the event!");
+			jo.addProperty(Command.ERROR_VAR, Command.No_Member_Error);
 			return jo.toString();
 		}
 		

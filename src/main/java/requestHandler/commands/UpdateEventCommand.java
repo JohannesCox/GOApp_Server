@@ -53,11 +53,6 @@ public class UpdateEventCommand extends Command {
 		//Update Event
 		Event event = eventHandler.updateEvent(userId, eventId, title, date, location, description);
 		
-		//send notification
-		if (event != null) {
-			//TODO
-		}
-		
 		//Return new event/error response
 		JsonObject jo = new JsonObject();
 		
@@ -98,14 +93,6 @@ public class UpdateEventCommand extends Command {
 	
 	public String getUserId() {
 		return userId;
-	}
-	
-	public EventHandler getEventHandler() {
-		return eventHandler;
-	}
-	
-	public EventUserHandler getEventUserHandler() {
-		return eventUserHandler;
 	}
 	
 	public void setEventHandler(EventHandler eventHandler) {
