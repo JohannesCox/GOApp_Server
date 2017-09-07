@@ -24,8 +24,23 @@ public class RequestDispatcherTest {
 	public final String EVENTID = "qAs12AdfA12341";
 	
 	@Test
+	public void noRequestTest() {
+		HttpServletRequest req1 = createMock(HttpServletRequest.class);
+		expect(req1.getParameter("request")).andReturn(null);
+		replay(req1);
+		
+		HttpServletRequest req2 = createMock(HttpServletRequest.class);
+		expect(req2.getParameter("request")).andReturn("12467282823923");
+		replay(req2);
+		
+		RequestDispatcher rd = new RequestDispatcher(req2, USER1);
+		assertNull(rd.createHandler());
+	}
+	
+	@Test
 	public void updateEventFactoryTest() {
 		
+		//successful creation
 		String title = "TestEvent";
 		long date = 856648800000L;
 		String location = "Testlocation";
@@ -53,11 +68,45 @@ public class RequestDispatcherTest {
 		assertEquals(ce2.getLocation(), location);
 		assertEquals(ce2.getTitle(), title);
 		assertEquals(ce2.getUserId(), USER1);
+		
+		//event field missing
+		HttpServletRequest req2 = createMock(HttpServletRequest.class);
+		expect(req2.getParameter("event")).andReturn(null).atLeastOnce();
+		expect(req2.getParameter("request")).andReturn("updateEvent").atLeastOnce();
+		replay(req2);
+		
+		RequestDispatcher rd2 = new RequestDispatcher(req2, USER1);
+		Command ce3 = rd2.createHandler();
+		
+		assertNull(ce3);
+		
+		//event field not in the right format
+		HttpServletRequest req3 = createMock(HttpServletRequest.class);
+		expect(req3.getParameter("event")).andReturn("Not valid Json").atLeastOnce();
+		expect(req3.getParameter("request")).andReturn("updateEvent").atLeastOnce();
+		replay(req3);
+		
+		RequestDispatcher rd3 = new RequestDispatcher(req3, USER1);
+		Command ce4 = rd3.createHandler();
+		
+		assertNull(ce4);
+		
+		//A field in the event-Json is missing
+		HttpServletRequest req4 = createMock(HttpServletRequest.class);
+		expect(req4.getParameter("event")).andReturn("{}").atLeastOnce();
+		expect(req4.getParameter("request")).andReturn("updateEvent").atLeastOnce();
+		replay(req4);
+		
+		RequestDispatcher rd4 = new RequestDispatcher(req4, USER1);
+		Command ce5 = rd4.createHandler();
+		
+		assertNull(ce5);
 	}
 	
 	@Test
 	public void startEventFactoryTest() {
 		
+		//successful creation
 		double[] gps = {1,0};
 		HttpServletRequest req = createMock(HttpServletRequest.class);
 		expect(req.getParameter("eventId")).andReturn(EVENTID);
@@ -79,11 +128,23 @@ public class RequestDispatcherTest {
 		assertEquals(ce2.getEventId(), EVENTID);
 		assertEquals(ce2.getUserId(), USER1);
 		
+		//if lat/lng is not a double
+		HttpServletRequest req2 = createMock(HttpServletRequest.class);
+		expect(req2.getParameter("eventId")).andReturn(EVENTID);
+		expect(req2.getParameter("lat")).andReturn("a");
+		expect(req2.getParameter("lng")).andReturn("b");
+		expect(req2.getParameter("request")).andReturn("startEvent");
+		replay(req2);
+		
+		RequestDispatcher rd2 = new RequestDispatcher(req2, USER1);
+		assertNull(rd2.createHandler());
+		
 	}
 	
 	@Test
 	public void stopEventFactoryTest() {
 		
+		//successful creation
 		HttpServletRequest req = createMock(HttpServletRequest.class);
 		expect(req.getParameter("eventId")).andReturn(EVENTID);
 		expect(req.getParameter("request")).andReturn("stopEvent");
@@ -101,11 +162,20 @@ public class RequestDispatcherTest {
 		assertEquals(ce2.getEventId(), EVENTID);
 		assertEquals(ce2.getUserId(), USER1);
 		
+		//eventId is missing
+		HttpServletRequest req2 = createMock(HttpServletRequest.class);
+		expect(req2.getParameter("eventId")).andReturn(null);
+		expect(req2.getParameter("request")).andReturn("stopEvent");
+		replay(req2);
+		
+		RequestDispatcher rd2 = new RequestDispatcher(req2, USER1);
+		assertNull(rd2.createHandler());
 	}
 	
 	@Test
 	public void signUpFactoryTest() {
 		
+		//successful creation
 		String username = "MaxMustermann";
 		
 		HttpServletRequest req = createMock(HttpServletRequest.class);
@@ -124,11 +194,22 @@ public class RequestDispatcherTest {
 		
 		assertEquals(ce2.getUsername(), username);
 		assertEquals(ce2.getUserId(), USER1);
+		
+		//username is missing
+		HttpServletRequest req2 = createMock(HttpServletRequest.class);
+		expect(req2.getParameter("username")).andReturn(null);
+		expect(req2.getParameter("request")).andReturn("signUp");
+		replay(req2);
+		
+		RequestDispatcher rd2 = new RequestDispatcher(req2, USER1);
+		assertNull(rd2.createHandler());
+		
 	}
 	
 	@Test
 	public void joinEventFactoryTest() {
 
+		//successful creation
 		HttpServletRequest req = createMock(HttpServletRequest.class);
 		expect(req.getParameter("eventId")).andReturn(EVENTID);
 		expect(req.getParameter("request")).andReturn("joinEvent");
@@ -146,11 +227,20 @@ public class RequestDispatcherTest {
 		assertEquals(ce2.getEventId(), EVENTID);
 		assertEquals(ce2.getUserId(), USER1);
 		
+		//eventId is missing
+		HttpServletRequest req2 = createMock(HttpServletRequest.class);
+		expect(req2.getParameter("eventId")).andReturn(null);
+		expect(req2.getParameter("request")).andReturn("joinEvent");
+		replay(req2);
+		
+		RequestDispatcher rd2 = new RequestDispatcher(req2, USER1);
+		assertNull(rd2.createHandler());
 	}
 	
 	@Test
 	public void getMembersFactoryTest() {
 		
+		//successful creation
 		HttpServletRequest req = createMock(HttpServletRequest.class);
 		expect(req.getParameter("eventId")).andReturn(EVENTID);
 		expect(req.getParameter("request")).andReturn("getMembers");
@@ -167,6 +257,16 @@ public class RequestDispatcherTest {
 		
 		assertEquals(ce2.getEventId(), EVENTID);
 		assertEquals(ce2.getUserId(), USER1);
+		
+		//eventId is missing
+		HttpServletRequest req2 = createMock(HttpServletRequest.class);
+		expect(req2.getParameter("eventId")).andReturn(null);
+		expect(req2.getParameter("request")).andReturn("getMembers");
+		replay(req2);
+		
+		RequestDispatcher rd2 = new RequestDispatcher(req2, USER1);
+		assertNull(rd2.createHandler());
+		
 	}
 	
 	@Test 

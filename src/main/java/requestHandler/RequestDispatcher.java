@@ -30,8 +30,6 @@ public class RequestDispatcher {
 	private final String LOCATION = "location";
 	private final String DESCRIPTION = "description";
 	private final String LASTMODIFIED = "lastModified";
-	private final String IMAGE = "image";
-	private final String NOTIFICATIONID = "notificationId";
 	
 	private HttpServletRequest request;
 	private String userId;
@@ -84,9 +82,21 @@ public class RequestDispatcher {
 				return updateEventFactory();
 			case("stopEvent"):
 				return stopEventFactory();
+			case("isEventAdmin"):
+				return isEventAdminFactory();
 			default: return null;
 		
 		}
+	}
+
+	private Command isEventAdminFactory() {
+		String eventId = request.getParameter(EVENT_ID);
+		
+		if (eventId == null) {
+			return null;
+		} 
+		
+		return new IsEventAdminCommand(userId, eventId);
 	}
 
 	private Command updateEventFactory() {
@@ -102,6 +112,8 @@ public class RequestDispatcher {
 		try {
 			jo = (JsonObject) jp.parse(eventS);
 		} catch(JsonSyntaxException e) {
+			return null;
+		} catch(ClassCastException e) {
 			return null;
 		}
 		
