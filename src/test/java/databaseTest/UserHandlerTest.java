@@ -107,7 +107,9 @@ public class UserHandlerTest extends DatabaseTest {
 		assertNotNull(session.get(Event.class, eventID));
 		assertEquals(true, session.get(EventUserRelation.class,new EventUserID(eventID,userID2)).isAdmin());
 	}
-	
+	/**
+	 * Tests the method userExists.
+	 */
 	@Test
 	public void testUser_exists() {
 		String userID1="1";
