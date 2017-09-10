@@ -17,15 +17,15 @@ import com.google.gson.JsonObject;
  */
 public class ClusteringAlgorithm {
 	
-	//the maximum distance for 2 points to be in the same cluster in degrees. Is equal to about 60m.
-	private final double EPS = 0.0007;
+	//the maximum distance for 2 points to be in the same cluster in degrees. Is equal to about 85m.
+	private final double EPS = 0.0009;
 	
 	//The minimum of points which can build a cluster. 
 	//The value 1 means that a cluster contains at least 2 points.
 	private final int MINPNTS = 1;
 	
-	//Time in seconds until the gps data of a user is deleted (if not updated)
-	private final long maxTime = 1200;
+	//Time in milliseconds until the gps data of a user is deleted (if not updated)
+	private final long maxTime = 1200000;
 	
 	private HashMap<String, DoublePoint> gpsData;
 	private HashMap<String, Long> gpsAddingTime;
