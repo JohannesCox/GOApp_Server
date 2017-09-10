@@ -11,7 +11,10 @@ import com.google.gson.JsonObject;
 import Database.Event;
 import Database.EventHandler;
 import nl.jqno.equalsverifier.EqualsVerifier;
-
+/**
+ * This class tests the methods of the event-class. 
+ *
+ */
  public class EventTest extends DatabaseTest {
 	EventHandler handler;
 	//names for the json properties

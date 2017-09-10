@@ -106,19 +106,18 @@ public class EventUserHandler extends DataHandler {
 				session.delete(relation);
 				List<EventUserRelation> members = this.getRelations_byeventID(eventID);
 				members.remove(relation);
-				//check whether the user is admin 
-				if(relation.isAdmin()) {
-					
-					if(members.isEmpty()) {
-						EventHandler eh = new EventHandler();
-						success = eh.deleteEvent(eventID);
-						tx.commit();
-					} else {
-						
+				
+				//check whether the event has members
+				if(members.isEmpty()) {
+					EventHandler eh = new EventHandler();
+					success = eh.deleteEvent(eventID);
+					tx.commit();
+					//check whether the user is an admin
+				} else if(relation.isAdmin()){
+						//a new administrator has to be nominated
 						nominateAdmin(members);
 						success = true;
 						tx.commit();
-					}
 				} else {
 					success = true;
 					tx.commit();
