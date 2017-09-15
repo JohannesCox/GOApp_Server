@@ -23,6 +23,31 @@ public class StartEventCommand extends Command {
 	
 	private EventUserHandler eventUserHandler;
 	
+	//DummyPoints for TestEvent
+	String eventIdDummy = "ITZlgC2aYCMvGLLGpHA";
+	String userId1 = "u1";
+	String userId2 = "u2";
+	String userId3 = "u3";
+	String userId4 = "u4";
+	String userId5 = "u5";
+	String userId6 = "u6";
+	
+	String userId7 = "u7";
+	String userId8 = "u8";
+	String userId9 = "u9";
+	
+	double lat1 = 49.013817;
+	double lon1 = 8.416347656249982;	
+	double lat11 = 49.013409;
+	double lon11 = 8.418370;
+	
+	double lat2 = 49.006208;
+	double lon2 = 8.431814;
+	double lat22 = 49.009074;
+	double lon22 = 8.416911;
+	
+	int counter = 0;
+	
 	/**
 	 * The command to start an event.
 	 * @param uId The userId of the user.
@@ -35,6 +60,30 @@ public class StartEventCommand extends Command {
 		eventId = eId;
 		doublepoint = dp;	
 		eventUserHandler = new EventUserHandler();
+		
+		//create DummyPoints
+		if (eventId.equals(eventIdDummy)) {
+			synchronized(StartEventCommand.algorithms) {
+				if (!algorithms.containsKey("ITZlgC2aYCMvGLLGpHA")) {
+					algorithms.put(eventIdDummy, new ClusteringAlgorithm());
+					double[] gps1 = {lat1, lon1};
+					DoublePoint dp1 = new DoublePoint(gps1);
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId1, dp1);
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId2, dp1);
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId3, dp1);
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId4, dp1);
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId5, dp1);
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId6, dp1);
+					
+					double[] gps2 = {lat2, lon2};
+					DoublePoint dp2 = new DoublePoint(gps2);
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId7, dp2);
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId8, dp2);
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId9, dp2);
+				}
+			}
+		}
+		
 	}
 	
 	/**
@@ -42,6 +91,11 @@ public class StartEventCommand extends Command {
 	 * if the user is not a member of the event.
 	 */
 	public String process() {
+		
+		//update Dummy points
+		if (eventId.equals(eventIdDummy)) {
+			updateDummyPoints();
+		}
 		
 		//check if the user is a member of the event
 		if (!eventUserHandler.isMember(userId, eventId)) {
@@ -58,6 +112,31 @@ public class StartEventCommand extends Command {
 		
 		return algorithms.get(eventId).updateGPS(userId, doublepoint).toString();
 
+	}
+	
+	private void updateDummyPoints() {
+		counter++;
+		counter = counter % 20;
+		double[] gps1 = {lat1 + ((lat1 - lat11) / 20) * counter, 
+				lon1 + ((lon1 - lon11) / 20) * counter};
+		double[] gps2 = {lat2 + ((lat2 - lat22) / 20) * counter, 
+				lon2 + ((lon2 - lon22) / 20) * counter};
+		
+		DoublePoint dp1 = new DoublePoint(gps1);
+		DoublePoint dp2 = new DoublePoint(gps2);
+		
+		synchronized(StartEventCommand.algorithms) {
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId1, dp1);
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId2, dp1);
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId3, dp1);
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId4, dp1);
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId5, dp1);
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId6, dp1);
+			
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId7, dp2);
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId8, dp2);
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId9, dp2);
+		}
 	}
 	
 	public DoublePoint getDoublepoint() {
