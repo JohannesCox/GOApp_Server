@@ -36,15 +36,15 @@ public class StartEventCommand extends Command {
 	String userId8 = "u8";
 	String userId9 = "u9";
 	
-	double lat1 = 49.013817;
-	double lon1 = 8.416347656249982;	
-	double lat11 = 49.013309;
-	double lon11 = 8.418770;
+	double lat1 = 49.013513;
+	double lon1 = 8.404435;	
+	double lat11 = 49.01129249999996;
+	double lon11 = 8.416347656249982;
 	
 	double lat2 = 49.006208;
 	double lon2 = 8.431814;
-	double lat22 = 49.011074;
-	double lon22 = 8.414011;
+	double lat22 = 49.01129249999996;
+	double lon22 = 8.416347656249982;
 	
 	int counter = 0;
 	
@@ -119,11 +119,11 @@ public class StartEventCommand extends Command {
 	
 	private void updateDummyPoints() {
 		counter++;
-		counter = counter % 6;
-		double lat1N = lat1 + ((lat1 - lat11) / 6) * counter;
-		double lon1N =lon1 + ((lon1 - lon11) / 6) * counter;
-		double lat2N = lat2 + ((lat2 - lat22) / 6) * counter; 
-		double lon2N = lon2 + ((lon2 - lon22) / 6) * counter;
+		counter = counter % 8;
+		double lat1N = lat1 + ((-lat1 + lat11) / 7) * counter;
+		double lon1N =lon1 + ((-lon1 + lon11) / 7) * counter;
+		double lat2N = lat2 + ((-lat2 + lat22) / 7) * counter; 
+		double lon2N = lon2 + ((-lon2 + lon22) / 7) * counter;
 		
 		synchronized(StartEventCommand.algorithms) {
 			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId1, createDP(lat1N, lon1N));
