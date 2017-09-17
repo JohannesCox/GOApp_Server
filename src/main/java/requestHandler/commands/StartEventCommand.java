@@ -36,15 +36,15 @@ public class StartEventCommand extends Command {
 	String userId8 = "u8";
 	String userId9 = "u9";
 	
-	double lon1 = 49.013817;
-	double lat1 = 8.416347656249982;	
-	double lon11 = 49.013409;
-	double lat11 = 8.418370;
+	double lat1 = 49.013817;
+	double lon1 = 8.416347656249982;	
+	double lat11 = 49.013309;
+	double lon11 = 8.418770;
 	
 	double lat2 = 49.006208;
 	double lon2 = 8.431814;
-	double lat22 = 49.009074;
-	double lon22 = 8.416911;
+	double lat22 = 49.011074;
+	double lon22 = 8.414011;
 	
 	int counter = 0;
 	
@@ -66,20 +66,16 @@ public class StartEventCommand extends Command {
 			synchronized(StartEventCommand.algorithms) {
 				if (!algorithms.containsKey("ITZlgC2aYCMvGLLGpHA")) {
 					algorithms.put(eventIdDummy, new ClusteringAlgorithm());
-					double[] gps1 = {lat1, lon1};
-					DoublePoint dp1 = new DoublePoint(gps1);
-					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId1, dp1);
-					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId2, dp1);
-					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId3, dp1);
-					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId4, dp1);
-					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId5, dp1);
-					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId6, dp1);
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId1, createDP(lat1, lon1));
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId2, createDP(lat1, lon1));
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId3, createDP(lat1, lon1));
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId4, createDP(lat1, lon1));
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId5, createDP(lat1, lon1));
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId6, createDP(lat1, lon1));
 					
-					double[] gps2 = {lat2, lon2};
-					DoublePoint dp2 = new DoublePoint(gps2);
-					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId7, dp2);
-					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId8, dp2);
-					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId9, dp2);
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId7, createDP(lat2, lon2));
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId8, createDP(lat2, lon2));
+					algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId9, createDP(lat2, lon2));
 				}
 			}
 		}
@@ -114,28 +110,32 @@ public class StartEventCommand extends Command {
 
 	}
 	
+	private DoublePoint createDP(double lat, double lon) {
+		lat = lat + Math.random() * 0.0001;
+		lon = lon + Math.random() * 0.0001;
+		double[] gps = {lat, lon};
+		return new DoublePoint(gps);
+	}
+	
 	private void updateDummyPoints() {
 		counter++;
-		counter = counter % 20;
-		double[] gps1 = {lat1 + ((lat1 - lat11) / 20) * counter, 
-				lon1 + ((lon1 - lon11) / 20) * counter};
-		double[] gps2 = {lat2 + ((lat2 - lat22) / 20) * counter, 
-				lon2 + ((lon2 - lon22) / 20) * counter};
-		
-		DoublePoint dp1 = new DoublePoint(gps1);
-		DoublePoint dp2 = new DoublePoint(gps2);
+		counter = counter % 6;
+		double lat1N = lat1 + ((lat1 - lat11) / 6) * counter;
+		double lon1N =lon1 + ((lon1 - lon11) / 6) * counter;
+		double lat2N = lat2 + ((lat2 - lat22) / 6) * counter; 
+		double lon2N = lon2 + ((lon2 - lon22) / 6) * counter;
 		
 		synchronized(StartEventCommand.algorithms) {
-			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId1, dp1);
-			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId2, dp1);
-			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId3, dp1);
-			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId4, dp1);
-			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId5, dp1);
-			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId6, dp1);
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId1, createDP(lat1N, lon1N));
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId2, createDP(lat1N, lon1N));
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId3, createDP(lat1N, lon1N));
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId4, createDP(lat1N, lon1N));
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId5, createDP(lat1N, lon1N));
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId6, createDP(lat1N, lon1N));
 			
-			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId7, dp2);
-			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId8, dp2);
-			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId9, dp2);
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId7, createDP(lat2N, lon2N));
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId8, createDP(lat2N, lon2N));
+			algorithms.get("ITZlgC2aYCMvGLLGpHA").updateGPS(userId9, createDP(lat2N, lon2N));
 		}
 	}
 	
