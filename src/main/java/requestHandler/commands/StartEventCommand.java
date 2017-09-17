@@ -36,10 +36,10 @@ public class StartEventCommand extends Command {
 	String userId8 = "u8";
 	String userId9 = "u9";
 	
-	double lat1 = 49.013817;
-	double lon1 = 8.416347656249982;	
-	double lat11 = 49.013409;
-	double lon11 = 8.418370;
+	double lon1 = 49.013817;
+	double lat1 = 8.416347656249982;	
+	double lon11 = 49.013409;
+	double lat11 = 8.418370;
 	
 	double lat2 = 49.006208;
 	double lon2 = 8.431814;
